@@ -12,6 +12,12 @@ def create_user(fname, lname, username, password):
     
     return user
 
+def get_user_by_username(username):
+    """Get a user by username."""
+
+    return User.query.filter(User.username == username).first()
+
+
 def create_book(isbn, title, author, description, genre, image):
     """Create and return a new book."""
     
