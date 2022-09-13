@@ -1,6 +1,7 @@
 """CRUD operations."""
 
-from model import db, User, Book, Review, Category, Trigger, connect_to_db
+from model import db, User, connect_to_db
+# Book, Review, Category
 
 # Helper functions here
 
