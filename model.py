@@ -36,11 +36,11 @@ class Book(db.Model):
     genre = db.Column(db.String)
     image = db.Column(db.String)
     
-    reviews = db.relationship("Review", back_populates='book') # something to fix here
+    reviews = db.relationship("Review", back_populates="book") # something to fix here
     
-    # categories = db.relationship('Category', 
-    #                             secondary="books_categories", 
-    #                             back_populates="books")
+    categories = db.relationship('Category', 
+                                secondary="books_categories", 
+                                back_populates="books")
 
     def __repr__(self):
         """Show info about book."""
@@ -59,43 +59,47 @@ class Review(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
     isbn = db.Column(db.Integer, db.ForeignKey('books.isbn'))
 
+    book = db.relationship("Book", back_populates="reviews")
+    user = db.relationship("User", back_populates="reviews")
+
     def __repr__(self):
         """Show info about review."""
 
         return f'<Review review_id={self.review_id} user_id={self.user_id}>'
 
 
-# class Category(db.Model):
-#     """A category of book."""
-#     __tablename__ = 'categories'
+class Category(db.Model):
+    """A category of book."""
+    __tablename__ = 'categories'
 
-#     category_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-#     favorites = db.Column(db.Boolean)
-#     to_be_read = db.Column(db.Boolean)
-#     have_read = db.Column(db.Boolean)
-#     rated = db.Column(db.Boolean)
-#     unrated = db.Column(db.Boolean)
+    category_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    category = db.Column(db.String)
 
-#     books = db.relationship("Book", 
-#                             secondary="books+categories", 
-#                             back_populates='categories')
+    books = db.relationship("Book", 
+                            secondary="books_categories", 
+                            back_populates='categories')
 
-#     def __repr__(self):
-#         """Show info about a category."""
+    def __repr__(self):
+        """Show info about a category."""
 
-#         return f'Category category_id={self.category_id}>'
+        return f'Category category_id={self.category_id} {self.category}>'
 
 
-# class BookCategory(db.Model):
-#     """Category of a specific book."""
+class BookCategory(db.Model):
+    """Category of a specific book."""
 
-#     __tablename__ = 'books_categories'
+    __tablename__ = 'books_categories'
 
-#     book_category_id = db.Column(db.Integer, primary_key=True)
-#     isbn = db.Column(db.Integer, db.ForeignKey("books.isbn"), nullable=False)
-#     category_id = db.Column(db.Integer, 
-#                             db.ForeignKey("categories.category_id"), 
-#                             nullable=False)
+    book_category_id = db.Column(db.Integer, primary_key=True)
+    isbn = db.Column(db.Integer, db.ForeignKey("books.isbn"), nullable=False)
+    category_id = db.Column(db.Integer, 
+                            db.ForeignKey("categories.category_id"), 
+                            nullable=False)
+    
+    def __repr__(self):
+        """Show info about a BookCategory."""
+
+        return f'<BookCategory isbn={self.isbn} category_id={self.category_id}>'
 
 
 # class Trigger(db.Model): # 2.0 Feature
@@ -126,6 +130,8 @@ if __name__ == "__main__":
 
     connect_to_db(app)
 
-# test_user= User(fname='Taryn', lname='Lacy', username='TarynL', password='Hazel')
-# test_review = Review(score='1', user_id='1')
-# test_book = Book(isbn="123", title="Carrie", author="King", description="Sad story", genre="fiction", image="test_image")
+test_user = User(fname='Taryn', lname='Lacy', username='TarynL', password='Hazel')
+test_review = Review(score='1', user_id='1', isbn='123')
+test_book = Book(isbn="123", title="Carrie", author="King", description="Sad story", genre="fiction", image="test_image")
+favorites = Category(category='favorites')
+to_be_read = Category(category='to_be_read')
