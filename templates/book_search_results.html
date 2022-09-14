@@ -4,8 +4,13 @@
 
 {% block body %}
 
+<a href="/userprofile/<username>">Go back to profile.</a>
+
 {% for book in books %}
-<h2>{{ book['volumeInfo']['title'] }}</h2>
+    <a href="/bookprofile/{{ book['id'] }}" target="_blank">
+        <h2>{{ book['volumeInfo']['title'] }}</h2>
+    </a>
+
 {% if 'authors' in book['volumeInfo'] %}
 <p> {{ book['volumeInfo']['authors']|join(' ') }}</p>
 {% endif %}
@@ -14,6 +19,5 @@
     <img src="{{ book['volumeInfo']['imageLinks']['thumbnail'] }}">
 </p>
 {% endfor %}
-
 
 {% endblock %}

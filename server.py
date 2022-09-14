@@ -116,7 +116,6 @@ def submit_book_search(searchterm):
         books = data['items']
     else:
         books = []
-    
 
     #     isbn = data['items'][n]['volumeInfo']['industryIdentifiers'][0]['identifier']
     #     title = data['items'][n]['volumeInfo']['title']
@@ -129,11 +128,19 @@ def submit_book_search(searchterm):
     return render_template('book_search_results.html',books=books, searchterm=searchterm)
 
 
-@app.route('/bookprofile?book={book.isbn}')
-def view_book_profile():
+@app.route('/bookprofile/<volume_id>')
+def view_book_profile(volume_id):
     """View a particular book's profile."""
-    pass
+    
+    url = f'https://www.googleapis.com/books/v1/volumes/{volume_id}'
+    payload = {'apikey': BOOKS_API_KEY}
 
+    res = requests.get(url, params=payload)
+    profile = res.json()
+
+    print(profile)
+
+    return render_template('book_profile.html', profile=profile)
 
 if __name__ == "__main__":
     connect_to_db(app)

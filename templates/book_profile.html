@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+
+<button id="add_book">Add this book to your library</button>
+
+<h2>{{ profile['volumeInfo']['title'] }}</h2>
+
+{% if 'authors' in profile['volumeInfo'] %}
+<p> {{ profile['volumeInfo']['authors']|join(' ') }}</p>
+{% endif %}
+
+<p>
+    <img src="{{ profile['volumeInfo']['imageLinks']['thumbnail'] }}">
+</p>
+
+{% if 'categories' in profile['volumeInfo'] %}
+<p>
+    Genre: {{ profile['volumeInfo']['categories']|join(' ') }}
+</p>
+{% endif %}
+
+<p>
+    {{ profile['volumeInfo']['description']}}
+</p>
+
+{% if 'industryIdentifiers' in profile['volumeInfo'] %}
+<p>
+    ISBN: {{ profile['volumeInfo']['industryIdentifiers'][0]['identifier']|join(' ') }}
+</p>
+{% endif %}
+
+{% endblock %}
