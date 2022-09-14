@@ -6,4 +6,16 @@
 
 <h1>{{ user.fname }}'s Profile</h1>
 
+<p>
+    <a href="/booksearch">Search a book</a>
+</p>
+
+{% for review in user.reviews %}
+    <li>
+        {{ review.book.title }}
+        {{ review.book.author }}
+        {{ review.book.description }}
+    </li>
+{% endfor %}
+
 {% endblock %}

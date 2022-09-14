@@ -1,13 +1,18 @@
 """Server for bookshelf tracking app."""
 
 from flask import Flask, render_template, request, flash, session, redirect
+import os
 from model import connect_to_db, db 
+import requests
 import crud
 
 from jinja2 import StrictUndefined
 
 app = Flask(__name__)
 app.secret_key = "dev"
+
+BOOKS_API_KEY = os.environ['GOOGLE_BOOKS_KEY']
+
 app.jinja_env.undefined = StrictUndefined
 
 
@@ -33,7 +38,7 @@ def log_in_page():
 @app.route('/login', methods=["POST"])
 def log_in():
     """Submits log in info and goes to user profile."""
-    
+
     username = request.form.get('username')
     password = request.form.get('password')
 
@@ -41,11 +46,11 @@ def log_in():
 
     if not user or user.password != password:
         flash("The email or password entered were incorrect.")
+        return redirect('/')
     else:
         session['user_name'] = user.username
         flash("Successfully logged in!")
-    
-    return redirect('/userprofile/<username>')
+        return redirect(f'/userprofile/{user.username}')
 
 
 @app.route('/createaccount')
@@ -80,16 +85,48 @@ def create_account():
 @app.route('/userprofile/<username>')
 def view_user_profile(username):
     """View a particular user's profile."""
-    
+
     user = crud.get_user_by_username(username)
 
-    return render_template('user_profile.html', user=user)
+    if user and 'user_name' in session and session['user_name'] == username:
+        return render_template('user_profile.html', user=user)
+    else:
+        return redirect("/login")
 
 
-@app.route('/booksearch?searchterm=<searchterm>')
+@app.route('/booksearch')
 def search_books():
-    """Search for books matching a particular term."""
-    pass
+    """Displays book search page."""
+    return render_template('book_search.html')
+
+
+@app.route('/booksearch/<searchterm>')
+def submit_book_search(searchterm):
+    """Takes in search term an returns results that match."""
+
+    search_term = request.args.get('search_term')
+
+    url = 'https://www.googleapis.com/books/v1/volumes'
+    payload = {'apikey': BOOKS_API_KEY, 'q': search_term}
+    
+    res = requests.get(url, params=payload)
+    data = res.json()
+
+    if 'items' in data:
+        books = data['items']
+    else:
+        books = []
+    
+
+    #     isbn = data['items'][n]['volumeInfo']['industryIdentifiers'][0]['identifier']
+    #     title = data['items'][n]['volumeInfo']['title']
+    #     author = str(data['items'][n]['volumeInfo']['authors'])
+    #     description = data['items'][n]['volumeInfo']['description']
+    #     genre = str(data['items'][n]['volumeInfo']['categories'])
+    #     image = data['items'][n]['volumeInfo']['imageLinks']['thumbnail']
+
+    
+    return render_template('book_search_results.html',books=books, searchterm=searchterm)
 
 
 @app.route('/bookprofile?book={book.isbn}')

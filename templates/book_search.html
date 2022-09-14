@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}Book Search{% endblock %}
+
+{% block body %}
+
+<h1>Search for a book.</h1>
+
+<form mothod="GET" action="/booksearch/<searchterm>">
+    <p>
+        Search <input type="text" name="search_term">
+    </p>
+
+    <p>
+        <input type="submit">
+    </p>
+</form>
+
+
+{% endblock %}

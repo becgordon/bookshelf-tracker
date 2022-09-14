@@ -50,3 +50,5 @@ def create_category(category):
 if __name__ == "__main__":
     from server import app
     connect_to_db(app)
+
+    # 1234 1334 1554

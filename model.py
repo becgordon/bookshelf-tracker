@@ -82,7 +82,7 @@ class Category(db.Model):
     def __repr__(self):
         """Show info about a category."""
 
-        return f'Category category_id={self.category_id} {self.category}>'
+        return f'<Category category_id={self.category_id} {self.category}>'
 
 
 class BookCategory(db.Model):
@@ -130,8 +130,8 @@ if __name__ == "__main__":
 
     connect_to_db(app)
 
-test_user = User(fname='Taryn', lname='Lacy', username='TarynL', password='Hazel')
-test_review = Review(score='1', user_id='1', isbn='123')
-test_book = Book(isbn="123", title="Carrie", author="King", description="Sad story", genre="fiction", image="test_image")
-favorites = Category(category='favorites')
-to_be_read = Category(category='to_be_read')
+# test_user = User(fname='Taryn', lname='Lacy', username='TarynL', password='Hazel')
+# test_review = Review(score='1', user_id='1', isbn='123')
+# test_book = Book(isbn="123", title="Carrie", author="King", description="Sad story", genre="fiction", image="test_image")
+# favorites = Category(category='favorites')
+# to_be_read = Category(category='to_be_read')
