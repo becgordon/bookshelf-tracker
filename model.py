@@ -29,7 +29,7 @@ class Book(db.Model):
 
     __tablename__ = 'books'
 
-    isbn = db.Column(db.Integer, primary_key=True)
+    isbn = db.Column(db.String, primary_key=True)
     title = db.Column(db.String)
     author = db.Column(db.String)
     description = db.Column(db.Text)
@@ -57,7 +57,7 @@ class Review(db.Model):
     score = db.Column(db.Integer)
     review_text = db.Column(db.Text)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
-    isbn = db.Column(db.Integer, db.ForeignKey('books.isbn'))
+    isbn = db.Column(db.String, db.ForeignKey('books.isbn'))
 
     book = db.relationship("Book", back_populates="reviews")
     user = db.relationship("User", back_populates="reviews")
@@ -91,7 +91,7 @@ class BookCategory(db.Model):
     __tablename__ = 'books_categories'
 
     book_category_id = db.Column(db.Integer, primary_key=True)
-    isbn = db.Column(db.Integer, db.ForeignKey("books.isbn"), nullable=False)
+    isbn = db.Column(db.String, db.ForeignKey("books.isbn"), nullable=False)
     category_id = db.Column(db.Integer, 
                             db.ForeignKey("categories.category_id"), 
                             nullable=False)

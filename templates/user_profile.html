@@ -11,11 +11,12 @@
 </p>
 
 {% for review in user.reviews %}
-    <li>
-        {{ review.book.title }}
-        {{ review.book.author }}
-        {{ review.book.description }}
-    </li>
+        <h1>{{ review.book.title }}</h1>
+        <p>{{ review.book.author }}</p>
+        <p>
+            <img src="{{ review.book.image}}">
+        </p>
+        <p>{{ review.book.description }}</p>
 {% endfor %}
 
 {% endblock %}
