@@ -2,6 +2,7 @@
 
 from model import db, User, Book, Review, Category, BookCategory, connect_to_db
 
+
 def create_user(fname, lname, username, password):
     """Create and return a new user."""
     
@@ -11,6 +12,7 @@ def create_user(fname, lname, username, password):
                 password=password)
     
     return user
+
 
 def get_user_by_username(username):
     """Get a user by username."""
@@ -30,6 +32,24 @@ def get_book_by_isbn(isbn):
     return Book.query.get(isbn)
 
 
+def get_book_by_review_id(review_id):
+    """Get a book by review ID."""
+
+    return Book.query.get(review_id)
+
+# SELECT review_id FROM reviews WHERE (user_id = 1) AND (isbn = '1416592369');
+
+def get_review_id_by_book_and_user_id(isbn, user_id):
+    """Get a review ID by ISBN and user ID."""
+
+    return Review.query.filter((user_id == user_id) & (isbn == isbn)).first()
+
+def does_review_exist(user_id, isbn):
+    """Check if a user has a review for a particular book."""
+    
+    return Review.query.filter(user_id == Review.user_id).first() and Book.query.filter(isbn == Review.isbn).first()
+
+
 def create_book(isbn, title, author, description, genre, image):
     """Create and return a new book."""
 
@@ -42,6 +62,7 @@ def create_book(isbn, title, author, description, genre, image):
     
     return book
 
+
 def create_review(score, user_id, isbn):
     """Create and return a new review."""
     
@@ -51,10 +72,12 @@ def create_review(score, user_id, isbn):
 
     return review
 
+
 def get_review_by_user_id(user_id):
     """Get a review by user ID."""
 
     return Review.query.get(user_id)
+
 
 def create_category(category):
     """Creates and returns a new category."""
@@ -62,6 +85,7 @@ def create_category(category):
     category = Category(category=category)
 
     return category
+
 
 if __name__ == "__main__":
     from server import app

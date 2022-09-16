@@ -13,23 +13,20 @@
 </p>
 
 {% for review in user.reviews %}
-        <a href="/bookprofile/{{ review.book.isbn }}">
         <h1>{{ review.book.title }}</h1>
-        </a>
         <p>{{ review.book.author }}</p>
         <p>
-            <img src="{{ review.book.image}}">
+            <a href="/user/userbook{{ review.book.isbn }}">
+            <img src="{{ review.book.image}}"></a>
         </p>
 {% endfor %}
 
-<script>
+<script> // edit this script down to be more dry
     
     const logOutButton = document.querySelector('#log_out');
 
     function logOut() {
-        // fetch('/logout');
-        console.log('touched')
-        window.location = '/logout'
+        window.location = '/logout';
     }
     
     logOutButton.addEventListener('click', logOut);

@@ -147,10 +147,8 @@ def view_book_profile(volume_id):
     
     url = f'https://www.googleapis.com/books/v1/volumes/{volume_id}'
     payload = {'apikey': BOOKS_API_KEY}
-    print(url)
     res = requests.get(url, params=payload)
     profile = res.json()
-    print(profile)
     return render_template('book_profile.html', profile=profile)
 
 
@@ -185,7 +183,7 @@ def add_book(volume_id):
 
     user = crud.get_user_by_username(session['user_name'])
 
-    if not crud.get_review_by_user_id(user.user_id):
+    if not crud.does_review_exist(user.user_id, isbn):
         score = None
         user = crud.get_user_by_username(session['user_name'])
         review = crud.create_review(score, user.user_id, isbn)
@@ -195,6 +193,30 @@ def add_book(volume_id):
     else:
         flash("You've already added this book.")
         
+    return redirect(f'/userprofile/{user.username}')
+
+
+@app.route('/user/userbook<isbn>')
+def edit_book_settings(isbn):
+    """Allow a user to edit characteristics of a book in their library."""
+
+    user = crud.get_user_by_username(session['user_name'])
+    book = crud.get_book_by_isbn(isbn)
+
+    return render_template('user_book_profile.html', user=user, book=book)
+
+
+@app.route('/removebook<isbn>')
+def remove_book(isbn):
+    """Removes book from a user's library."""
+    
+    user = (crud.get_user_by_username(session['user_name']))
+    review = crud.get_review_id_by_book_and_user_id(isbn, user.user_id)
+    print("THIS IS THE REVIEW")
+    print(review)
+    db.session.delete(review)
+    db.session.commit()
+
     return redirect(f'/userprofile/{user.username}')
 
 
