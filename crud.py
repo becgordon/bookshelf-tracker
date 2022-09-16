@@ -25,7 +25,7 @@ def get_user_by_user_id(user_id):
 
 
 def get_book_by_isbn(isbn):
-    """ """
+    """Get a book by ISBN."""
 
     return Book.query.get(isbn)
 
@@ -50,6 +50,11 @@ def create_review(score, user_id, isbn):
                     isbn=isbn)
 
     return review
+
+def get_review_by_user_id(user_id):
+    """Get a review by user ID."""
+
+    return Review.query.get(user_id)
 
 def create_category(category):
     """Creates and returns a new category."""

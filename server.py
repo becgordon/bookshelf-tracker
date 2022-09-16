@@ -183,12 +183,17 @@ def add_book(volume_id):
 
         db.session.add(book)
 
-    score = None
     user = crud.get_user_by_username(session['user_name'])
-    review = crud.create_review(score, user.user_id, isbn)
 
-    db.session.add(review)
-    db.session.commit()
+    if not crud.get_review_by_user_id(user.user_id):
+        score = None
+        user = crud.get_user_by_username(session['user_name'])
+        review = crud.create_review(score, user.user_id, isbn)
+
+        db.session.add(review)
+        db.session.commit()
+    else:
+        flash("You've already added this book.")
         
     return redirect(f'/userprofile/{user.username}')
 

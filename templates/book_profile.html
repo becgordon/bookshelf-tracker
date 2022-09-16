@@ -34,12 +34,16 @@
 <p id="volume_id" name="{{ profile['id'] }}"></p>
 
 
-<script>const addBookButton = document.querySelector('#add_book');
+<script>
+    
+    const addBookButton = document.querySelector('#add_book');
 
     function addBook() {
         window.location = `/addbook/${document.querySelector('#volume_id').attributes.name.value}`
         addBookButton.innerHTML = 'Book added';
     }
     
-    addBookButton.addEventListener('click', addBook);</script>
+    addBookButton.addEventListener('click', addBook);
+
+</script>
 {% endblock %}

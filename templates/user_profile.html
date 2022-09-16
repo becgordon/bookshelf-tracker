@@ -22,7 +22,9 @@
         </p>
 {% endfor %}
 
-<script>const logOutButton = document.querySelector('#log_out');
+<script>
+    
+    const logOutButton = document.querySelector('#log_out');
 
     function logOut() {
         // fetch('/logout');
@@ -30,5 +32,8 @@
         window.location = '/logout'
     }
     
-    logOutButton.addEventListener('click', logOut);</script>
+    logOutButton.addEventListener('click', logOut);
+
+</script>
+
 {% endblock %}
