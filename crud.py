@@ -18,9 +18,21 @@ def get_user_by_username(username):
     return User.query.filter(User.username == username).first()
 
 
+def get_user_by_user_id(user_id):
+    """Get a user by user ID."""
+
+    return User.query.filter(User.user_id == user_id).first()
+
+
+def get_book_by_isbn(isbn):
+    """ """
+
+    return Book.query.get(isbn)
+
+
 def create_book(isbn, title, author, description, genre, image):
     """Create and return a new book."""
-    
+
     book = Book(isbn=isbn,
                 title=title,
                 author=author,
@@ -30,11 +42,10 @@ def create_book(isbn, title, author, description, genre, image):
     
     return book
 
-def create_review(score, review_text, user_id, isbn):
+def create_review(score, user_id, isbn):
     """Create and return a new review."""
     
     review = Review(score=score,
-                    review_text=review_text,
                     user_id=user_id,
                     isbn=isbn)
 
@@ -50,5 +61,3 @@ def create_category(category):
 if __name__ == "__main__":
     from server import app
     connect_to_db(app)
-
-    # 1234 1334 1554

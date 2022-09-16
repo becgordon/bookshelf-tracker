@@ -4,7 +4,7 @@
 
 {% block body %}
 
-<a href="/userprofile/<username>">Go back to profile.</a>
+<a href="/userprofile/{{ session['user_name'] }}">Go back to profile.</a>
 
 {% for book in books %}
     <a href="/bookprofile/{{ book['id'] }}" target="_blank">

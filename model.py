@@ -55,7 +55,7 @@ class Review(db.Model):
 
     review_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     score = db.Column(db.Integer)
-    review_text = db.Column(db.Text)
+
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
     isbn = db.Column(db.String, db.ForeignKey('books.isbn'))
 

@@ -28,8 +28,18 @@
 
 {% if 'industryIdentifiers' in profile['volumeInfo'] %}
 <p>
-    ISBN: {{ profile['volumeInfo']['industryIdentifiers'][0]['identifier']|join(' ') }}
+    ISBN: {{ profile['volumeInfo']['industryIdentifiers'][0]['identifier']|join('') }}
 </p>
 {% endif %}
+<p id="volume_id" name="{{ profile['id'] }}"></p>
 
+
+<script>const addBookButton = document.querySelector('#add_book');
+
+    function addBook() {
+        window.location = `/addbook/${document.querySelector('#volume_id').attributes.name.value}`
+        addBookButton.innerHTML = 'Book added';
+    }
+    
+    addBookButton.addEventListener('click', addBook);</script>
 {% endblock %}

@@ -6,17 +6,29 @@
 
 <h1>{{ user.fname }}'s Profile</h1>
 
+<button id="log_out">Log Out</button>
+
 <p>
     <a href="/booksearch">Search a book</a>
 </p>
 
 {% for review in user.reviews %}
+        <a href="/bookprofile/{{ review.book.isbn }}">
         <h1>{{ review.book.title }}</h1>
+        </a>
         <p>{{ review.book.author }}</p>
         <p>
             <img src="{{ review.book.image}}">
         </p>
-        <p>{{ review.book.description }}</p>
 {% endfor %}
 
+<script>const logOutButton = document.querySelector('#log_out');
+
+    function logOut() {
+        // fetch('/logout');
+        console.log('touched')
+        window.location = '/logout'
+    }
+    
+    logOutButton.addEventListener('click', logOut);</script>
 {% endblock %}

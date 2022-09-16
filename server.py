@@ -2,7 +2,7 @@
 
 from flask import Flask, render_template, request, flash, session, redirect
 import os
-from model import connect_to_db, db 
+from model import connect_to_db, db, Book
 import requests
 import crud
 
@@ -32,6 +32,11 @@ def find_bookstore():
 @app.route('/login')
 def log_in_page():
     """Allow a user to log in."""
+
+    if session:
+        username = session.get("user_name")
+        return redirect(f'/userprofile/{username}')
+
     return render_template('login.html')
 
 
@@ -46,7 +51,7 @@ def log_in():
 
     if not user or user.password != password:
         flash("The email or password entered were incorrect.")
-        return redirect('/')
+        return redirect('/login')
     else:
         session['user_name'] = user.username
         flash("Successfully logged in!")
@@ -94,6 +99,14 @@ def view_user_profile(username):
         return redirect("/login")
 
 
+@app.route('/logout') # HELP HERE
+def log_out():
+    """Allow a user to log out."""
+    session.clear()
+    
+    return redirect('/')
+
+
 @app.route('/booksearch')
 def search_books():
     """Displays book search page."""
@@ -134,13 +147,51 @@ def view_book_profile(volume_id):
     
     url = f'https://www.googleapis.com/books/v1/volumes/{volume_id}'
     payload = {'apikey': BOOKS_API_KEY}
-
+    print(url)
     res = requests.get(url, params=payload)
     profile = res.json()
-
     print(profile)
-
     return render_template('book_profile.html', profile=profile)
+
+
+@app.route('/addbook/<volume_id>')
+def add_book(volume_id):
+    """Adds a book to a particular user's library."""
+
+    url = f'https://www.googleapis.com/books/v1/volumes/{volume_id}'
+    payload = {'apikey': BOOKS_API_KEY}
+
+    res = requests.get(url, params=payload)
+    book = res.json()
+
+    isbn = ''.join(book['volumeInfo']['industryIdentifiers'][0]['identifier'])
+   
+    if not crud.get_book_by_isbn(isbn):
+        title = book['volumeInfo']['title']
+        if 'authors' in book['volumeInfo']:
+            author = ' '.join(book['volumeInfo']['authors'])
+        else:
+            author = None
+        description = book['volumeInfo']['description']
+        if 'categories' in book['volumeInfo']:
+            genre = ' '.join(book['volumeInfo']['categories'])
+        else:
+            genre = None
+        image = book['volumeInfo']['imageLinks']['thumbnail']
+        
+        book = crud.create_book(isbn, title, author, description, genre, image)
+
+        db.session.add(book)
+
+    score = None
+    user = crud.get_user_by_username(session['user_name'])
+    review = crud.create_review(score, user.user_id, isbn)
+
+    db.session.add(review)
+    db.session.commit()
+        
+    return redirect(f'/userprofile/{user.username}')
+
 
 if __name__ == "__main__":
     connect_to_db(app)

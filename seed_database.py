@@ -51,7 +51,7 @@ for n in range(0,6):
         score = random.randint(1,5)
         review_text = "N/A"
 
-        review = crud.create_review(score, review_text, user.user_id, book.isbn)
+        review = crud.create_review(score, user.user_id, book.isbn)
         model.db.session.add(review)
 
 model.db.session.commit()
