@@ -3,8 +3,24 @@
 {% block title %}{% endblock %}
 
 {% block body %}
+<p>
+<a href="/userprofile/{{ session['user_name'] }}">Go back to profile.</a>
+</p>
 
 <button id="remove_book">Remove book from library</button>
+
+<!-- <p>
+<form>
+    <label for="category-select">Add book to shelf:</label>
+
+    <select name="shelf" id="shelf-select">
+        <option value="to-be-read">To Be Read</option>
+        <option value="have-read">Have Read</option>
+        <option value="favorites">Favorites</option>
+    </select>
+    <input type="submit">
+</form>
+</p> -->
 
 <h1>{{ book.title }}</h1>
 

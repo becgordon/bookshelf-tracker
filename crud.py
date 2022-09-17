@@ -87,6 +87,11 @@ def create_category(category):
     return category
 
 
+def add_category_to_book(book):
+    """Add a category to a book."""
+    pass
+
+
 if __name__ == "__main__":
     from server import app
     connect_to_db(app)

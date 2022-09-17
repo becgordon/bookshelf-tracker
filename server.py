@@ -26,7 +26,8 @@ def welcome_page():
 @app.route('/findbookstore')
 def find_bookstore():
     """Find bookstores based on location."""
-    pass
+    
+    return render_template('bookstore_map.html')
 
 
 @app.route('/login')
@@ -99,7 +100,7 @@ def view_user_profile(username):
         return redirect("/login")
 
 
-@app.route('/logout') # HELP HERE
+@app.route('/logout') 
 def log_out():
     """Allow a user to log out."""
     session.clear()
@@ -129,14 +130,6 @@ def submit_book_search(searchterm):
         books = data['items']
     else:
         books = []
-
-    #     isbn = data['items'][n]['volumeInfo']['industryIdentifiers'][0]['identifier']
-    #     title = data['items'][n]['volumeInfo']['title']
-    #     author = str(data['items'][n]['volumeInfo']['authors'])
-    #     description = data['items'][n]['volumeInfo']['description']
-    #     genre = str(data['items'][n]['volumeInfo']['categories'])
-    #     image = data['items'][n]['volumeInfo']['imageLinks']['thumbnail']
-
     
     return render_template('book_search_results.html',books=books, searchterm=searchterm)
 
@@ -149,6 +142,7 @@ def view_book_profile(volume_id):
     payload = {'apikey': BOOKS_API_KEY}
     res = requests.get(url, params=payload)
     profile = res.json()
+
     return render_template('book_profile.html', profile=profile)
 
 
