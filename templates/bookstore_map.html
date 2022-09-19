@@ -6,12 +6,12 @@
 
 <style>
     #map {
-      height: 100%;
+      height: 50%;
     }
     html, body {
       height: 100%;
-      margin: 0;
-      padding: 0;
+      margin: 2px;
+      padding: 2px;
     }
 </style>
 
@@ -19,6 +19,13 @@
 
 {% block body %}
 <h1>Find a bookstore</h1>
+
+<form action="/findbookstore" method="POST">
+  <p>
+    Zipcode <input type="text" name="zipcode">
+    <input type="submit">
+  </p>
+</form>
 
 <div id="map"></div>
 

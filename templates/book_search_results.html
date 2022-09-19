@@ -1,10 +1,20 @@
 {% extends 'base.html' %}
 
-{% block title %}Results for {{ searchterm }}{% endblock %}
+{% block title %}Showing results for {{ searchterm }}{% endblock %}
 
 {% block body %}
 
 <a href="/userprofile/{{ session['user_name'] }}">Go back to profile.</a>
+
+<form method="GET" action="/booksearchresults">
+    <p>
+        Search <input type="text" name="search_term">
+    </p>
+
+    <p>
+        <input type="submit">
+    </p>
+</form>
 
 {% for book in books %}
     
@@ -14,11 +24,13 @@
 <p> {{ book['volumeInfo']['authors']|join(' ') }}</p>
 {% endif %}
 
+{% if 'imageLinks' in book['volumeInfo'] %}
 <p>
     <a href="/bookprofile/{{ book['id'] }}">
     <img src="{{ book['volumeInfo']['imageLinks']['thumbnail'] }}">
     </a>
 </p>
+{% endif %}
 {% endfor %}
 
 {% endblock %}

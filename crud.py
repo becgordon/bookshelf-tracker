@@ -49,6 +49,9 @@ def does_review_exist(user_id, isbn):
     return Review.query.filter(user_id == Review.user_id).first() and Book.query.filter(isbn == Review.isbn).first()
 
 
+# Sorting Books --------------------------------------------------------------
+
+
 def sort_books_alphabetically_title(user): 
     """Sort a user's books alphabetically by title."""
 
@@ -71,7 +74,7 @@ def sort_books_most_recently_added(user):
     """Sort a user's books by most recently added."""
 
     reviews = user.reviews
-    reviews = reviews.sort(key=lambda x: x.review_id)
+    reviews = reviews.sort(key=lambda x: x.review_id, reverse=True)
     
     return reviews
 
@@ -80,7 +83,7 @@ def sort_books_least_recently_added(user):
     """Sort a user's books by most recently added."""
 
     reviews = user.reviews
-    reviews = reviews.sort(key=lambda x: x.review_id, reverse=True)
+    reviews = reviews.sort(key=lambda x: x.review_id)
     
     return reviews
     

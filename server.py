@@ -25,9 +25,19 @@ def welcome_page():
 
 
 @app.route('/findbookstore')
+def display_map():
+    """Display map."""
+    
+    return render_template('bookstore_map.html', 
+                            GOOGLE_MAPS_KEY=GOOGLE_MAPS_KEY)
+
+
+@app.route('/findbookstore', methods=['POST'])
 def find_bookstore():
     """Find bookstores based on location."""
     
+    zipcode = request.form.get('zipcode')
+
     return render_template('bookstore_map.html', 
                             GOOGLE_MAPS_KEY=GOOGLE_MAPS_KEY)
 
@@ -122,8 +132,8 @@ def search_books():
     return render_template('book_search.html')
 
 
-@app.route('/booksearch/<searchterm>')
-def submit_book_search(searchterm):
+@app.route('/booksearchresults')
+def submit_book_search():
     """Takes in search term an returns results that match."""
 
     search_term = request.args.get('search_term')
@@ -141,7 +151,7 @@ def submit_book_search(searchterm):
     
     return render_template('book_search_results.html',
                             books=books, 
-                            searchterm=searchterm)
+                            searchterm=search_term)
 
 
 @app.route('/bookprofile/<volume_id>')
@@ -206,8 +216,9 @@ def edit_book_settings(isbn):
 
     user = crud.get_user_by_username(session['user_name'])
     book = crud.get_book_by_isbn(isbn)
+    review = crud.get_review_id_by_book_and_user_id(isbn, user.user_id)
 
-    return render_template('user_book_profile.html', user=user, book=book)
+    return render_template('user_book_profile.html', user=user, book=book, review=review)
 
 
 @app.route('/removebook<isbn>')
@@ -241,6 +252,18 @@ def sort_books():
 
     return render_template('user_profile.html', user=user)
 
+
+@app.route('/ratebook<isbn>') # not working
+def rate_book(isbn):
+    """Add a user's rating to a book."""
+
+    user = crud.get_user_by_username(session['user_name'])
+    rating = request.args.get("rating")
+    review = crud.get_review_id_by_book_and_user_id(isbn, user.user_id)
+    review.score = rating
+    db.session.commit()
+
+    return redirect(f'/userprofile/{user.username}')
 
 
 if __name__ == "__main__":

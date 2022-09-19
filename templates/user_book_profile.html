@@ -22,9 +22,26 @@
 </form>
 </p> -->
 
+<p>
+    <form action="/ratebook<isbn>">
+        <label for="rating-select">Rate this book:</label>
+
+        <select name="rating" id="rating-select">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+        <input type="submit">
+    </form>
+</p>
+
 <h1>{{ book.title }}</h1>
 
 <p>{{ book.author }}</p>
+
+<p>My Rating: {{ review.score }}</p>
 
 <img src="{{ book.image }}">
 
@@ -37,10 +54,18 @@
     const removeBookButton = document.querySelector('#remove_book');
 
     function removeBook() {
-        window.location = (`/removebook${document.querySelector('#isbn').attributes.name.value}`)
+        window.location = (`/removebook${document.querySelector('#isbn').attributes.name.value}`);
     }
     
     removeBookButton.addEventListener('click', removeBook);
+
+    const ratingSelect = document.querySelector('#rating-select');
+
+    function rateBook() {
+        window.location = (`/ratebook${document.querySelector('#isbn').attributes.name.value}`);
+    }
+
+    ratingSelect.addEventListener('submit', rateBook);
 
 </script>
 

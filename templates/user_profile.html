@@ -4,7 +4,7 @@
 
 {% block body %}
 
-<h1>{{ user.fname }}'s Profile</h1>
+<h1>Welcome back, {{ user.fname }}!</h1>
 
 <button id="log_out">Log Out</button>
 
@@ -31,12 +31,17 @@
     </form>
 </p>
 
+<h2>My Library</h2>
+
 {% for review in user.reviews %}
-        <h2>{{ review.book.title }}</h2>
+        <h3>{{ review.book.title }}</h3>
         <p>By {{ review.book.author }}</p>
         <p>
             <a href="/user/userbook{{ review.book.isbn }}">
             <img src="{{ review.book.image}}"></a>
+        </p>
+        <p>
+            --------------------------------------------------
         </p>
 {% endfor %}
 
