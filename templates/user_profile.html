@@ -16,9 +16,24 @@
     <a href="/booksearch">Search a book</a>
 </p>
 
+<p>
+    <form action="/sortby">
+        <label for="sort-select">Sort Books By:</label>
+
+        <select name="sort" id="sort-select">
+            <option value="alphabetical by title">Alphabetical by Title</option>
+            <option value="alphabetical by author">Alphabetical by Author</option>
+            <option value="most recently added">Most Recently Added</option>
+            <option value="least recently added">Least Recently Added</option>
+        </select>
+
+        <input type="submit">
+    </form>
+</p>
+
 {% for review in user.reviews %}
-        <h1>{{ review.book.title }}</h1>
-        <p>{{ review.book.author }}</p>
+        <h2>{{ review.book.title }}</h2>
+        <p>By {{ review.book.author }}</p>
         <p>
             <a href="/user/userbook{{ review.book.isbn }}">
             <img src="{{ review.book.image}}"></a>
@@ -34,6 +49,15 @@
     }
     
     logOutButton.addEventListener('click', logOut);
+
+
+    const sortBySelect = document.querySelector('#sort-select');
+
+    function sortBy() {
+        window.location = ('/sortby');
+    }
+
+    sortBySelect.addEventListener('submit', sortBy) 
 
 </script>
 

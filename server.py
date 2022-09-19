@@ -12,6 +12,7 @@ app = Flask(__name__)
 app.secret_key = "dev"
 
 BOOKS_API_KEY = os.environ['GOOGLE_BOOKS_KEY']
+GOOGLE_MAPS_KEY =os.environ['GOOGLE_MAPS_KEY']
 
 app.jinja_env.undefined = StrictUndefined
 
@@ -27,7 +28,11 @@ def welcome_page():
 def find_bookstore():
     """Find bookstores based on location."""
     
-    return render_template('bookstore_map.html')
+    return render_template('bookstore_map.html', 
+                            GOOGLE_MAPS_KEY=GOOGLE_MAPS_KEY)
+
+
+# Account Routes -------------------------------------------------------------
 
 
 @app.route('/login')
@@ -108,6 +113,9 @@ def log_out():
     return redirect('/')
 
 
+# Book Routes ----------------------------------------------------------------
+
+
 @app.route('/booksearch')
 def search_books():
     """Displays book search page."""
@@ -131,7 +139,9 @@ def submit_book_search(searchterm):
     else:
         books = []
     
-    return render_template('book_search_results.html',books=books, searchterm=searchterm)
+    return render_template('book_search_results.html',
+                            books=books, 
+                            searchterm=searchterm)
 
 
 @app.route('/bookprofile/<volume_id>')
@@ -206,12 +216,31 @@ def remove_book(isbn):
     
     user = (crud.get_user_by_username(session['user_name']))
     review = crud.get_review_id_by_book_and_user_id(isbn, user.user_id)
-    print("THIS IS THE REVIEW")
-    print(review)
     db.session.delete(review)
     db.session.commit()
 
     return redirect(f'/userprofile/{user.username}')
+
+
+@app.route('/sortby')
+def sort_books():
+    """Sorts a user's books by user's selection."""
+
+    user = (crud.get_user_by_username(session['user_name']))
+    
+    sort_by = request.args.get("sort")
+
+    if sort_by == "alphabetical by title":
+        crud.sort_books_alphabetically_title(user)
+    elif sort_by == "alphabetical by author":
+        crud.sort_books_alphabetically_author(user)
+    elif sort_by == "most recently added":
+        crud.sort_books_most_recently_added(user)
+    elif sort_by == "least recently added":
+        crud.sort_books_least_recently_added(user)
+
+    return render_template('user_profile.html', user=user)
+
 
 
 if __name__ == "__main__":

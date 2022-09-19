@@ -37,7 +37,6 @@ def get_book_by_review_id(review_id):
 
     return Book.query.get(review_id)
 
-# SELECT review_id FROM reviews WHERE (user_id = 1) AND (isbn = '1416592369');
 
 def get_review_id_by_book_and_user_id(isbn, user_id):
     """Get a review ID by ISBN and user ID."""
@@ -49,6 +48,42 @@ def does_review_exist(user_id, isbn):
     
     return Review.query.filter(user_id == Review.user_id).first() and Book.query.filter(isbn == Review.isbn).first()
 
+
+def sort_books_alphabetically_title(user): 
+    """Sort a user's books alphabetically by title."""
+
+    reviews = user.reviews
+    reviews = reviews.sort(key=lambda x: x.book.title)
+    
+    return reviews
+
+
+def sort_books_alphabetically_author(user): 
+    """Sort a user's books alphabetically by author."""
+
+    reviews = user.reviews
+    reviews = reviews.sort(key=lambda x: x.book.author)
+    
+    return reviews
+
+
+def sort_books_most_recently_added(user): 
+    """Sort a user's books by most recently added."""
+
+    reviews = user.reviews
+    reviews = reviews.sort(key=lambda x: x.review_id)
+    
+    return reviews
+
+
+def sort_books_least_recently_added(user): 
+    """Sort a user's books by most recently added."""
+
+    reviews = user.reviews
+    reviews = reviews.sort(key=lambda x: x.review_id, reverse=True)
+    
+    return reviews
+    
 
 def create_book(isbn, title, author, description, genre, image):
     """Create and return a new book."""
