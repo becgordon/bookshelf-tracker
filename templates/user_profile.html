@@ -12,9 +12,12 @@
     <a href='/findbookstore'>Find a local bookstore.</a>
 </p>
 
-<p>
-    <a href="/booksearch">Search a book</a>
-</p>
+<form method="GET" action="/booksearchresults">
+    <p>
+        Search for a Book: <input type="text" name="search_term">
+        <input type="submit">
+    </p>
+</form>
 
 <p>
     <form action="/sortby">

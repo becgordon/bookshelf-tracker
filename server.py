@@ -12,7 +12,7 @@ app = Flask(__name__)
 app.secret_key = "dev"
 
 BOOKS_API_KEY = os.environ['GOOGLE_BOOKS_KEY']
-GOOGLE_MAPS_KEY =os.environ['GOOGLE_MAPS_KEY']
+# GOOGLE_MAPS_KEY = os.environ['GOOGLE_MAPS_KEY']
 
 app.jinja_env.undefined = StrictUndefined
 
@@ -27,22 +27,22 @@ def welcome_page():
     return render_template('welcome_page.html')
 
 
-@app.route('/findbookstore')
-def display_map():
-    """Display map."""
+# @app.route('/findbookstore')
+# def display_map():
+#     """Display map."""
     
-    return render_template('bookstore_map.html', 
-                            GOOGLE_MAPS_KEY=GOOGLE_MAPS_KEY)
+#     return render_template('bookstore_map.html', 
+#                             GOOGLE_MAPS_KEY=GOOGLE_MAPS_KEY)
 
 
-@app.route('/findbookstore', methods=['POST'])
-def find_bookstore():
-    """Find bookstores based on location."""
+# @app.route('/findbookstore', methods=['POST'])
+# def find_bookstore():
+#     """Find bookstores based on location."""
     
-    zipcode = request.form.get('zipcode')
+#     zipcode = request.form.get('zipcode')
 
-    return render_template('bookstore_map.html', 
-                            GOOGLE_MAPS_KEY=GOOGLE_MAPS_KEY)
+#     return render_template('bookstore_map.html', 
+#                             GOOGLE_MAPS_KEY=GOOGLE_MAPS_KEY)
 
 
 # ACCOUNT ROUTES -------------------------------------------------------------
@@ -129,12 +129,6 @@ def log_out():
 # BOOK ROUTES ----------------------------------------------------------------
 
 
-@app.route('/booksearch')
-def search_books():
-    """Displays book search page."""
-    return render_template('book_search.html')
-
-
 @app.route('/booksearchresults')
 def submit_book_search():
     """Takes in search term an returns results that match."""
@@ -178,6 +172,7 @@ def add_book(volume_id):
 
     res = requests.get(url, params=payload)
     book = res.json()
+    print(book)
 
     isbn = ''.join(book['volumeInfo']['industryIdentifiers'][0]['identifier'])
    
@@ -199,14 +194,10 @@ def add_book(volume_id):
         db.session.add(book)
 
     user = crud.get_user_by_username(session['user_name'])
-    print('\n'*5)
-    print(crud.does_review_exist(user.user_id, isbn))
-    print('\n'*5)
+
     if not crud.does_review_exist(user.user_id, isbn):
         score = None
-        user = crud.get_user_by_username(session['user_name'])
         review = crud.create_review(score, user.user_id, isbn)
-
         db.session.add(review)
         db.session.commit()
     else:
@@ -221,30 +212,28 @@ def edit_book_settings(isbn):
 
     user = crud.get_user_by_username(session['user_name'])
     book = crud.get_book_by_isbn(isbn)
-    print('\n'*5)
-    print(book)
-    print('\n'*5)
+    review = crud.get_review_by_book_and_user_id(isbn, user.user_id)
 
-    return render_template('user_book_profile.html', user=user, book=book)
+    return render_template('user_book_profile.html', user=user, book=book, review=review)
 
 
-# @app.route('/removebook<isbn>') # PROBLEM HERE
-# def remove_book(isbn):
-#     """Removes book from a user's library."""
+@app.route('/removebook<isbn>')
+def remove_book(isbn):
+    """Removes book from a user's library."""
     
-#     user = (crud.get_user_by_username(session['user_name']))
-#     review = crud.get_review_by_book_and_user_id(isbn, user.user_id)
-#     db.session.delete(review)
-#     db.session.commit()
+    user = crud.get_user_by_username(session['user_name'])
+    review = crud.get_review_by_book_and_user_id(isbn, user.user_id)
+    db.session.delete(review)
+    db.session.commit()
 
-#     return redirect(f'/userprofile/{user.username}')
+    return redirect(f'/userprofile/{user.username}')
 
 
 @app.route('/sortby')
 def sort_books():
     """Sorts a user's books by user's selection."""
 
-    user = (crud.get_user_by_username(session['user_name']))
+    user = crud.get_user_by_username(session['user_name'])
     
     sort_by = request.args.get("sort")
 
@@ -260,21 +249,17 @@ def sort_books():
     return render_template('user_profile.html', user=user)
 
 
-# @app.route('/ratebook<isbn>') # PROBLEM HERE
-# def rate_book(isbn): 
-#     """Add a user's rating to a book."""
+@app.route('/ratebook<isbn>') # PROBLEM HERE
+def rate_book(isbn): 
+    """Add a user's rating to a book."""
 
-#     user = crud.get_user_by_username(session['user_name'])
-#     rating = request.args.get("rating")
-#     review = crud.get_review_by_book_and_user_id(isbn, user.user_id)
-#     print('\n'*5)
-#     print(review)
-#     print(rating)
-#     print('\n'*5)
-#     review.score = rating
-#     db.session.commit()
+    user = crud.get_user_by_username(session['user_name'])
+    rating = request.args.get("rating")
+    review = crud.get_review_by_book_and_user_id(isbn, user.user_id)
+    review.score = rating
+    db.session.commit()
 
-#     return redirect(f'/userprofile/{user.username}')
+    return redirect(f'/userprofile/{user.username}')
 
 
 # ----------------------------------------------------------------------------

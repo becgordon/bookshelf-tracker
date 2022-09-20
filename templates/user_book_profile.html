@@ -41,7 +41,11 @@
 
 <p>{{ book.author }}</p>
 
-<p>My Rating:</p>
+{% if review.score == None %}
+<p>My Rating: Not Yet Rated</p>
+{% else %}
+<p>My Rating: {{ review.score }}</p>
+{% endif %}
 
 <img src="{{ book.image }}">
 

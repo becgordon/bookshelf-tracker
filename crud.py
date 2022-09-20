@@ -2,6 +2,7 @@
 
 from model import db, User, Book, Review, Category, BookCategory, connect_to_db
 
+# FUNCTIONS FOR USERS TABLE --------------------------------------------------
 
 def create_user(fname, lname, username, password):
     """Create and return a new user."""
@@ -26,30 +27,36 @@ def get_user_by_user_id(user_id):
     return User.query.filter(User.user_id == user_id).first()
 
 
+# FUNCTIONS FOR BOOKS TABLE --------------------------------------------------
+
+
+def create_book(isbn, title, author, description, genre, image):
+    """Create and return a new book."""
+
+    book = Book(isbn=isbn,
+                title=title,
+                author=author,
+                description=description,
+                genre=genre,
+                image=image)
+    
+    return book
+
 def get_book_by_isbn(isbn):
     """Get a book by ISBN."""
 
-    return Book.query.get(isbn)
+    return Book.query.filter(Book.isbn == isbn).first()
+    # return Book.query.get(isbn)
 
 
 def get_book_by_review_id(review_id):
     """Get a book by review ID."""
 
-    return Book.query.get(review_id)
+    review = Review.query.filter(Review.review_id == review_id).first()
+    return review.book 
 
 
-# def get_review_by_book_and_user_id(isbn, user_id): #something wrong here
-#     """Get a review ID by ISBN and user ID."""
-
-#     return Review.query.filter((user_id == user_id) & (isbn == isbn)).first()
-
-def does_review_exist(user_id, isbn):
-    """Check if a user has a review for a particular book."""
-    
-    return bool(Review.query.filter(user_id == Review.user_id).first() and Book.query.filter(isbn == Review.isbn).first())
-
-
-# Sorting Books --------------------------------------------------------------
+# SORTING BOOKS --------------------------------------------------------------
 
 
 def sort_books_alphabetically_title(user): 
@@ -86,19 +93,9 @@ def sort_books_least_recently_added(user):
     reviews = reviews.sort(key=lambda x: x.review_id)
     
     return reviews
-    
 
-def create_book(isbn, title, author, description, genre, image):
-    """Create and return a new book."""
 
-    book = Book(isbn=isbn,
-                title=title,
-                author=author,
-                description=description,
-                genre=genre,
-                image=image)
-    
-    return book
+# FUNCTIONS FOR REVIEWS TABLE ------------------------------------------------
 
 
 def create_review(score, user_id, isbn):
@@ -112,10 +109,24 @@ def create_review(score, user_id, isbn):
 
 
 def get_review_by_user_id(user_id):
-    """Get a review by user ID."""
+    """Get reviews by user ID."""
 
-    return Review.query.get(user_id)
+    return Review.query.filter(Review.user_id == user_id).all() 
 
+
+def does_review_exist(user_id, isbn):
+    """Check if a user has a review for a particular book."""
+    
+    return bool(Review.query.filter((Review.user_id == user_id) & (Review.isbn == isbn)).first())
+
+
+def get_review_by_book_and_user_id(isbn, user_id):
+    """Get a review ID by ISBN and user ID."""
+
+    return Review.query.filter((Review.user_id == user_id) & (Review.isbn == isbn)).first()
+
+
+# FUNCTIONS FOR CATEGORIES TABLE ---------------------------------------------
 
 def create_category(category):
     """Creates and returns a new category."""
@@ -129,7 +140,11 @@ def add_category_to_book(book):
     """Add a category to a book."""
     pass
 
+# ----------------------------------------------------------------------------
 
 if __name__ == "__main__":
     from server import app
     connect_to_db(app)
+
+
+# TESTING --------------------------------------------------------------------
