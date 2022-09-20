@@ -33,6 +33,23 @@
         <input type="submit">
     </form>
 </p>
+<p>
+    <form action="/shelf">
+        <label for="shelf">Go to Shelf:</label>
+
+        <select name="shelf" id="shelf-select">
+            <option value="To Be Read">To Be Read</option>
+            <option value="Have Read">Have Read</option>
+            <option value="Favorite">Favorites</option>
+        </select>
+
+        <input type="submit">
+    </form>
+</p>
+
+<p>
+    --------------------------------------------------
+</p>
 
 <h2>My Library</h2>
 
@@ -47,6 +64,13 @@
             <a href="/user/userbook{{ review.book.isbn }}">
             <img src="{{ review.book.image}}"></a>
         </p>
+
+        {% if review.score == None %}
+        <p>My Rating: Not Yet Rated</p>
+        {% else %}
+        <p>My Rating: {{ review.score }}</p>
+        {% endif %}
+
         <p>
             --------------------------------------------------
         </p>

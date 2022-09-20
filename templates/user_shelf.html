@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+<h1>Shelf of {{ shelf }}s</h1>
+
+{% if not reviews %}
+<p>Looks like your shelf is empty!</p>
+{% endif %}
+
+{% for review in reviews %}
+        <h3>{{ review.book.title }}</h3>
+        <p>By {{ review.book.author }}</p>
+        <p>
+            <a href="/user/userbook{{ review.book.isbn }}">
+            <img src="{{ review.book.image}}"></a>
+        </p>
+
+        {% if review.score == None %}
+        <p>My Rating: Not Yet Rated</p>
+        {% else %}
+        <p>My Rating: {{ review.score }}</p>
+        {% endif %}
+
+        <p>
+            --------------------------------------------------
+        </p>
+{% endfor %}
+
+{% endblock %}

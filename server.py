@@ -196,8 +196,7 @@ def add_book(volume_id):
     user = crud.get_user_by_username(session['user_name'])
 
     if not crud.does_review_exist(user.user_id, isbn):
-        score = None
-        review = crud.create_review(score, user.user_id, isbn)
+        review = crud.create_review(user.user_id, isbn)
         db.session.add(review)
         db.session.commit()
     else:
@@ -249,7 +248,7 @@ def sort_books():
     return render_template('user_profile.html', user=user)
 
 
-@app.route('/ratebook<isbn>') # PROBLEM HERE
+@app.route('/ratebook<isbn>')
 def rate_book(isbn): 
     """Add a user's rating to a book."""
 
@@ -260,6 +259,47 @@ def rate_book(isbn):
     db.session.commit()
 
     return redirect(f'/userprofile/{user.username}')
+
+
+@app.route('/categorizebook<isbn>')
+def categorize_book(isbn):
+    """Categorize a user's book."""
+
+    user = crud.get_user_by_username(session['user_name'])
+    category = request.args.get("category")
+    review = crud.get_review_by_book_and_user_id(isbn, user.user_id)
+    if category == "to-be-read":
+        review.to_be_read = True
+    elif category == "have-read":
+        review.to_be_read = False
+    elif category == "favorites":
+        review.favorites = True
+    db.session.commit()
+
+    return redirect(f'/userprofile/{user.username}')
+
+
+@app.route('/shelf')
+def display_shelf():
+    """Show user a particular shelf."""
+
+    user = crud.get_user_by_username(session['user_name'])
+    shelf = request.args.get("shelf")
+    shelf_list = []
+    if shelf == "To Be Read":
+        for review in user.reviews:
+            if review.to_be_read == True:
+                shelf_list.append(review)
+    elif shelf == "Have Read":
+        for review in user.reviews:
+            if review.to_be_read == False:
+                shelf_list.append(review)
+    elif shelf == "Favorite":
+        for review in user.reviews:
+            if review.favorites == True:
+                shelf_list.append(review)
+    
+    return render_template('user_shelf.html', reviews=shelf_list, shelf=shelf)
 
 
 # ----------------------------------------------------------------------------

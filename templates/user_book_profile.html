@@ -9,18 +9,18 @@
 
 <button id="remove_book">Remove book from library</button>
 
-<!-- <p>
-<form>
+<p>
+<form action="/categorizebook{{ book.isbn }}">
     <label for="category-select">Add book to shelf:</label>
 
-    <select name="shelf" id="shelf-select">
+    <select name="category" id="category-select">
         <option value="to-be-read">To Be Read</option>
         <option value="have-read">Have Read</option>
         <option value="favorites">Favorites</option>
     </select>
     <input type="submit">
 </form>
-</p> -->
+</p>
 
 <p>
     <form action="/ratebook{{ book.isbn }}">
@@ -48,6 +48,24 @@
 {% endif %}
 
 <img src="{{ book.image }}">
+
+{% if review.to_be_read == true %}
+<p>
+    <h5>To Be Read</h5>
+</p>
+{% endif %}
+
+{% if review.to_be_read == false %}
+<p>
+    <h5>Have Read</h5>
+</p>
+{% endif %}
+
+{% if review.favorites == true %}
+<p>
+    <h5>Favorites</h5>
+</p>
+{% endif %}
 
 <p>{{ book.description }}</p>
 

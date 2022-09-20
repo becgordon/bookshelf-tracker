@@ -5,6 +5,9 @@ from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
 
+# CLASS USER -----------------------------------------------------------------
+
+
 class User(db.Model):
     """A user."""
     
@@ -22,6 +25,9 @@ class User(db.Model):
         """Show info about user."""
 
         return f'<User user_id={self.user_id} name={self.fname} {self.lname}>'
+
+
+# CLASS BOOK -----------------------------------------------------------------
 
 
 class Book(db.Model):
@@ -48,6 +54,9 @@ class Book(db.Model):
         return f'<Book isbn={self.isbn} title={self.title}>'
 
 
+# CLASS REVIEW ---------------------------------------------------------------
+
+
 class Review(db.Model):
     """A review."""
     
@@ -55,6 +64,8 @@ class Review(db.Model):
 
     review_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     score = db.Column(db.Integer)
+    to_be_read = db.Column(db.Boolean)
+    favorites = db.Column(db.Boolean)
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
     isbn = db.Column(db.String, db.ForeignKey('books.isbn'))
@@ -66,6 +77,9 @@ class Review(db.Model):
         """Show info about review."""
 
         return f'<Review review_id={self.review_id} user_id={self.user_id}>'
+
+
+# CLASS CATEGORY -------------------------------------------------------------
 
 
 class Category(db.Model):
@@ -85,6 +99,8 @@ class Category(db.Model):
         return f'<Category category_id={self.category_id} {self.category}>'
 
 
+# ASSOCIATION TABLES ---------------------------------------------------------
+
 class BookCategory(db.Model):
     """Category of a specific book."""
 
@@ -102,6 +118,9 @@ class BookCategory(db.Model):
         return f'<BookCategory isbn={self.isbn} category_id={self.category_id}>'
 
 
+# 2.0 FEATURES ---------------------------------------------------------------
+
+
 # class Trigger(db.Model): # 2.0 Feature
 #     """A trigger warning for book."""
 #     pass
@@ -110,6 +129,9 @@ class BookCategory(db.Model):
 # class BookTrigger(db.Model): # 2.0 Feature
 #     """Trigger of a specific book."""
 #     pass
+
+
+# ----------------------------------------------------------------------------
 
 
 def connect_to_db(app, db_uri="postgresql:///bookshelf"):

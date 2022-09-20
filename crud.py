@@ -98,12 +98,10 @@ def sort_books_least_recently_added(user):
 # FUNCTIONS FOR REVIEWS TABLE ------------------------------------------------
 
 
-def create_review(score, user_id, isbn):
+def create_review(user_id, isbn):
     """Create and return a new review."""
     
-    review = Review(score=score,
-                    user_id=user_id,
-                    isbn=isbn)
+    review = Review(user_id=user_id, isbn=isbn)
 
     return review
 
