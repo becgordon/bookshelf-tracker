@@ -33,6 +33,10 @@
 
 <h2>My Library</h2>
 
+{% if not user.reviews %}
+<p>Looks like your library is empty!</p>
+{% endif %}
+
 {% for review in user.reviews %}
         <h3>{{ review.book.title }}</h3>
         <p>By {{ review.book.author }}</p>

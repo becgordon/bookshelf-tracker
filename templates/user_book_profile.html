@@ -23,7 +23,7 @@
 </p> -->
 
 <p>
-    <form action="/ratebook<isbn>">
+    <form action="/ratebook{{ book.isbn }}">
         <label for="rating-select">Rate this book:</label>
 
         <select name="rating" id="rating-select">
@@ -41,7 +41,7 @@
 
 <p>{{ book.author }}</p>
 
-<p>My Rating: {{ review.score }}</p>
+<p>My Rating:</p>
 
 <img src="{{ book.image }}">
 
@@ -58,14 +58,6 @@
     }
     
     removeBookButton.addEventListener('click', removeBook);
-
-    const ratingSelect = document.querySelector('#rating-select');
-
-    function rateBook() {
-        window.location = (`/ratebook${document.querySelector('#isbn').attributes.name.value}`);
-    }
-
-    ratingSelect.addEventListener('submit', rateBook);
 
 </script>
 

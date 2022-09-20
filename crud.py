@@ -38,15 +38,15 @@ def get_book_by_review_id(review_id):
     return Book.query.get(review_id)
 
 
-def get_review_id_by_book_and_user_id(isbn, user_id):
-    """Get a review ID by ISBN and user ID."""
+# def get_review_by_book_and_user_id(isbn, user_id): #something wrong here
+#     """Get a review ID by ISBN and user ID."""
 
-    return Review.query.filter((user_id == user_id) & (isbn == isbn)).first()
+#     return Review.query.filter((user_id == user_id) & (isbn == isbn)).first()
 
 def does_review_exist(user_id, isbn):
     """Check if a user has a review for a particular book."""
     
-    return Review.query.filter(user_id == Review.user_id).first() and Book.query.filter(isbn == Review.isbn).first()
+    return bool(Review.query.filter(user_id == Review.user_id).first() and Book.query.filter(isbn == Review.isbn).first())
 
 
 # Sorting Books --------------------------------------------------------------
