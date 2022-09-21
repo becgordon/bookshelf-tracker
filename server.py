@@ -2,7 +2,8 @@
 
 from flask import Flask, render_template, request, flash, session, redirect
 import os
-from model import connect_to_db, db, Book
+import random
+from model import connect_to_db, db
 import requests
 import crud
 
@@ -300,6 +301,53 @@ def display_shelf():
                 shelf_list.append(review)
     
     return render_template('user_shelf.html', reviews=shelf_list, shelf=shelf)
+
+
+@app.route('/usercharts/<username>')
+def view_charts(username):
+    """Allow a user ot view their library data in a chart."""
+    
+    user = crud.get_user_by_username(session['user_name'])
+
+    if user and 'user_name' in session and session['user_name'] == username:
+        to_be_read = 0
+        have_read = 0
+        rated = 0
+        unrated = 0
+        favorites = 0
+        for review in user.reviews:
+            if review.to_be_read == True:
+                to_be_read += 1
+            if review.to_be_read == False:
+                have_read += 1
+            if review.favorites == True:
+                favorites += 1
+            if review.score == None:
+                unrated += 1
+            else:
+                rated += 1
+
+        return render_template('user_charts.html', 
+                                user=user, 
+                                to_be_read=to_be_read,
+                                have_read=have_read,
+                                rated=rated,
+                                unrated=unrated,
+                                favorites=favorites)
+    
+    else:
+        return redirect("/login")
+
+
+@app.route('/getnextread')
+def get_next_read():
+    """Randomly choose the next book a user should read from 'Have Not Read's."""
+
+    user = crud.get_user_by_username(session['user_name'])
+    next_book = random.choice(user.reviews)
+
+
+    return (f'{next_book.book.title} by {next_book.book.author}')
 
 
 # ----------------------------------------------------------------------------

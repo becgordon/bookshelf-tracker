@@ -2,6 +2,8 @@
 
 {% block body %}
 
+<a href="/userprofile/{{ session['user_name'] }}">Go back to profile.</a>
+
 <h1>Shelf of {{ shelf }}s</h1>
 
 {% if not reviews %}

@@ -1,0 +1,148 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<style>
+    .chart {
+    width: 300px;
+}
+</style>
+{% endblock %}
+
+{% block body %}
+
+<a href="/userprofile/{{ session['user_name'] }}">Go back to profile.</a>
+
+<h1>{{ user.fname }}'s Charts</h1>
+
+<div class="chart">
+    <canvas id="reads"></canvas>
+</div>
+
+<div class="chart">
+    <canvas id="ratings"></canvas>
+</div>
+
+<div class="chart">
+    <canvas id="stats"></canvas>
+</div>
+
+<div id="to_be_read" name="{{ to_be_read }}"></div>
+<div id="have_read" name="{{ have_read }}"></div>
+<div id="rated" name="{{ rated }}"></div>
+<div id="unrated" name="{{ unrated }}"></div>
+<div id="favorites" name="{{ favorites }}"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    // TO BE READ VS. HAVE READ DOUGHNUT CHART -------------------------------
+    const readsData = {
+        labels: [
+          'To Be Read',
+          'Have Read'
+        ],
+        datasets: [{
+          label: 'To Be Read vs. Have Read',
+          data: [document.querySelector('#to_be_read').attributes.name.value, 
+                document.querySelector('#have_read').attributes.name.value],
+          backgroundColor: [
+            'rgb(255, 99, 132)',
+            'rgb(54, 162, 235)'
+          ],
+          hoverOffset: 4
+        }]
+      };
+  
+    const readsConfig = {
+        type: 'doughnut',
+        data: readsData,
+      };
+
+    const reads = new Chart(
+      document.getElementById('reads'),
+      readsConfig
+    );
+
+
+    // RATED VS. UNRATED DOUGHNUT CHART --------------------------------------
+    const ratingsData = {
+        labels: [
+          'Rated',
+          'Unrated'
+        ],
+        datasets: [{
+          label: 'Rated vs. Unrated',
+          data: [document.querySelector('#rated').attributes.name.value, 
+                document.querySelector('#unrated').attributes.name.value],
+          backgroundColor: [
+            'rgb(255, 99, 132)',
+            'rgb(54, 162, 235)'
+          ],
+          hoverOffset: 4
+        }]
+      };
+
+    const ratingsConfig = {
+    type: 'doughnut',
+    data: ratingsData,
+    };
+
+    const ratings = new Chart(
+    document.getElementById('ratings'),
+    ratingsConfig
+    );
+
+
+    // BOOK STATS BAR CHART --------------------------------------------------
+    const statsData = {
+      labels: [
+        "To Be Read", 
+        "Have Read", 
+        "Rated", 
+        "Unrated", 
+        "Favorites"
+        ],
+      datasets: [{
+        label: 'Book Stats',
+        data: [document.querySelector('#to_be_read').attributes.name.value, 
+                document.querySelector('#have_read').attributes.name.value,
+                document.querySelector('#rated').attributes.name.value,
+                document.querySelector('#unrated').attributes.name.value,
+                document.querySelector('#favorites').attributes.name.value],
+        backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(255, 159, 64, 0.2)',
+            'rgba(255, 205, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(54, 162, 235, 0.2)'
+            ],
+            borderColor: [
+            'rgb(255, 99, 132)',
+            'rgb(255, 159, 64)',
+            'rgb(255, 205, 86)',
+            'rgb(75, 192, 192)',
+            'rgb(54, 162, 235)'
+            ],
+            borderWidth: 1
+    }]
+    };
+
+    const statsConfig = {
+        type: 'bar',
+        data: statsData,
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        },
+      };
+
+    const stats = new Chart(
+    document.getElementById('stats'),
+    statsConfig
+    );
+  </script>
+
+{% endblock %}

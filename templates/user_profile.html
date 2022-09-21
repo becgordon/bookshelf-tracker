@@ -48,6 +48,17 @@
 </p>
 
 <p>
+    <a href="/usercharts/{{ user.username }}">See my charts.</a>
+</p>
+
+<p>
+    What should I read next?
+    <button id="next-read">Get next read</button>
+</p>
+
+<p id="next-read-text"></p>
+
+<p>
     --------------------------------------------------
 </p>
 
@@ -90,6 +101,14 @@
     sortBySelect.addEventListener('submit', () => {
         window.location = '/sortby';
     });
+    
+    function getNextRead(evt) {
+        fetch('/getnextread')
+        .then((response) => response.text())
+        .then((nextRead) => document.querySelector('#next-read-text').innerText = nextRead)
+        };
+
+    document.querySelector('#next-read').addEventListener('click', getNextRead)
 
 </script>
 
