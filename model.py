@@ -19,7 +19,7 @@ class User(db.Model):
     username = db.Column(db.String(25), nullable=False, unique=True)
     password = db.Column(db.String(50), nullable=False)
 
-    reviews = db.relationship('Review', back_populates='user') # something to fix here
+    reviews = db.relationship('Review', back_populates='user') 
 
     def __repr__(self):
         """Show info about user."""
@@ -42,11 +42,11 @@ class Book(db.Model):
     genre = db.Column(db.String)
     image = db.Column(db.String)
     
-    reviews = db.relationship("Review", back_populates="book") # something to fix here
+    reviews = db.relationship("Review", back_populates="book") 
     
-    categories = db.relationship('Category', 
-                                secondary="books_categories", 
-                                back_populates="books")
+    # categories = db.relationship('Category', 
+    #                             secondary="books_categories", 
+    #                             back_populates="books")
 
     def __repr__(self):
         """Show info about book."""
@@ -82,40 +82,40 @@ class Review(db.Model):
 # CLASS CATEGORY -------------------------------------------------------------
 
 
-class Category(db.Model):
-    """A category of book."""
-    __tablename__ = 'categories'
+# class Category(db.Model):
+#     """A category of book."""
+#     __tablename__ = 'categories'
 
-    category_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    category = db.Column(db.String)
+#     category_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+#     category = db.Column(db.String)
 
-    books = db.relationship("Book", 
-                            secondary="books_categories", 
-                            back_populates='categories')
+#     books = db.relationship("Book", 
+#                             secondary="books_categories", 
+#                             back_populates='categories')
 
-    def __repr__(self):
-        """Show info about a category."""
+#     def __repr__(self):
+#         """Show info about a category."""
 
-        return f'<Category category_id={self.category_id} {self.category}>'
+#         return f'<Category category_id={self.category_id} {self.category}>'
 
 
-# ASSOCIATION TABLES ---------------------------------------------------------
+# # ASSOCIATION TABLES ---------------------------------------------------------
 
-class BookCategory(db.Model):
-    """Category of a specific book."""
+# class BookCategory(db.Model):
+#     """Category of a specific book."""
 
-    __tablename__ = 'books_categories'
+#     __tablename__ = 'books_categories'
 
-    book_category_id = db.Column(db.Integer, primary_key=True)
-    isbn = db.Column(db.String, db.ForeignKey("books.isbn"), nullable=False)
-    category_id = db.Column(db.Integer, 
-                            db.ForeignKey("categories.category_id"), 
-                            nullable=False)
+#     book_category_id = db.Column(db.Integer, primary_key=True)
+#     isbn = db.Column(db.String, db.ForeignKey("books.isbn"), nullable=False)
+#     category_id = db.Column(db.Integer, 
+#                             db.ForeignKey("categories.category_id"), 
+#                             nullable=False)
     
-    def __repr__(self):
-        """Show info about a BookCategory."""
+#     def __repr__(self):
+#         """Show info about a BookCategory."""
 
-        return f'<BookCategory isbn={self.isbn} category_id={self.category_id}>'
+#         return f'<BookCategory isbn={self.isbn} category_id={self.category_id}>'
 
 
 # 2.0 FEATURES ---------------------------------------------------------------
@@ -151,9 +151,3 @@ if __name__ == "__main__":
     from server import app
 
     connect_to_db(app)
-
-# test_user = User(fname='Taryn', lname='Lacy', username='TarynL', password='Hazel')
-# test_review = Review(score='1', user_id='1', isbn='123')
-# test_book = Book(isbn="123", title="Carrie", author="King", description="Sad story", genre="fiction", image="test_image")
-# favorites = Category(category='favorites')
-# to_be_read = Category(category='to_be_read')

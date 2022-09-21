@@ -1,6 +1,6 @@
 """CRUD operations."""
 
-from model import db, User, Book, Review, Category, BookCategory, connect_to_db
+from model import db, User, Book, Review, connect_to_db
 
 # FUNCTIONS FOR USERS TABLE --------------------------------------------------
 
@@ -21,10 +21,10 @@ def get_user_by_username(username):
     return User.query.filter(User.username == username).first()
 
 
-def get_user_by_user_id(user_id):
-    """Get a user by user ID."""
+# def get_user_by_user_id(user_id): # NOT CURRENTLY USING
+#     """Get a user by user ID."""
 
-    return User.query.filter(User.user_id == user_id).first()
+#     return User.query.filter(User.user_id == user_id).first()
 
 
 # FUNCTIONS FOR BOOKS TABLE --------------------------------------------------
@@ -46,7 +46,6 @@ def get_book_by_isbn(isbn):
     """Get a book by ISBN."""
 
     return Book.query.filter(Book.isbn == isbn).first()
-    # return Book.query.get(isbn)
 
 
 def get_book_by_review_id(review_id):
@@ -126,17 +125,17 @@ def get_review_by_book_and_user_id(isbn, user_id):
 
 # FUNCTIONS FOR CATEGORIES TABLE ---------------------------------------------
 
-def create_category(category):
-    """Creates and returns a new category."""
+# def create_category(category):
+#     """Creates and returns a new category."""
 
-    category = Category(category=category)
+#     category = Category(category=category)
 
-    return category
+#     return category
 
 
-def add_category_to_book(book):
-    """Add a category to a book."""
-    pass
+# def add_category_to_book(book):
+#     """Add a category to a book."""
+#     pass
 
 # ----------------------------------------------------------------------------
 

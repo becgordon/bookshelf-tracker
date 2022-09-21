@@ -45,13 +45,9 @@ for n in range(0,6):
 
     user = crud.create_user(fname, lname, username, password)
     model.db.session.add(user)
+    model.db.session.commit()
 
-    for num in range(0,4):
-        book = random.choice(books_db)
-        score = random.randint(1,5)
-        review_text = "N/A"
-
-        review = crud.create_review(score, user.user_id, book.isbn)
+    for book in books_db:
+        review = crud.create_review(user.user_id, book.isbn)
         model.db.session.add(review)
-
-model.db.session.commit()
+        model.db.session.commit()

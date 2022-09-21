@@ -76,24 +76,20 @@
         </p>
 {% endfor %}
 
-<script> // edit this script down to be more dry
+<script> 
     
     const logOutButton = document.querySelector('#log_out');
 
-    function logOut() {
+    logOutButton.addEventListener('click', () => {
         window.location = '/logout';
-    }
-    
-    logOutButton.addEventListener('click', logOut);
+    });
 
 
     const sortBySelect = document.querySelector('#sort-select');
 
-    function sortBy() {
-        window.location = ('/sortby');
-    }
-
-    sortBySelect.addEventListener('submit', sortBy) 
+    sortBySelect.addEventListener('submit', () => {
+        window.location = '/sortby';
+    });
 
 </script>
 

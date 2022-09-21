@@ -71,15 +71,13 @@
 
 <p id="isbn" name="{{ book.isbn }}">{{ book.isbn }}</p>
 
-<script> // edit this script down to be more dry
+<script> 
     
     const removeBookButton = document.querySelector('#remove_book');
-
-    function removeBook() {
-        window.location = (`/removebook${document.querySelector('#isbn').attributes.name.value}`);
-    }
     
-    removeBookButton.addEventListener('click', removeBook);
+    removeBookButton.addEventListener('click', () => {
+        window.location = `/removebook${document.querySelector('#isbn').attributes.name.value}`;
+    });
 
 </script>
 
