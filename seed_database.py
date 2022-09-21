@@ -36,13 +36,19 @@ for book in book_data:
 model.db.session.add_all(books_db)
 model.db.session.commit()
 
-# create 3 users and give each user three books
-for n in range(0,6):
-    fname = f'first{n}'
-    lname = f'last{n}'
-    username = f'username{n}'
-    password = 'test'
+# Load user data from users.json
+with open("data/users.json") as users:
+    users_data = json.loads(users.read())
 
+#create users to store in database
+for user in users_data:
+    fname, lname, username = (
+        user['fname'],
+        user['lname'],
+        user['username']
+    )
+
+    password = 'test'
     user = crud.create_user(fname, lname, username, password)
     model.db.session.add(user)
     model.db.session.commit()
