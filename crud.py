@@ -48,11 +48,11 @@ def get_book_by_isbn(isbn):
     return Book.query.filter(Book.isbn == isbn).first()
 
 
-def get_book_by_review_id(review_id):
-    """Get a book by review ID."""
+# def get_book_by_review_id(review_id): # NOT CURRENTLY USING
+#     """Get a book by review ID."""
 
-    review = Review.query.filter(Review.review_id == review_id).first()
-    return review.book 
+#     review = Review.query.filter(Review.review_id == review_id).first()
+#     return review.book 
 
 
 # SORTING BOOKS --------------------------------------------------------------
@@ -105,10 +105,21 @@ def create_review(user_id, isbn):
     return review
 
 
-def get_review_by_user_id(user_id):
-    """Get reviews by user ID."""
+def create_seed_review(user_id, isbn, score, to_be_read, favorites):
+    """Create a review specifically for seed_database.py."""
 
-    return Review.query.filter(Review.user_id == user_id).all() 
+    review = Review(user_id=user_id, 
+                    isbn=isbn, 
+                    score=score, 
+                    to_be_read=to_be_read,
+                    favorites=favorites)
+
+    return review
+
+# def get_review_by_user_id(user_id): # NOT CURRENTLY USING
+#     """Get reviews by user ID."""
+
+#     return Review.query.filter(Review.user_id == user_id).all() 
 
 
 def does_review_exist(user_id, isbn):
@@ -125,7 +136,7 @@ def get_review_by_book_and_user_id(isbn, user_id):
 
 # FUNCTIONS FOR CATEGORIES TABLE ---------------------------------------------
 
-# def create_category(category):
+# def create_category(category): # NOT CURRENTLY USING
 #     """Creates and returns a new category."""
 
 #     category = Category(category=category)
@@ -133,7 +144,7 @@ def get_review_by_book_and_user_id(isbn, user_id):
 #     return category
 
 
-# def add_category_to_book(book):
+# def add_category_to_book(book): # NOT CURRENTLY USING
 #     """Add a category to a book."""
 #     pass
 

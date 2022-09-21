@@ -48,6 +48,14 @@ for n in range(0,6):
     model.db.session.commit()
 
     for book in books_db:
-        review = crud.create_review(user.user_id, book.isbn)
+        score = random.choice([None,1,2,3,4,5])
+        to_be_read = random.choice([True,False])
+        favorites = random.choice([True,False])
+        review = crud.create_seed_review(user.user_id, 
+                                        book.isbn, 
+                                        score, 
+                                        to_be_read, 
+                                        favorites)
+
         model.db.session.add(review)
         model.db.session.commit()
