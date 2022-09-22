@@ -10,7 +10,7 @@
 <button id="remove_book">Remove book from library</button>
 
 <p>
-<form id="category-form" action="/categorizebook{{ book.isbn }}">
+<form id="category-form">
     <label for="category-select">Add book to shelf:</label>
 
     <select name="category" id="category-select">
@@ -84,10 +84,11 @@
     });
 
 
-    function categorizeBook(evt){
-        fetch(`/categorizebook${document.querySelector('#isbn').attributes.name.value}`)
+    function categorizeBook(evt){ // need to work on this some more, bookChangeMessage not appearing
+        fetch(`/categorizebook${document.querySelector('#isbn').attributes.name.value}/${document.querySelector('#category-select').value}`)
         .then((response) => response.text())
         .then((bookChangeMessage) => document.querySelector('#book-change-text').innerText = bookChangeMessage);
+        console.log(BookChangeMessage)
     };
 
     document.querySelector('#category-form').addEventListener('submit', categorizeBook)

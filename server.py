@@ -262,12 +262,11 @@ def rate_book(isbn):
     return redirect(f'/userprofile/{user.username}')
 
 
-@app.route('/categorizebook<isbn>') # needs some editing to work as AJAX request
-def categorize_book(isbn):
+@app.route('/categorizebook<isbn>/<category>') # needs some editing to work as AJAX request
+def categorize_book(isbn, category):
     """Categorize a user's book."""
 
     user = crud.get_user_by_username(session['user_name'])
-    category = request.args.get("category")
     review = crud.get_review_by_book_and_user_id(isbn, user.user_id)
     if category == "To Be Read":
         review.to_be_read = True
@@ -344,9 +343,13 @@ def view_charts(username):
 def get_next_read():
     """Randomly choose the next book a user should read from 'Have Not Read's."""
 
+    next_book_options = []
     user = crud.get_user_by_username(session['user_name'])
-    next_book = random.choice(user.reviews)
+    for review in user.reviews:
+        if review.to_be_read == True:
+            next_book_options.append(review)
 
+    next_book = random.choice(next_book_options)
 
     return (f'{next_book.book.title} by {next_book.book.author}')
 
