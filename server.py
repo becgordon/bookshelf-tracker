@@ -262,22 +262,23 @@ def rate_book(isbn):
     return redirect(f'/userprofile/{user.username}')
 
 
-@app.route('/categorizebook<isbn>')
+@app.route('/categorizebook<isbn>') # needs some editing to work as AJAX request
 def categorize_book(isbn):
     """Categorize a user's book."""
 
     user = crud.get_user_by_username(session['user_name'])
     category = request.args.get("category")
     review = crud.get_review_by_book_and_user_id(isbn, user.user_id)
-    if category == "to-be-read":
+    if category == "To Be Read":
         review.to_be_read = True
-    elif category == "have-read":
+    elif category == "Have Read":
         review.to_be_read = False
-    elif category == "favorites":
+    elif category == "Favorites":
         review.favorites = True
     db.session.commit()
 
-    return redirect(f'/userprofile/{user.username}')
+    return (f'Your book has been successfully added to your "{category}" shelf!')
+    # return redirect(f'/userprofile/{user.username}')
 
 
 @app.route('/shelf')

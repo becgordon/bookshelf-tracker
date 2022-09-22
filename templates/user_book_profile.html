@@ -10,13 +10,13 @@
 <button id="remove_book">Remove book from library</button>
 
 <p>
-<form action="/categorizebook{{ book.isbn }}">
+<form id="category-form" action="/categorizebook{{ book.isbn }}">
     <label for="category-select">Add book to shelf:</label>
 
     <select name="category" id="category-select">
-        <option value="to-be-read">To Be Read</option>
-        <option value="have-read">Have Read</option>
-        <option value="favorites">Favorites</option>
+        <option value="To Be Read">To Be Read</option>
+        <option value="Have Read">Have Read</option>
+        <option value="Favorites">Favorites</option>
     </select>
     <input type="submit">
 </form>
@@ -37,6 +37,8 @@
     </form>
 </p>
 
+<p id="book-change-text"></p>
+
 <h1>{{ book.title }}</h1>
 
 <p>{{ book.author }}</p>
@@ -48,6 +50,8 @@
 {% endif %}
 
 <img src="{{ book.image }}">
+
+<p>Genre: {{ book.genre }}</p>
 
 {% if review.to_be_read == true %}
 <p>
@@ -79,6 +83,14 @@
         window.location = `/removebook${document.querySelector('#isbn').attributes.name.value}`;
     });
 
+
+    function categorizeBook(evt){
+        fetch(`/categorizebook${document.querySelector('#isbn').attributes.name.value}`)
+        .then((response) => response.text())
+        .then((bookChangeMessage) => document.querySelector('#book-change-text').innerText = bookChangeMessage);
+    };
+
+    document.querySelector('#category-form').addEventListener('submit', categorizeBook)
 </script>
 
 {% endblock %}
