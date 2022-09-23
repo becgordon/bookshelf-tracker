@@ -2,6 +2,7 @@
 
 from flask import Flask, render_template, request, flash, session, redirect
 import os
+import re
 import random
 from model import connect_to_db, db
 import requests
@@ -161,7 +162,10 @@ def view_book_profile(volume_id):
     res = requests.get(url, params=payload)
     profile = res.json()
 
-    return render_template('book_profile.html', profile=profile)
+    description = profile['volumeInfo']['description']
+    desc_edit = re.sub("<.>|<..>", "", description)
+
+    return render_template('book_profile.html', profile=profile, desc_edit=desc_edit)
 
 
 @app.route('/addbook/<volume_id>')
@@ -184,13 +188,14 @@ def add_book(volume_id):
         else:
             author = None
         description = book['volumeInfo']['description']
+        desc_edit = re.sub("<.>|<..>", "", description)
         if 'categories' in book['volumeInfo']:
             genre = ' '.join(book['volumeInfo']['categories'])
         else:
             genre = None
         image = book['volumeInfo']['imageLinks']['thumbnail']
         
-        book = crud.create_book(isbn, title, author, description, genre, image)
+        book = crud.create_book(isbn, title, author, desc_edit, genre, image)
 
         db.session.add(book)
 
