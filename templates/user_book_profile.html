@@ -85,13 +85,15 @@
 
 
     function categorizeBook(evt){ // need to work on this some more, bookChangeMessage not appearing
+        evt.preventDefault();
         fetch(`/categorizebook${document.querySelector('#isbn').attributes.name.value}/${document.querySelector('#category-select').value}`)
         .then((response) => response.text())
-        .then((bookChangeMessage) => document.querySelector('#book-change-text').innerText = bookChangeMessage);
-        console.log(BookChangeMessage)
-    };
+        .then((bookChangeMessage) => { 
+            document.querySelector('#book-change-text').innerText = bookChangeMessage;
+            })       
+    }
 
-    document.querySelector('#category-form').addEventListener('submit', categorizeBook)
+    document.querySelector('#category-form').addEventListener('submit', categorizeBook);
 </script>
 
 {% endblock %}

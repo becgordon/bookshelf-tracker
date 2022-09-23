@@ -281,7 +281,7 @@ def categorize_book(isbn, category):
         review.favorites = True
     db.session.commit()
 
-    return (f'Your book has been successfully added to your "{category}" shelf!')
+    return f'Your book has been successfully added to your "{category}" shelf!'
     # return redirect(f'/userprofile/{user.username}')
 
 
