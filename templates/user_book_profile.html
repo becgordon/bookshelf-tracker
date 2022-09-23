@@ -84,7 +84,7 @@
     });
 
 
-    function categorizeBook(evt){ // need to work on this some more, bookChangeMessage not appearing
+    function categorizeBook(evt){
         evt.preventDefault();
         fetch(`/categorizebook${document.querySelector('#isbn').attributes.name.value}/${document.querySelector('#category-select').value}`)
         .then((response) => response.text())

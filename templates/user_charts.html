@@ -7,31 +7,11 @@
 }
 </style>
 
-<nav class="navbar navbar-expand-lg bg-light">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="/userprofile/{{ user.username }}">Bookshelf Tracker</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <div class="navbar-nav">
-        <a class="nav-link" href="/userprofile/{{ user.username }}">Profile</a>
-        <a class="nav-link" href="/usercharts/{{ user.username }}">Charts</a>
-        <a class="nav-link" href="/logout">Log Out</a>
-        <a class="nav-link active" aria-current="page" href="#">Home</a>
-        <form class="d-flex" role="search">
-          <input class="form-control me-2" type="search" placeholder="Search for a Book" aria-label="Search">
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</nav>
 {% endblock %}
 
 {% block body %}
 
-<!-- <a href="/userprofile/{{ session['user_name'] }}">Go back to profile.</a> -->
+<a href="/userprofile/{{ session['user_name'] }}">Go back to profile.</a>
 
 <h1>{{ user.fname }}'s Charts</h1>
 
