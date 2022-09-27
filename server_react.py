@@ -95,6 +95,21 @@ def view_user_profile(username):
 
     user = crud.get_user_by_username(username)
 
+    if user and 'user_name' in session and session['user_name'] == username:
+        return render_template('user_profile.html', user=user)
+    else:
+        return redirect("/login")
+
+
+@app.route('/userbooks.json')
+def view_user_library():
+    """Return a JSON response with user's library."""
+
+    if session:
+        username = session.get("user_name")
+
+    user = crud.get_user_by_username(username)
+
     user_books = []
 
     if user and 'user_name' in session and session['user_name'] == username:
@@ -120,57 +135,57 @@ def log_out():
 # BOOK ROUTES ----------------------------------------------------------------
 
 
-# @app.route('/booksearchresults')
-# def submit_book_search():
-#     """Takes in search term an returns results that match."""
+@app.route('/booksearchresults.json')
+def book_search():
+    """Takes in search term an returns results that match."""
 
-#     search_term = request.args.get('search_term')
+    search_term = request.args.get('search_term')
 
-#     url = 'https://www.googleapis.com/books/v1/volumes'
-#     payload = {'apikey': BOOKS_API_KEY, 'q': search_term}
+    url = 'https://www.googleapis.com/books/v1/volumes'
+    payload = {'apikey': BOOKS_API_KEY, 'q': search_term}
     
-#     res = requests.get(url, params=payload)
-#     data = res.json()
+    res = requests.get(url, params=payload)
+    data = res.json()
 
-#     if 'items' in data:
-#         books = data['items']
-#     else:
-#         books = []
+    if 'items' in data:
+        books = data['items']
+    else:
+        books = []
 
-#     search_results = []
+    search_results = []
 
-#     for book in books:
-#         isbn = ''.join(book['volumeInfo']['industryIdentifiers'][0]['identifier'])
-#         # if not crud.get_book_by_isbn(isbn):
-#         title = book['volumeInfo']['title']
-#         if 'authors' in book['volumeInfo']:
-#             author = ' '.join(book['volumeInfo']['authors'])
-#         else:
-#             author = None
-#         if 'description' in book['volumeInfo']:
-#             description = book['volumeInfo']['description']
-#             desc_edit = re.sub("<.>|<..>", "", description)
-#         else:
-#             description = None
-#             desc_edit = None
-#         if 'categories' in book['volumeInfo']:
-#             genre = ' '.join(book['volumeInfo']['categories'])
-#         else:
-#             genre = None
-#         if 'imageLinks' in book['volumeInfo']:
-#             image = book['volumeInfo']['imageLinks']['thumbnail']
-#         else:
-#             image = None
+    for book in books:
+        isbn = ''.join(book['volumeInfo']['industryIdentifiers'][0]['identifier'])
+        # if not crud.get_book_by_isbn(isbn):
+        title = book['volumeInfo']['title']
+        if 'authors' in book['volumeInfo']:
+            author = ' '.join(book['volumeInfo']['authors'])
+        else:
+            author = None
+        if 'description' in book['volumeInfo']:
+            description = book['volumeInfo']['description']
+            desc_edit = re.sub("<.>|<..>", "", description)
+        else:
+            description = None
+            desc_edit = None
+        if 'categories' in book['volumeInfo']:
+            genre = ' '.join(book['volumeInfo']['categories'])
+        else:
+            genre = None
+        if 'imageLinks' in book['volumeInfo']:
+            image = book['volumeInfo']['imageLinks']['thumbnail']
+        else:
+            image = None
 
-#         search_results.append({'isbn': isbn,
-#                                 'title': title,
-#                                 'author': author,
-#                                 'description': desc_edit,
-#                                 'genre': genre,
-#                                 'image': image
-#                                 })
+        search_results.append({'isbn': isbn,
+                                'title': title,
+                                'author': author,
+                                'description': desc_edit,
+                                'genre': genre,
+                                'image': image
+                                })
 
-#     return jsonify(search_results)
+    return jsonify(search_results)
 
 
 @app.route('/booksearchresults')
