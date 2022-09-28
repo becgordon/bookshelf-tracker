@@ -165,6 +165,10 @@ def view_book_profile(volume_id):
     description = profile['volumeInfo']['description']
     desc_edit = re.sub("<.>|<..>", "", description)
 
+    # if requests.get(f"https://bookshop.org/books/{profile['volumeInfo']['title']}/{''.join(profile['volumeInfo']['industryIdentifiers'][1]['identifier'])}") == '200':
+    #     purchase = True
+    # else:
+    #     purchase = False
     return render_template('book_profile.html', profile=profile, desc_edit=desc_edit)
 
 
@@ -179,7 +183,7 @@ def add_book(volume_id):
     book = res.json()
     print(book)
 
-    isbn = ''.join(book['volumeInfo']['industryIdentifiers'][0]['identifier'])
+    isbn = ''.join(book['volumeInfo']['industryIdentifiers'][1]['identifier'])
    
     if not crud.get_book_by_isbn(isbn):
         title = book['volumeInfo']['title']
@@ -282,7 +286,6 @@ def categorize_book(isbn, category):
     db.session.commit()
 
     return f'Your book has been successfully added to your "{category}" shelf!'
-    # return redirect(f'/userprofile/{user.username}')
 
 
 @app.route('/shelf')
@@ -356,7 +359,7 @@ def get_next_read():
 
     next_book = random.choice(next_book_options)
 
-    return (f'{next_book.book.title} by {next_book.book.author}')
+    return next_book.book.image
 
 
 # ----------------------------------------------------------------------------

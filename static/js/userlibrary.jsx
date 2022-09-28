@@ -13,7 +13,7 @@ function UserBook(props) {
       </div>
     );
   }
-// needs image to go to correct page, not rendering correctly
+  
 
 function UserBookContainer() {
    const [userBooks, setUserBooks] = React.useState([]);

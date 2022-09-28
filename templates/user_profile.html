@@ -5,6 +5,7 @@
 {% block head %}{% endblock %}
 {% block body %}
 
+<!-- <div id="qr-reader" style="width: 600px"></div> -->
 
 <h1>Welcome back, {{ user.fname }}!</h1>
 
@@ -60,10 +61,10 @@
     --------------------------------------------------
 </p>
 
-<div id="root"></div>
+<!-- <div id="root"></div> -->
 
 
-<!-- <h2>My Library</h2>
+<h2>My Library</h2>
 
 {% if not user.reviews %}
 <p>Looks like your library is empty!</p>
@@ -86,23 +87,33 @@
         <p>
             --------------------------------------------------
         </p>
-{% endfor %} -->
+{% endfor %}
 
 {% endblock %}
 
 {% block js %}
 
 <script type="text/jsx" src="/static/js/userlibrary.jsx"></script>
+<!-- <script type="text/jsx" src="/static/js/searchresults.jsx"></script> -->
+<!-- include the library -->
+<!-- <script src="https://unpkg.com/html5-qrcode@2.0.9/dist/html5-qrcode.min.js"></script> -->
 
 <script> 
     
     function getNextRead(evt) {
         fetch('/getnextread')
         .then((response) => response.text())
-        .then((nextRead) => document.querySelector('#next-read-text').innerText = nextRead)
+        .then((nextRead) => document.querySelector('#next-read-text').innerHTML = `<img src=${nextRead} />`)
         };
 
     document.querySelector('#next-read').addEventListener('click', getNextRead)
+
+    /*function onScanSuccess(decodedText, decodedResult) {
+        console.log(`Code scanned = ${decodedText}`, decodedResult);
+    }
+    const html5QrcodeScanner = new Html5QrcodeScanner(
+        "qr-reader", { fps: 10, qrbox: 250 });
+    html5QrcodeScanner.render(onScanSuccess); */
 
 </script>
 
