@@ -6,38 +6,36 @@
 
 
 <p>
-    <a href="https://bookshop.org/books/{{ profile['volumeInfo']['title'] }}/{{ profile['volumeInfo']['industryIdentifiers'][1]['identifier']|join('') }}">Purchase this book.</a>
+    <a href="https://bookshop.org/books?keywords={{ title }} {{ author }}">
+        Purchase this book.
+    </a>
 </p>
 
 
 <button id="add_book">Add this book to your library</button>
 
-<h2>{{ profile['volumeInfo']['title'] }}</h2>
+<h2>{{ title }}</h2>
 
-{% if 'authors' in profile['volumeInfo'] %}
-<p> {{ profile['volumeInfo']['authors']|join(' ') }}</p>
-{% endif %}
+<p> {{ author }}</p>
 
-<p>
-    <img src="{{ profile['volumeInfo']['imageLinks']['thumbnail'] }}">
-</p>
-
-{% if 'categories' in profile['volumeInfo'] %}
-<p>
-    Genre: {{ profile['volumeInfo']['categories']|join(' ') }}
-</p>
-{% endif %}
 
 <p>
-    {{ desc_edit }}
+    <img src="{{ image }}">
 </p>
 
-{% if 'industryIdentifiers' in profile['volumeInfo'] %}
 <p>
-    ISBN: {{ profile['volumeInfo']['industryIdentifiers'][1]['identifier']|join('') }}
+    Genre: {{ genre }}
 </p>
-{% endif %}
-<p id="volume_id" name="{{ profile['id'] }}"></p>
+
+<p>
+    {{ description }}
+</p>
+
+<p>
+    ISBN: {{ isbn }}
+</p>
+
+<p id="volume_id" name="{{ volume_id }}"></p>
 
 
 <script> // edit this script down to be more dry

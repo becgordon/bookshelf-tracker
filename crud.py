@@ -1,6 +1,7 @@
 """CRUD operations."""
 
 from model import db, User, Book, Review, connect_to_db
+import re
 
 # FUNCTIONS FOR USERS TABLE --------------------------------------------------
 
@@ -19,12 +20,6 @@ def get_user_by_username(username):
     """Get a user by username."""
 
     return User.query.filter(User.username == username).first()
-
-
-# def get_user_by_user_id(user_id): # NOT CURRENTLY USING
-#     """Get a user by user ID."""
-
-#     return User.query.filter(User.user_id == user_id).first()
 
 
 # FUNCTIONS FOR BOOKS TABLE --------------------------------------------------
@@ -48,11 +43,27 @@ def get_book_by_isbn(isbn):
     return Book.query.filter(Book.isbn == isbn).first()
 
 
-# def get_book_by_review_id(review_id): # NOT CURRENTLY USING
-#     """Get a book by review ID."""
+def sort_json_response(response):
+    """Take in a Google Books JSON request and sort it into variables."""
 
-#     review = Review.query.filter(Review.review_id == review_id).first()
-#     return review.book 
+    title = response['volumeInfo']['title']
+    if 'authors' in response['volumeInfo']:
+        author = ' '.join(response['volumeInfo']['authors'])
+    else:
+        author = None
+    image = response['volumeInfo']['imageLinks']['thumbnail']
+    if 'categories' in response['volumeInfo']:
+        genre = ' '.join(response['volumeInfo']['categories'])
+    else:
+        genre = None
+    if 'industryIdentifiers' in response['volumeInfo']:
+        isbn = ''.join(response['volumeInfo']['industryIdentifiers'][1]['identifier'])
+    else:
+        isbn = None
+    description = re.sub("<.>|<..>", "", response['volumeInfo']['description'])
+    volume_id = response['id']
+
+    return title, author, image, genre, isbn, description, volume_id
 
 
 # SORTING BOOKS --------------------------------------------------------------
@@ -116,11 +127,6 @@ def create_seed_review(user_id, isbn, score, to_be_read, favorites):
 
     return review
 
-# def get_review_by_user_id(user_id): # NOT CURRENTLY USING
-#     """Get reviews by user ID."""
-
-#     return Review.query.filter(Review.user_id == user_id).all() 
-
 
 def does_review_exist(user_id, isbn):
     """Check if a user has a review for a particular book."""
@@ -133,20 +139,6 @@ def get_review_by_book_and_user_id(isbn, user_id):
 
     return Review.query.filter((Review.user_id == user_id) & (Review.isbn == isbn)).first()
 
-
-# FUNCTIONS FOR CATEGORIES TABLE ---------------------------------------------
-
-# def create_category(category): # NOT CURRENTLY USING
-#     """Creates and returns a new category."""
-
-#     category = Category(category=category)
-
-#     return category
-
-
-# def add_category_to_book(book): # NOT CURRENTLY USING
-#     """Add a category to a book."""
-#     pass
 
 # ----------------------------------------------------------------------------
 

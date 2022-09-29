@@ -13,6 +13,24 @@
     </p>
 </form>
 
+<form method="GET" action="/booksearchresults">
+    <p>
+        Advanced Search: <input type="text" name="search_term" placeholder="search term">
+        <select name="search-type" id="search-type-select">
+            <option value="intitle">In Title</option>
+            <option value="inauthor">In Author</option>
+            <option value="subject">Subject</option>
+            <option value="publisher">Publisher</option>
+        </select>
+        <input type="text" name="advanced_search_term" placeholder="search by">
+        <input type="submit">
+    </p>
+</form>
+
+{% if books == [] %}
+<h2>Hmmm, it looks like there weren't any results for that search term. Please try again.</h2>
+{% endif %}
+
 {% for book in books %}
     
 <h2>{{ book['volumeInfo']['title'] }}</h2>
@@ -28,6 +46,7 @@
     </a>
 </p>
 {% endif %}
+<p>--------------------------------------------------</p>
 {% endfor %}
 
 {% endblock %}

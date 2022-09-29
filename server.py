@@ -14,7 +14,6 @@ app = Flask(__name__)
 app.secret_key = "dev"
 
 BOOKS_API_KEY = os.environ['GOOGLE_BOOKS_KEY']
-# GOOGLE_MAPS_KEY = os.environ['GOOGLE_MAPS_KEY']
 
 app.jinja_env.undefined = StrictUndefined
 
@@ -27,24 +26,6 @@ def welcome_page():
     """View welcome page."""
     
     return render_template('welcome_page.html')
-
-
-# @app.route('/findbookstore')
-# def display_map():
-#     """Display map."""
-    
-#     return render_template('bookstore_map.html', 
-#                             GOOGLE_MAPS_KEY=GOOGLE_MAPS_KEY)
-
-
-# @app.route('/findbookstore', methods=['POST'])
-# def find_bookstore():
-#     """Find bookstores based on location."""
-    
-#     zipcode = request.form.get('zipcode')
-
-#     return render_template('bookstore_map.html', 
-#                             GOOGLE_MAPS_KEY=GOOGLE_MAPS_KEY)
 
 
 # ACCOUNT ROUTES -------------------------------------------------------------
@@ -71,11 +52,11 @@ def log_in():
     user = crud.get_user_by_username(username)
 
     if not user or user.password != password:
-        flash("The email or password entered were incorrect.")
-        return redirect('/login')
+        flash("The email or password entered were incorrect.") # not currently flashing message
+        return render_template('login.html')
     else:
         session['user_name'] = user.username
-        flash("Successfully logged in!")
+        flash("Successfully logged in!") # not currently flashing message
         return redirect(f'/userprofile/{user.username}')
 
 
@@ -103,7 +84,7 @@ def create_account():
         user = crud.create_user(fname, lname, username, password)
         db.session.add(user)
         db.session.commit()
-        flash('Account creation successful!')
+        flash('Account creation successful!') # not currently flashing message
 
     return redirect('/login')
 
@@ -136,15 +117,18 @@ def submit_book_search():
     """Takes in search term an returns results that match."""
 
     search_term = request.args.get('search_term')
+    advanced_search_term = request.args.get('advanced_search_term')
+    search_type = request.args.get('search-type')
 
     url = 'https://www.googleapis.com/books/v1/volumes'
-    payload = {'apikey': BOOKS_API_KEY, 'q': search_term}
-    
-    res = requests.get(url, params=payload)
-    data = res.json()
+    payload = {'apikey': BOOKS_API_KEY, 
+                'q': search_term, 
+                f'{search_type}': advanced_search_term}
 
-    if 'items' in data:
-        books = data['items']
+    response = (requests.get(url, params=payload)).json()
+
+    if 'items' in response:
+        books = response['items']
     else:
         books = []
     
@@ -153,23 +137,37 @@ def submit_book_search():
                             searchterm=search_term)
 
 
+@app.route('/advancedbooksearch')
+def view_advanced_book_search():
+    """View advanced book search page."""
+
+    return render_template('advanced_book_search.html')
+
+
 @app.route('/bookprofile/<volume_id>')
 def view_book_profile(volume_id):
     """View a particular book's profile."""
     
     url = f'https://www.googleapis.com/books/v1/volumes/{volume_id}'
     payload = {'apikey': BOOKS_API_KEY}
-    res = requests.get(url, params=payload)
-    profile = res.json()
+    response = (requests.get(url, params=payload)).json()
 
-    description = profile['volumeInfo']['description']
-    desc_edit = re.sub("<.>|<..>", "", description)
+    (title, 
+    author, 
+    image, 
+    genre, 
+    isbn, 
+    description, 
+    volume_id) = crud.sort_json_response(response)
 
-    # if requests.get(f"https://bookshop.org/books/{profile['volumeInfo']['title']}/{''.join(profile['volumeInfo']['industryIdentifiers'][1]['identifier'])}") == '200':
-    #     purchase = True
-    # else:
-    #     purchase = False
-    return render_template('book_profile.html', profile=profile, desc_edit=desc_edit)
+    return render_template('book_profile.html',
+                            title=title,
+                            author=author,
+                            image=image,
+                            genre=genre,
+                            isbn=isbn,
+                            volume_id=volume_id,
+                            description=description)
 
 
 @app.route('/addbook/<volume_id>')
@@ -179,28 +177,18 @@ def add_book(volume_id):
     url = f'https://www.googleapis.com/books/v1/volumes/{volume_id}'
     payload = {'apikey': BOOKS_API_KEY}
 
-    res = requests.get(url, params=payload)
-    book = res.json()
-    print(book)
+    response = (requests.get(url, params=payload)).json()
 
-    isbn = ''.join(book['volumeInfo']['industryIdentifiers'][1]['identifier'])
+    (title, 
+    author, 
+    image, 
+    genre, 
+    isbn, 
+    description, 
+    volume_id) = crud.sort_json_response(response)
    
     if not crud.get_book_by_isbn(isbn):
-        title = book['volumeInfo']['title']
-        if 'authors' in book['volumeInfo']:
-            author = ' '.join(book['volumeInfo']['authors'])
-        else:
-            author = None
-        description = book['volumeInfo']['description']
-        desc_edit = re.sub("<.>|<..>", "", description)
-        if 'categories' in book['volumeInfo']:
-            genre = ' '.join(book['volumeInfo']['categories'])
-        else:
-            genre = None
-        image = book['volumeInfo']['imageLinks']['thumbnail']
-        
-        book = crud.create_book(isbn, title, author, desc_edit, genre, image)
-
+        book = crud.create_book(isbn, title, author, description, genre, image)
         db.session.add(book)
 
     user = crud.get_user_by_username(session['user_name'])
@@ -210,7 +198,7 @@ def add_book(volume_id):
         db.session.add(review)
         db.session.commit()
     else:
-        flash("You've already added this book.")
+        flash("You've already added this book.") # not currently flashing message
         
     return redirect(f'/userprofile/{user.username}')
 
@@ -243,7 +231,6 @@ def sort_books():
     """Sorts a user's books by user's selection."""
 
     user = crud.get_user_by_username(session['user_name'])
-    
     sort_by = request.args.get("sort")
 
     if sort_by == "alphabetical by title":

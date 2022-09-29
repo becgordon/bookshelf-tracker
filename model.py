@@ -43,10 +43,6 @@ class Book(db.Model):
     image = db.Column(db.String)
     
     reviews = db.relationship("Review", back_populates="book") 
-    
-    # categories = db.relationship('Category', 
-    #                             secondary="books_categories", 
-    #                             back_populates="books")
 
     def __repr__(self):
         """Show info about book."""
@@ -77,58 +73,6 @@ class Review(db.Model):
         """Show info about review."""
 
         return f'<Review review_id={self.review_id} user_id={self.user_id}>'
-
-
-# CLASS CATEGORY -------------------------------------------------------------
-
-
-# class Category(db.Model):
-#     """A category of book."""
-#     __tablename__ = 'categories'
-
-#     category_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-#     category = db.Column(db.String)
-
-#     books = db.relationship("Book", 
-#                             secondary="books_categories", 
-#                             back_populates='categories')
-
-#     def __repr__(self):
-#         """Show info about a category."""
-
-#         return f'<Category category_id={self.category_id} {self.category}>'
-
-
-# # ASSOCIATION TABLES ---------------------------------------------------------
-
-# class BookCategory(db.Model):
-#     """Category of a specific book."""
-
-#     __tablename__ = 'books_categories'
-
-#     book_category_id = db.Column(db.Integer, primary_key=True)
-#     isbn = db.Column(db.String, db.ForeignKey("books.isbn"), nullable=False)
-#     category_id = db.Column(db.Integer, 
-#                             db.ForeignKey("categories.category_id"), 
-#                             nullable=False)
-    
-#     def __repr__(self):
-#         """Show info about a BookCategory."""
-
-#         return f'<BookCategory isbn={self.isbn} category_id={self.category_id}>'
-
-
-# 2.0 FEATURES ---------------------------------------------------------------
-
-
-# class Trigger(db.Model): # 2.0 Feature
-#     """A trigger warning for book."""
-#     pass
-
-
-# class BookTrigger(db.Model): # 2.0 Feature
-#     """Trigger of a specific book."""
-#     pass
 
 
 # ----------------------------------------------------------------------------
