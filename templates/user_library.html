@@ -5,6 +5,10 @@
 {% block body %}
 
 <p>
+    <img src="{{ viewed_user.profile_image }}" height="75px"> 
+</p>
+
+<p>
     <a href="/userprofile/{{ session['user_name'] }}">Go back to profile.</a>
 </p>
 
@@ -13,6 +17,22 @@
 {% if not viewed_user.reviews %}
 <p>Looks like this library is empty!</p>
 {% endif %}
+
+<p>
+    <h2>Currently Reading</h2>
+    {% if not current_reads %}
+    <p>No current read!</p>
+    {% endif %}
+    {% for review in current_reads %}
+        <a href="/user/userbook{{ review.book.isbn }}">
+            <img src="{{ review.book.image }}" height="200px">
+        </a>
+    {% endfor %}
+</p>
+
+<p>
+    --------------------------------------------------
+</p>
 
 {% for review in viewed_user.reviews %}
         <h3>{{ review.book.title }}</h3>

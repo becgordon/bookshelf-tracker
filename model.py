@@ -65,6 +65,7 @@ class Review(db.Model):
     score = db.Column(db.Integer)
     to_be_read = db.Column(db.Boolean)
     favorites = db.Column(db.Boolean)
+    current_read = db.Column(db.Boolean, server_default='False')
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
     isbn = db.Column(db.String, db.ForeignKey('books.isbn'))

@@ -1,11 +1,11 @@
 [
-    {"fname":"Beverly", "lname":"Marsh", "username":"BevM"},
+    {"fname":"Beverly", "lname":"Marsh", "username":"BevM", "profile_image":"/static/images/BevM.jpg"},
 
-    {"fname":"Jack", "lname":"Torance", "username":"JackT"},
+    {"fname":"Jack", "lname":"Torance", "username":"JackT", "profile_image":"/static/images/JackT.jpg"},
 
-    {"fname":"Paul", "lname":"Edgecomb", "username":"PaulE"},
+    {"fname":"Paul", "lname":"Edgecomb", "username":"PaulE", "profile_image":"/static/images/PaulE.jpg"},
 
-    {"fname":"Annie", "lname":"Wilkes", "username":"AnnieW"},
+    {"fname":"Annie", "lname":"Wilkes", "username":"AnnieW", "profile_image":"/static/images/AnnieW.jpg"},
 
-    {"fname":"Holly", "lname":"Gibney", "username":"HollyG"}
+    {"fname":"Holly", "lname":"Gibney", "username":"HollyG", "profile_image":"/static/images/HollyG.jpg"}
 ]

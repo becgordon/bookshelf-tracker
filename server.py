@@ -99,9 +99,13 @@ def view_user_profile(username):
     """View a particular user's profile."""
 
     user = crud.get_user_by_username(username)
+    current_reads = []
+    for review in user.reviews:
+        if review.current_read == True:
+            current_reads.append(review)
 
     if user and 'user_name' in session and session['user_name'] == username:
-        return render_template('user_profile.html', user=user)
+        return render_template('user_profile.html', user=user, current_reads=current_reads)
     else:
         return redirect("/login")
 
@@ -147,13 +151,35 @@ def update_profile_view(username):
     
     if profile_view == 'Yes':
         view = True
+        flash('Your library can now be viewed publicly.')
     else:
         view = False
+        flash('Your library is hidden from prying eyes.')
     
     user.profile_view = view
     db.session.commit()
 
     return redirect(f'/userprofile/{user.username}')
+
+
+@app.route('/updatepassword/<username>')
+def update_password(username):
+    """Update a user's password."""
+    
+    user = crud.get_user_by_username(username)
+
+    if user and 'user_name' in session and session['user_name'] == username:
+        current_password = request.args.get('current-password')
+        new_password = request.args.get('new-password')
+
+        if current_password == user.password:
+            user.password = new_password
+            db.session.commit()
+            flash('Your password was updated successfully.')
+            return redirect(f'/userprofile/{user.username}')
+        else:
+            flash("Your current password is not correct. Please try again.")
+            return render_template('user_settings.html', user=user)
 
 
 @app.route('/logout') 
@@ -169,8 +195,14 @@ def view_user(username):
     """View another user's library."""
 
     viewed_user = crud.get_user_by_username(username)
+    current_reads = []
+    for review in viewed_user.reviews:
+        if review.current_read == True:
+            current_reads.append(review)
 
-    return render_template('user_library.html', viewed_user=viewed_user)
+    return render_template('user_library.html', 
+                            viewed_user=viewed_user, 
+                            current_reads=current_reads)
 
 
 # BOOK ROUTES ----------------------------------------------------------------
@@ -421,6 +453,21 @@ def get_next_read():
     next_book = random.choice(next_book_options)
 
     return next_book.book.image
+
+
+@app.route('/currentread/<isbn>')
+def set_current_read(isbn):
+    """Set a book as current read."""
+
+    user = crud.get_user_by_username(session['user_name'])
+    review = crud.get_review_by_book_and_user_id(isbn, user.user_id)
+    if review.current_read == False:
+        review.current_read = True
+    else: 
+        review.current_read = False
+    db.session.commit()
+
+    return redirect(f'/userprofile/{user.username}')
 
 
 # ----------------------------------------------------------------------------

@@ -4,9 +4,14 @@
 
 {% block body %}
 
+<p>
+    <a href="/userprofile/{{ session['user_name'] }}">Go back to profile.</a>
+</p>
+
 <h1>View all users.</h1>
 
 {% for user in users %}
+<img src="{{user.profile_image }}" height="75px">
 <p>{{ user.username }}: <a href="/userlibrary/{{ user.username }}">View Profile</a></p>
 {% endfor %}
 

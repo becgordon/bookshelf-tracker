@@ -92,6 +92,21 @@
 
 <!-- <div id="root"></div> -->
 
+<p>
+    <h2>Currently Reading</h2>
+    {% if not current_reads %}
+    <p>No current read!</p>
+    {% endif %}
+    {% for review in current_reads %}
+        <a href="/user/userbook{{ review.book.isbn }}">
+            <img src="{{ review.book.image }}" height="200px">
+        </a>
+    {% endfor %}
+</p>
+
+<p>
+    --------------------------------------------------
+</p>
 
 <h2>My Library</h2>
 

@@ -16,6 +16,18 @@ def create_user(fname, lname, username, password):
     return user
 
 
+def create_seed_user(fname, lname, username, password, profile_image):
+    """Create a user specifically for seed_database.py."""
+
+    user = User(fname=fname, 
+            lname=lname, 
+            username=username, 
+            password=password,
+            profile_image=profile_image)
+    
+    return user
+
+
 def get_user_by_username(username):
     """Get a user by username."""
 

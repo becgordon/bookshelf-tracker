@@ -3,6 +3,7 @@
 {% block title %}{% endblock %}
 
 {% block body %}
+
 <p>
 <a href="/userprofile/{{ session['user_name'] }}">Go back to profile.</a>
 </p>
@@ -35,6 +36,15 @@
         </select>
         <input type="submit">
     </form>
+</p>
+
+<p> 
+    {% if review.current_read == False %}
+    <a href="/currentread/{{ book.isbn }}">Set as current read.</a>
+    {% endif %}
+    {% if review.current_read == True %}
+    <a href="/currentread/{{ book.isbn }}">Finished reading.</a>
+    {% endif %}
 </p>
 
 <p id="book-change-text"></p>
