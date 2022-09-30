@@ -22,10 +22,10 @@ def get_user_by_username(username):
     return User.query.filter(User.username == username).first()
 
 
-def get_all_users():
+def get_all_viewable_users(user):
     """Get all users."""
 
-    return User.query.all()
+    return User.query.filter((User.profile_view == True) & (User.username != user.username)).all()
 
 
 # FUNCTIONS FOR BOOKS TABLE --------------------------------------------------

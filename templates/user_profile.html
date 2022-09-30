@@ -7,13 +7,13 @@
 
 <!-- <div id="qr-reader" style="width: 600px"></div> -->
 
-<h1>Welcome back, {{ user.fname }}!</h1>
-
-<!-- Image not displaying -->
-
 <p>
-    <img href="{{ user.profile_image }}"> 
+    <a href="/usersettings/{{ session['user_name'] }}">
+        <img src="{{ user.profile_image }}" height="75px"> 
+    </a>
 </p>
+
+<h1>Welcome back, {{ user.fname }}!</h1>
 
 <a href="/logout">Log Out</a>
 
@@ -27,7 +27,7 @@
 
 <form method="GET" action="/booksearchresults">
     <p>
-        Search for a Book: <input type="text" name="search_term">
+        Search for a Book: <input type="text" name="search-term">
         <input type="submit">
     </p>
 </form>
@@ -35,14 +35,14 @@
 
 <form method="GET" action="/booksearchresults">
     <p>
-        Advanced Search: <input type="text" name="search_term" placeholder="search term">
+        Advanced Search: <input type="text" name="search-term" placeholder="search term">
         <select name="search-type" id="search-type-select">
             <option value="intitle">In Title</option>
             <option value="inauthor">In Author</option>
             <option value="subject">Subject</option>
             <option value="publisher">Publisher</option>
         </select>
-        <input type="text" name="advanced_search_term" placeholder="search by">
+        <input type="text" name="advanced-search-term" placeholder="search by">
         <input type="submit">
     </p>
 </form>

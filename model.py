@@ -19,6 +19,7 @@ class User(db.Model):
     username = db.Column(db.String(25), nullable=False, unique=True)
     password = db.Column(db.String(50), nullable=False)
     profile_image = db.Column(db.String, server_default='/static/images/default_profile.png')
+    profile_view = db.Column(db.Boolean, server_default='True')
 
     reviews = db.relationship('Review', back_populates='user') 
 
@@ -42,7 +43,7 @@ class Book(db.Model):
     description = db.Column(db.Text)
     genre = db.Column(db.String)
     image = db.Column(db.String)
-    volume_id =db.Column(db.String)
+    volume_id = db.Column(db.String)
     
     reviews = db.relationship("Review", back_populates="book") 
 

@@ -1,4 +1,4 @@
 """Git should ignore these files."""
 secrets.sh
 env
-book_data.py
+.DS_Store

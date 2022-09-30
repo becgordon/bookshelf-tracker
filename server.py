@@ -56,11 +56,11 @@ def log_in():
     user = crud.get_user_by_username(username)
 
     if not user or user.password != password:
-        flash("The email or password entered were incorrect.") # not currently flashing message
+        flash("The email or password entered were incorrect.")
         return render_template('login.html')
     else:
         session['user_name'] = user.username
-        flash("Successfully logged in!") # not currently flashing message
+        flash("Successfully logged in!")
         return redirect(f'/userprofile/{user.username}')
 
 
@@ -84,13 +84,14 @@ def create_account():
 
     if user:
         flash("Sorry! That username is already taken.")
+        return render_template('create_account.html')
     else:
         user = crud.create_user(fname, lname, username, password)
         db.session.add(user)
         db.session.commit()
-        flash('Account creation successful!') # not currently flashing message
+        flash('Account creation successful!')
 
-    return redirect('/login')
+    return render_template('login.html')
 
 
 @app.route('/userprofile/<username>')
@@ -131,9 +132,28 @@ def update_profile_picture(username):
                                             cloud_name=CLOUD_NAME)
         saved_profile_picture = profile_picture['secure_url']
         user.profile_image = saved_profile_picture
+        db.session.commit()
         return redirect(f'/userprofile/{user.username}')
     else:
         return redirect("/login")
+
+
+@app.route('/updateprofileview/<username>')
+def update_profile_view(username):
+    """Update whether a user's library can be view by others."""
+
+    user = crud.get_user_by_username(session['user_name'])
+    profile_view = request.args.get('profile-view')
+    
+    if profile_view == 'Yes':
+        view = True
+    else:
+        view = False
+    
+    user.profile_view = view
+    db.session.commit()
+
+    return redirect(f'/userprofile/{user.username}')
 
 
 @app.route('/logout') 
@@ -160,7 +180,8 @@ def view_user(username):
 def view_all_users():
     """View all users on platform."""
 
-    users = crud.get_all_users()
+    user = crud.get_user_by_username(session['user_name'])
+    users = crud.get_all_viewable_users(user)
 
     return render_template('all_users.html', users=users)
 
@@ -169,8 +190,8 @@ def view_all_users():
 def submit_book_search():
     """Takes in search term an returns results that match."""
 
-    search_term = request.args.get('search_term')
-    advanced_search_term = request.args.get('advanced_search_term')
+    search_term = request.args.get('search-term')
+    advanced_search_term = request.args.get('advanced-search-term')
     search_type = request.args.get('search-type')
 
     url = 'https://www.googleapis.com/books/v1/volumes'
