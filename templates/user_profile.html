@@ -9,7 +9,21 @@
 
 <h1>Welcome back, {{ user.fname }}!</h1>
 
+<!-- Image not displaying -->
+
+<p>
+    <img href="{{ user.profile_image }}"> 
+</p>
+
 <a href="/logout">Log Out</a>
+
+<p>
+    <a href="/usersettings/{{ session['user_name'] }}">Settings</a>
+</p>
+
+<p>
+    <a href="/viewallusers">View other user's profiles.</a>
+</p>
 
 <form method="GET" action="/booksearchresults">
     <p>

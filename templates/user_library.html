@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ viewed_user.username }}'s Library{% endblock %}
+
+{% block body %}
+
+<p>
+    <a href="/userprofile/{{ session['user_name'] }}">Go back to profile.</a>
+</p>
+
+<h2>{{ viewed_user.username }}'s Library</h2>
+
+{% if not viewed_user.reviews %}
+<p>Looks like this library is empty!</p>
+{% endif %}
+
+{% for review in viewed_user.reviews %}
+        <h3>{{ review.book.title }}</h3>
+        <p>By {{ review.book.author }}</p>
+        <p>
+            <a href="/bookprofile/{{ review.book.volume_id }}">
+            <img src="{{ review.book.image}}"></a>
+        </p>
+
+        {% if review.score == None %}
+        <p>{{ viewed_user.username }}'s Rating: Not Yet Rated</p>
+        {% else %}
+        <p>{{ viewed_user.username }}'s Rating: {{ review.score }}</p>
+        {% endif %}
+
+        <p>
+            --------------------------------------------------
+        </p>
+{% endfor %}
+
+{% endblock %}

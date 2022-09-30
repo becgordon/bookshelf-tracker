@@ -22,10 +22,16 @@ def get_user_by_username(username):
     return User.query.filter(User.username == username).first()
 
 
+def get_all_users():
+    """Get all users."""
+
+    return User.query.all()
+
+
 # FUNCTIONS FOR BOOKS TABLE --------------------------------------------------
 
 
-def create_book(isbn, title, author, description, genre, image):
+def create_book(isbn, title, author, description, genre, image, volume_id):
     """Create and return a new book."""
 
     book = Book(isbn=isbn,
@@ -33,7 +39,8 @@ def create_book(isbn, title, author, description, genre, image):
                 author=author,
                 description=description,
                 genre=genre,
-                image=image)
+                image=image,
+                volume_id=volume_id)
     
     return book
 

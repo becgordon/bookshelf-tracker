@@ -21,16 +21,17 @@ with open("data/books.json") as books:
 # Create books to store in database
 books_db = []
 for book in book_data:
-    isbn, title, author, description, genre, image = (
+    isbn, title, author, description, genre, image, volume_id = (
         book['isbn'],
         book['title'],
         str(book['author']),
         book['description'],
         str(book['genre']),
-        book['image']
+        book['image'],
+        book['volume_id']
     )
 
-    book = crud.create_book(isbn, title, author, description, genre, image)
+    book = crud.create_book(isbn, title, author, description, genre, image, volume_id)
     books_db.append(book)
 
 model.db.session.add_all(books_db)

@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}My Settings{% endblock %}
+
+{% block body %}
+
+<h1>Settings</h1>
+
+<div>
+    <h3>Upload a profile picture.</h3>
+    <form action="/updateprofile/{{ session['user_name'] }}" method="POST" enctype="multipart/form-data">
+        <input type="file" name="profile-picture">
+        <input type="submit">
+    </form>
+</div>
+
+{% endblock %}

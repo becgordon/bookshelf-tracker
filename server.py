@@ -1,9 +1,10 @@
 """Server for bookshelf tracking app."""
 
-from flask import Flask, render_template, request, flash, session, redirect
+from flask import Flask, render_template, request, flash, session, redirect, url_for
 import os
 import re
 import random
+import cloudinary.uploader
 from model import connect_to_db, db
 import requests
 import crud
@@ -14,6 +15,9 @@ app = Flask(__name__)
 app.secret_key = "dev"
 
 BOOKS_API_KEY = os.environ['GOOGLE_BOOKS_KEY']
+CLOUDINARY_KEY = os.environ['CLOUDINARY_KEY']
+CLOUDINARY_SECRET = os.environ['CLOUDINARY_SECRET']
+CLOUD_NAME = 'ddcfjqpxh'
 
 app.jinja_env.undefined = StrictUndefined
 
@@ -101,6 +105,37 @@ def view_user_profile(username):
         return redirect("/login")
 
 
+@app.route('/usersettings/<username>')
+def access_user_settings(username):
+    """Access the user's settings."""
+
+    user = crud.get_user_by_username(username)
+
+    if user and 'user_name' in session and session['user_name'] == username:
+        return render_template('user_settings.html', user=user)
+    else:
+        return redirect("/login")
+
+
+@app.route('/updateprofile/<username>', methods=['POST'])
+def update_profile_picture(username):
+    """Update a user's profile picture."""
+
+    user = crud.get_user_by_username(username)
+
+    if user and 'user_name' in session and session['user_name'] == username:
+        file = request.files['profile-picture']
+        profile_picture = cloudinary.uploader.upload(file,
+                                            api_key=CLOUDINARY_KEY,
+                                            api_secret=CLOUDINARY_SECRET,
+                                            cloud_name=CLOUD_NAME)
+        saved_profile_picture = profile_picture['secure_url']
+        user.profile_image = saved_profile_picture
+        return redirect(f'/userprofile/{user.username}')
+    else:
+        return redirect("/login")
+
+
 @app.route('/logout') 
 def log_out():
     """Allow a user to log out."""
@@ -109,7 +144,25 @@ def log_out():
     return redirect('/')
 
 
+@app.route('/userlibrary/<username>')
+def view_user(username):
+    """View another user's library."""
+
+    viewed_user = crud.get_user_by_username(username)
+
+    return render_template('user_library.html', viewed_user=viewed_user)
+
+
 # BOOK ROUTES ----------------------------------------------------------------
+
+
+@app.route('/viewallusers')
+def view_all_users():
+    """View all users on platform."""
+
+    users = crud.get_all_users()
+
+    return render_template('all_users.html', users=users)
 
 
 @app.route('/booksearchresults')
@@ -188,7 +241,7 @@ def add_book(volume_id):
     volume_id) = crud.sort_json_response(response)
    
     if not crud.get_book_by_isbn(isbn):
-        book = crud.create_book(isbn, title, author, description, genre, image)
+        book = crud.create_book(isbn, title, author, description, genre, image, volume_id)
         db.session.add(book)
 
     user = crud.get_user_by_username(session['user_name'])

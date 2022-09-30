@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}View all users{% endblock %}
+
+{% block body %}
+
+<h1>View all users.</h1>
+
+{% for user in users %}
+<p>{{ user.username }}: <a href="/userlibrary/{{ user.username }}">View Profile</a></p>
+{% endfor %}
+
+{% endblock %}
