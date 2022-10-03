@@ -82,11 +82,15 @@ def create_account():
     lname = request.form.get('lname')
     username = request.form.get('username')
     password = request.form.get('password')
+    confirm_password = request.form.get('confirm-password')
 
     user = crud.get_user_by_username(username)
 
     if user:
         flash("Sorry! That username is already taken.")
+        return render_template('create_account.html')
+    elif password != confirm_password:
+        flash("Your passwords don't match.")
         return render_template('create_account.html')
     else:
         user = crud.create_user(fname, lname, username, password)
@@ -174,14 +178,15 @@ def update_password(username):
     if user and 'user_name' in session and session['user_name'] == username:
         current_password = request.args.get('current-password')
         new_password = request.args.get('new-password')
+        confirm_new_password = request.args.get('confirm-new-password')
 
-        if current_password == user.password:
+        if current_password == user.password and new_password == confirm_new_password:
             user.password = new_password
             db.session.commit()
             flash('Your password was updated successfully.')
             return redirect(f'/userprofile/{user.username}')
         else:
-            flash("Your current password is not correct. Please try again.")
+            flash("Either your current password is not correct or you new passwords don't match. Please try again.")
             return render_template('user_settings.html', user=user)
 
 
@@ -459,6 +464,10 @@ def get_next_read():
     for review in user.reviews:
         if review.to_be_read == True:
             next_book_options.append(review)
+
+    print('\n' * 5)
+    print(next_book_options)
+    print('\n' * 5)
 
     next_book = random.choice(next_book_options)
 

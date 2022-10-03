@@ -66,9 +66,10 @@
 <div>
     <h3>Update your password.</h3>
         <form action="/updatepassword/{{ session['user_name'] }}">
-            Current Password <input type="text" name="current-password">
-            New Password <input type="text" name="new-password">
-            <input type="submit">
+            <p>Current Password <input type="password" name="current-password"></p>
+            <p>New Password <input type="password" name="new-password"></p>
+            <p>Confirm New Password <input type="password" name="confirm-new-password"></p>
+            <p><input type="submit"></p>
         </form>
 
 </div>
