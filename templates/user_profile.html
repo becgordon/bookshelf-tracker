@@ -5,19 +5,19 @@
 {% block head %}{% endblock %}
 {% block body %}
 
-  <nav class="navbar navbar-expand-lg bg-light">
+  <nav class="navbar sticky-top navbar-expand-lg bg-light">
     <div class="container-fluid">
       <a class="navbar-brand" href="/">Bookshelf Tracker</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNavDropdown">
-        <ul class="navbar-nav">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/userprofile/{{ user.username }}">My Library</a>
+            <a class="nav-link active" aria-current="page" href="/userprofile/{{ session['user_name'] }}">My Library</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/usercharts/{{ user.username }}">Charts</a>
+            <a class="nav-link" href="/usercharts/{{ session['user_name'] }}">Charts</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/viewallusers">View all users</a>
@@ -28,27 +28,14 @@
           <li class="nav-item">
             <a class="nav-link" href="/logout">Log Out</a>
           </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="/shelf" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Shelves
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Favorites</a></li>
-              <li><a class="dropdown-item" href="#">To Be Read</a></li>
-              <li><a class="dropdown-item" href="#">Have Read</a></li>
-            </ul>
-          </li>
-        </ul>
-      </div>
-    </div>
     <div class="container-fluid">
         <form class="d-flex" role="search" method="GET" action="/booksearchresults">
           <input class="form-control me-2" type="search" placeholder="Search for a Book" aria-label="Search" name="search-term">
           <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
       </div>
-    
   </nav>
+
 
 <p>
     <img src="{{ user.profile_image }}" height="75px"> 

@@ -4,6 +4,37 @@
 
 {% block body %}
 
+<nav class="navbar sticky-top navbar-expand-lg bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">Bookshelf Tracker</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" href="/userprofile/{{ session['user_name'] }}">My Library</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/usercharts/{{ session['user_name'] }}">Charts</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/viewallusers">View all users</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/usersettings/{{ session['user_name'] }}">Settings</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/logout">Log Out</a>
+          </li>
+    <div class="container-fluid">
+        <form class="d-flex" role="search" method="GET" action="/booksearchresults" aria-current="page" >
+          <input class="form-control me-2" type="search" placeholder="Search for a Book" aria-label="Search" name="search-term">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+      </div>
+  </nav>
+<!-- 
 <a href="/userprofile/{{ session['user_name'] }}">Go back to profile.</a>
 
 <form method="GET" action="/booksearchresults">
@@ -11,7 +42,7 @@
         Search <input type="text" name="search-term">
         <input type="submit">
     </p>
-</form>
+</form> -->
 
 <form method="GET" action="/booksearchresults">
     <p>

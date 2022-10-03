@@ -351,7 +351,14 @@ def sort_books():
     elif sort_by == "least recently added":
         crud.sort_books_least_recently_added(user)
 
-    return render_template('user_profile.html', user=user)
+    current_reads = []
+    for review in user.reviews:
+        if review.current_read == True:
+            current_reads.append(review)
+
+    return render_template('user_profile.html', 
+                            user=user, 
+                            current_reads=current_reads)
 
 
 @app.route('/ratebook<isbn>')
