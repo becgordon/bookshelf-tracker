@@ -28,8 +28,12 @@ app.jinja_env.undefined = StrictUndefined
 @app.route('/')
 def welcome_page():
     """View welcome page."""
-    
-    return render_template('welcome_page.html')
+
+    if session:
+        username = session.get("user_name")
+        return redirect(f'/userprofile/{username}')
+    else:
+        return render_template('welcome_page.html')
 
 
 # ACCOUNT ROUTES -------------------------------------------------------------
@@ -60,7 +64,6 @@ def log_in():
         return render_template('login.html')
     else:
         session['user_name'] = user.username
-        flash("Successfully logged in!")
         return redirect(f'/userprofile/{user.username}')
 
 

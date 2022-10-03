@@ -5,32 +5,73 @@
 {% block head %}{% endblock %}
 {% block body %}
 
-<!-- <div id="qr-reader" style="width: 600px"></div> -->
+  <nav class="navbar navbar-expand-lg bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">Bookshelf Tracker</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/userprofile/{{ user.username }}">My Library</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/usercharts/{{ user.username }}">Charts</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/viewallusers">View all users</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/usersettings/{{ session['user_name'] }}">Settings</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/logout">Log Out</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="/shelf" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Shelves
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">Favorites</a></li>
+              <li><a class="dropdown-item" href="#">To Be Read</a></li>
+              <li><a class="dropdown-item" href="#">Have Read</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="container-fluid">
+        <form class="d-flex" role="search" method="GET" action="/booksearchresults">
+          <input class="form-control me-2" type="search" placeholder="Search for a Book" aria-label="Search" name="search-term">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+      </div>
+    
+  </nav>
 
 <p>
-    <a href="/usersettings/{{ session['user_name'] }}">
-        <img src="{{ user.profile_image }}" height="75px"> 
-    </a>
+    <img src="{{ user.profile_image }}" height="75px"> 
 </p>
 
 <h1>Welcome back, {{ user.fname }}!</h1>
 
-<a href="/logout">Log Out</a>
+<!-- <a href="/logout">Log Out</a> -->
 
-<p>
+<!-- <p>
     <a href="/usersettings/{{ session['user_name'] }}">Settings</a>
-</p>
+</p> -->
 
-<p>
+<!-- <p>
     <a href="/viewallusers">View other user's profiles.</a>
-</p>
+</p> -->
 
-<form method="GET" action="/booksearchresults">
+<!-- <form method="GET" action="/booksearchresults">
     <p>
         Search for a Book: <input type="text" name="search-term">
         <input type="submit">
     </p>
-</form>
+</form> -->
 
 
 <form method="GET" action="/booksearchresults">
@@ -75,9 +116,9 @@
     </form>
 </p>
 
-<p>
+<!-- <p>
     <a href="/usercharts/{{ user.username }}">See my charts.</a>
-</p>
+</p> -->
 
 <p>
     What should I read next?
@@ -135,12 +176,7 @@
 
 {% endblock %}
 
-{% block js %}
-
-<script type="text/jsx" src="/static/js/userlibrary.jsx"></script>
-<!-- <script type="text/jsx" src="/static/js/searchresults.jsx"></script> -->
-<!-- include the library -->
-<!-- <script src="https://unpkg.com/html5-qrcode@2.0.9/dist/html5-qrcode.min.js"></script> -->
+<!-- <script type="text/jsx" src="/static/js/userlibrary.jsx"></script>  -->
 
 <script> 
     
@@ -152,13 +188,4 @@
 
     document.querySelector('#next-read').addEventListener('click', getNextRead)
 
-    /*function onScanSuccess(decodedText, decodedResult) {
-        console.log(`Code scanned = ${decodedText}`, decodedResult);
-    }
-    const html5QrcodeScanner = new Html5QrcodeScanner(
-        "qr-reader", { fps: 10, qrbox: 250 });
-    html5QrcodeScanner.render(onScanSuccess); */
-
 </script>
-
-{% endblock %}

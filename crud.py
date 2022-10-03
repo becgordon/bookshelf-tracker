@@ -164,6 +164,3 @@ def get_review_by_book_and_user_id(isbn, user_id):
 if __name__ == "__main__":
     from server import app
     connect_to_db(app)
-
-
-# TESTING --------------------------------------------------------------------
