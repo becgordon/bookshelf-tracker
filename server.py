@@ -2,9 +2,11 @@
 
 from flask import Flask, render_template, request, flash, session, redirect, url_for
 import os
-import re
 import random
 import cloudinary.uploader
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
+
 from model import connect_to_db, db
 import requests
 import crud
@@ -18,6 +20,7 @@ BOOKS_API_KEY = os.environ['GOOGLE_BOOKS_KEY']
 CLOUDINARY_KEY = os.environ['CLOUDINARY_KEY']
 CLOUDINARY_SECRET = os.environ['CLOUDINARY_SECRET']
 CLOUD_NAME = 'ddcfjqpxh'
+SENDGRID_API_KEY = os.environ['SENDGRID_API_KEY']
 
 app.jinja_env.undefined = StrictUndefined
 
@@ -212,6 +215,35 @@ def view_user(username):
     return render_template('user_library.html', 
                             viewed_user=viewed_user, 
                             current_reads=current_reads)
+
+
+@app.route('/resetpassword')
+def show_reset_password():
+    """Show form to reset a user's password."""
+
+    return render_template('password_reset.html')
+
+@app.route('/resetpassword', methods=['POST'])
+def submit_reset_password():
+    """Reset a user's password."""
+
+    reset_email = request.form.get('reset-email')
+    print('\n'*5)
+    print(reset_email)
+    print('\n'*5)
+
+    message = Mail(
+        from_email='shelfhelplibrarytracker@gmail.com',
+        to_emails=f'{reset_email}',
+        subject='Sending with Twilio SendGrid is Fun',
+        html_content='<strong>and easy to do anywhere, even with Python</strong>')
+    try:
+        sg = SendGridAPIClient(SENDGRID_API_KEY)
+        sg.send(message)
+    except Exception:
+        print("ERROR: PC LOAD LETTER")
+
+    return render_template('password_reset_submit.html')
 
 
 # BOOK ROUTES ----------------------------------------------------------------
