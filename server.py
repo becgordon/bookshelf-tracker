@@ -80,6 +80,7 @@ def create_account():
 
     fname = request.form.get('fname')
     lname = request.form.get('lname')
+    email = request.form.get('email')
     username = request.form.get('username')
     password = request.form.get('password')
     confirm_password = request.form.get('confirm-password')
@@ -93,7 +94,7 @@ def create_account():
         flash("Your passwords don't match.")
         return render_template('create_account.html')
     else:
-        user = crud.create_user(fname, lname, username, password)
+        user = crud.create_user(fname, lname, email, username, password)
         db.session.add(user)
         db.session.commit()
         flash('Account creation successful!')

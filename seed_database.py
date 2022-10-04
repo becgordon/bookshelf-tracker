@@ -43,15 +43,16 @@ with open("data/users.json") as users:
 
 #create users to store in database
 for user in users_data:
-    fname, lname, username, profile_image = (
+    fname, lname, username, email, profile_image = (
         user['fname'],
         user['lname'],
         user['username'],
+        user['email'],
         user['profile_image']
     )
 
     password = 'test'
-    user = crud.create_seed_user(fname, lname, username, password, profile_image)
+    user = crud.create_seed_user(fname, lname, email, username, password, profile_image)
     model.db.session.add(user)
     model.db.session.commit()
 

@@ -5,24 +5,26 @@ import re
 
 # FUNCTIONS FOR USERS TABLE --------------------------------------------------
 
-def create_user(fname, lname, username, password):
+def create_user(fname, lname, email, username, password):
     """Create and return a new user."""
     
     user = User(fname=fname, 
                 lname=lname, 
+                email=email,
                 username=username, 
                 password=password)
     
     return user
 
 
-def create_seed_user(fname, lname, username, password, profile_image):
+def create_seed_user(fname, lname, email, username, password, profile_image):
     """Create a user specifically for seed_database.py."""
 
     user = User(fname=fname, 
             lname=lname, 
             username=username, 
             password=password,
+            email=email,
             profile_image=profile_image)
     
     return user
