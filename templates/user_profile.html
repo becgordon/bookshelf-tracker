@@ -5,75 +5,36 @@
 {% block head %}{% endblock %}
 {% block body %}
 
-  <nav class="navbar sticky-top navbar-expand-lg bg-light">
+<nav class="navbar sticky-top navbar-expand-md bg-light">
     <div class="container-fluid">
       <a class="navbar-brand" href="/">Bookshelf Tracker</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarNavDropdown">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/userprofile/{{ session['user_name'] }}">My Library</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/usercharts/{{ session['user_name'] }}">Charts</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/viewallusers">View all users</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/usersettings/{{ session['user_name'] }}">Settings</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/logout">Log Out</a>
-          </li>
-    <div class="container-fluid">
-        <form class="d-flex" role="search" method="GET" action="/booksearchresults">
-          <input class="form-control me-2" type="search" placeholder="Search for a Book" aria-label="Search" name="search-term">
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
+      <div class="collapse navbar-collapse" id="menu">
+        <div class="navbar-nav">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">My Profile</a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/userprofile/{{ session['user_name'] }}">Library</a></li>
+            <li><a class="dropdown-item" href="/usercharts/{{ session['user_name'] }}">Charts</a></li>
+            <li><a class="dropdown-item" href="/viewallusers">View All Users</a></li>
+            <li><a class="dropdown-item" href="/usersettings/{{ session['user_name'] }}">Settings</a></li>
+          </ul>
+          <a class="nav-link" href="/logout">Log Out</a>
+          <form class="d-flex" role="search" method="GET" action="/booksearchresults">
+            <input class="form-control me-2" type="search" placeholder="Search for a Book" aria-label="Search" name="search-term">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+          </form>
+        </div>
       </div>
+    </div>
   </nav>
-
 
 <p>
     <img src="{{ user.profile_image }}" height="75px"> 
 </p>
 
 <h1>Welcome back, {{ user.fname }}!</h1>
-
-<!-- <a href="/logout">Log Out</a> -->
-
-<!-- <p>
-    <a href="/usersettings/{{ session['user_name'] }}">Settings</a>
-</p> -->
-
-<!-- <p>
-    <a href="/viewallusers">View other user's profiles.</a>
-</p> -->
-
-<!-- <form method="GET" action="/booksearchresults">
-    <p>
-        Search for a Book: <input type="text" name="search-term">
-        <input type="submit">
-    </p>
-</form> -->
-
-
-<form method="GET" action="/booksearchresults">
-    <p>
-        Advanced Search: <input type="text" name="search-term" placeholder="search term">
-        <select name="search-type" id="search-type-select">
-            <option value="intitle">In Title</option>
-            <option value="inauthor">In Author</option>
-            <option value="subject">Subject</option>
-            <option value="publisher">Publisher</option>
-        </select>
-        <input type="text" name="advanced-search-term" placeholder="search by">
-        <input type="submit">
-    </p>
-</form>
 
 <p>
     <form action="/sortby">

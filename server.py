@@ -228,15 +228,11 @@ def submit_reset_password():
     """Reset a user's password."""
 
     reset_email = request.form.get('reset-email')
-    print('\n'*5)
-    print(reset_email)
-    print('\n'*5)
-
     message = Mail(
         from_email='shelfhelplibrarytracker@gmail.com',
         to_emails=f'{reset_email}',
-        subject='Sending with Twilio SendGrid is Fun',
-        html_content='<strong>and easy to do anywhere, even with Python</strong>')
+        subject='Shelf-Help: Requested Password Reset',
+        html_content='<h1>Hello there! You can reset your password <a href="localhost:5000/passwordreset">here<a/>!<h1/>')
     try:
         sg = SendGridAPIClient(SENDGRID_API_KEY)
         sg.send(message)
@@ -244,6 +240,13 @@ def submit_reset_password():
         print("ERROR: PC LOAD LETTER")
 
     return render_template('password_reset_submit.html')
+
+
+@app.route('/passwordreset')
+def password_reset_link():
+    """Password reset link leads here."""
+
+    return render_template('password_reset.html')
 
 
 # BOOK ROUTES ----------------------------------------------------------------
