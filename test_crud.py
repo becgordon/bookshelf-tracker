@@ -2,12 +2,16 @@
 
 import crud
 import unittest
+from model import db, connect_to_db, example_data
 
 
 # ----------------------------------------------------------------------------
 
 
 class Testing(unittest.TestCase):
+    
+    def setUp(self):
+        pass
     
     def test_create_user(self):
         user = crud.create_user('Beverly', 
@@ -45,11 +49,7 @@ class Testing(unittest.TestCase):
                             user.profile_image)
 
     def test_get_user_by_username(self): # need help here
-        crud.create_user('Beverly','Marsh','BevM@test.com','BevM','test')
-        crud.create_user('Jack','Torrance','JackT@test.com','JackT','test')
-
         user = crud.get_user_by_username('JackT')
-
         assert('Jack','Torrance','JackT@test.com','JackT','test') == (user.fname, 
                                                                         user.lname, 
                                                                         user.username,

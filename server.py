@@ -1,6 +1,6 @@
 """Server for bookshelf tracking app."""
 
-from flask import Flask, render_template, request, flash, session, redirect, url_for
+from flask import Flask, render_template, request, flash, session, redirect
 import os
 import random
 import cloudinary.uploader

@@ -5,106 +5,6 @@ from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
 
-# EXAMPLE DATA ---------------------------------------------------------------
-
-
-# def example_data():
-#     """Create some sample data for testing."""
-
-#     User.query.delete()
-#     Book.query.delete()
-#     Review.query.delete()
-
-#     # Example Users
-#     JackT = User(user_id=1, 
-#                 fname='Jack', 
-#                 lname='Torrance', 
-#                 email='JackT@test.com',
-#                 username='JackT',
-#                 password='test',
-#                 profile_image="/static/images/JackT.jpg",
-#                 profile_view=True)
-
-#     BevM = User(user_id=2, 
-#                 fname='Beverly', 
-#                 lname='Marsh', 
-#                 email='BevM@test.com',
-#                 username='BevM',
-#                 password='test',
-#                 profile_image="/static/images/BevM.jpg",
-#                 profile_view=True)
-
-#     PaulE = User(user_id=3, 
-#                 fname='Paul', 
-#                 lname='Edgecomb', 
-#                 email='PaulE@test.com',
-#                 username='PaulE',
-#                 password='test',
-#                 profile_image="/static/images/PaulE.jpg",
-#                 profile_view=False)
-
-#     # Example Books
-#     book1 = Book(isbn="123",
-#                 title="If It Bleeds",
-#                 author="Stephen King",
-#                 description="test description",
-#                 genre="Fiction",
-#                 image='test image',
-#                 volume_id='123')
-
-#     book2 = Book(isbn="456",
-#                 title="Elevation",
-#                 author="Stephen King",
-#                 description="test description",
-#                 genre="Fiction",
-#                 image='test image',
-#                 volume_id='456')
-
-#     book3 = Book(isbn="789",
-#                 title="Phantoms",
-#                 author="Dean Koontz",
-#                 description="test description",
-#                 genre="Horror",
-#                 image='test image',
-#                 volume_id='789')
-
-#     # Example Reviews  
-
-#     review1 = Review(review_id=1,
-#                     score=3,
-#                     to_be_read=False,
-#                     favorites=True,
-#                     current_read=False,
-#                     user_id=1,
-#                     isbn="123",
-#                     book=book1,
-#                     user=JackT)
-
-#     review2 = Review(review_id=2,
-#                     score=4,
-#                     to_be_read=True,
-#                     favorites=False,
-#                     current_read=False,
-#                     user_id=1,
-#                     isbn="456",
-#                     book=book2,
-#                     user=JackT)
-
-#     review3 = Review(review_id=3,
-#                     score=5,
-#                     to_be_read=True,
-#                     favorites=False,
-#                     current_read=True,
-#                     user_id=1,
-#                     isbn="789",
-#                     book=book3,
-#                     user=JackT)
-
-#     db.session.add_all([JackT, BevM, PaulE, book1, book2, book3])
-#     db.session.add_all([review1, review2, review3])
-#     db.session.commit()
-
-
 # CLASS USER -----------------------------------------------------------------
 
 
@@ -180,6 +80,106 @@ class Review(db.Model):
         return f'<Review review_id={self.review_id} user_id={self.user_id}>'
 
 
+# EXAMPLE DATA ---------------------------------------------------------------
+
+
+def example_data():
+    """Create some sample data for testing."""
+
+    User.query.delete()
+    Book.query.delete()
+    Review.query.delete()
+
+    # Example Users
+    JackT = User(user_id=1, 
+                fname='Jack', 
+                lname='Torrance', 
+                email='JackT@test.com',
+                username='JackT',
+                password='test',
+                profile_image="/static/images/JackT.jpg",
+                profile_view=True)
+
+    BevM = User(user_id=2, 
+                fname='Beverly', 
+                lname='Marsh', 
+                email='BevM@test.com',
+                username='BevM',
+                password='test',
+                profile_image="/static/images/BevM.jpg",
+                profile_view=True)
+
+    PaulE = User(user_id=3, 
+                fname='Paul', 
+                lname='Edgecomb', 
+                email='PaulE@test.com',
+                username='PaulE',
+                password='test',
+                profile_image="/static/images/PaulE.jpg",
+                profile_view=False)
+
+    # Example Books
+    book1 = Book(isbn="123",
+                title="If It Bleeds",
+                author="Stephen King",
+                description="test description",
+                genre="Fiction",
+                image='test image',
+                volume_id='123')
+
+    book2 = Book(isbn="456",
+                title="Elevation",
+                author="Stephen King",
+                description="test description",
+                genre="Fiction",
+                image='test image',
+                volume_id='456')
+
+    book3 = Book(isbn="789",
+                title="Phantoms",
+                author="Dean Koontz",
+                description="test description",
+                genre="Horror",
+                image='test image',
+                volume_id='789')
+
+    # Example Reviews  
+
+    review1 = Review(review_id=1,
+                    score=3,
+                    to_be_read=False,
+                    favorites=True,
+                    current_read=False,
+                    user_id=1,
+                    isbn="123",
+                    book=book1,
+                    user=JackT)
+
+    review2 = Review(review_id=2,
+                    score=4,
+                    to_be_read=True,
+                    favorites=False,
+                    current_read=False,
+                    user_id=1,
+                    isbn="456",
+                    book=book2,
+                    user=JackT)
+
+    review3 = Review(review_id=3,
+                    score=5,
+                    to_be_read=True,
+                    favorites=False,
+                    current_read=True,
+                    user_id=1,
+                    isbn="789",
+                    book=book3,
+                    user=JackT)
+
+    db.session.add_all([JackT, BevM, PaulE, book1, book2, book3])
+    db.session.add_all([review1, review2, review3])
+    db.session.commit()
+
+
 # ----------------------------------------------------------------------------
 
 
@@ -189,14 +189,11 @@ def connect_to_db(app, db_uri="postgresql:///bookshelf"):
     app.config["SQLALCHEMY_DATABASE_URI"] = db_uri
     app.config["SQLALCHEMY_ECHO"] = True
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-
     db.app = app
     db.init_app(app)
-
-    print("Connected to db.")
-
+    
 
 if __name__ == "__main__":
     from server import app
-
     connect_to_db(app)
+    print("Connected to db.")
