@@ -10,22 +10,52 @@ import unittest
 class Testing(unittest.TestCase):
     
     def test_create_user(self):
-        user = crud.create_user('Beverly', 'Marsh', 'BevM', 'test')
-        assert('Beverly', 'Marsh', 'BevM', 'test') == (user.fname, 
-                                                        user.lname, 
-                                                        user.username, 
-                                                        user.password)
+        user = crud.create_user('Beverly', 
+                                'Marsh', 
+                                'BevM@test.com', 
+                                'BevM', 
+                                'test')
+        assert('Beverly', 
+                'Marsh',
+                'BevM@test.com', 
+                'BevM', 
+                'test') == (user.fname, 
+                            user.lname, 
+                            user.email,
+                            user.username,
+                            user.password)
 
     def test_create_seed_user(self):
-        user = crud.create_seed_user('Beverly', 'Marsh', 'BevM', 'test', 'image')
-        assert('Beverly', 'Marsh', 'BevM', 'test', 'image') == (user.fname, 
-                                                        user.lname, 
-                                                        user.username, 
-                                                        user.password,
-                                                        user.profile_image)
+        user = crud.create_seed_user('Beverly', 
+                                    'Marsh', 
+                                    'BevM@test.com', 
+                                    'BevM', 
+                                    'test', 
+                                    'image')
+        assert('Beverly', 
+                'Marsh', 
+                'BevM', 
+                'BevM@test.com', 
+                'test', 
+                'image') == (user.fname, 
+                            user.lname, 
+                            user.username,
+                            user.email, 
+                            user.password,
+                            user.profile_image)
 
-    def test_get_user_by_username(self):
-        pass
+    def test_get_user_by_username(self): # need help here
+        crud.create_user('Beverly','Marsh','BevM@test.com','BevM','test')
+        crud.create_user('Jack','Torrance','JackT@test.com','JackT','test')
+
+        user = crud.get_user_by_username('JackT')
+
+        assert('Jack','Torrance','JackT@test.com','JackT','test') == (user.fname, 
+                                                                        user.lname, 
+                                                                        user.username,
+                                                                        user.email, 
+                                                                        user.password,
+                                                                        user.profile_image)
 
     def test_get_all_viewable_users(self):
         pass

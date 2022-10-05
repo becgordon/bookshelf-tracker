@@ -1,35 +1,51 @@
 """Tests for server.py."""
 
-import server
+from server import app
+from model import db, connect_to_db, example_data
 import unittest
 
 
 # ----------------------------------------------------------------------------
 
 
-class Testing(unittest.TestCase):
+class FlaskTests(unittest.TestCase):
+
+    def setUp(self):
+        self.client = app.test_client()
+        app.config['TESTING'] = True
 
     def test_welcome_page(self):
-        client = server.app.test_client()
-        result = client.get('/')
+        result = self.client.get('/')
         self.assertIn(b'<h1>This is the Welcome Page.</h1>',
                     result.data)
 
     def test_log_in_page(self):
-        client = server.app.test_client()
-        result = client.get('/login')
+        result = self.client.get('/login')
         self.assertIn(b'<form action="/login" method="POST">',
                         result.data)
 
-    def test_log_in(self): # work on the post data on this one
-        client = server.app.test_client()
-        result = client.post('/login', data={'username':'JackT', 'password':'test'})
-        self.assertIn(b'<h1>Welcome back, Jack!</h1>', result.data)
-        pass
+
+class FlaskTestsLoggedIn(unittest.TestCase):
+
+    def setUp(self):
+        app.config['TESTING'] = True
+        app.config['SECRET_KEY'] = 'key'
+        self.client = app.test_client()
+
+        with self.client as c:
+            with c.session_transaction() as sess:
+                sess['user_name'] = 'JackT'
+
+        # connect_to_db(app, 'postgresql://testdb')
+        # db.create_all()
+        # example_data()
+
+    def test_log_in(self):
+        result = self.client.get('/login')
+        self.assertIn(b'<a href="/userprofile/JackT">', result.data)
 
     def test_show_create_account(self):
-        client = server.app.test_client()
-        result = client.get('/createaccount')
+        result = self.client.get('/createaccount')
         self.assertIn(b'<form action="/createaccount" method="POST">', 
                         result.data)
 
