@@ -29,49 +29,28 @@
     </div>
   </nav>
 
-<p>
-    <a href="https://bookshop.org/books?keywords={{ title }} {{ author }}">
-        Purchase this book.
-    </a>
-</p>
-
+<div>
+    <a href="https://bookshop.org/books?keywords={{ title }} {{ author }}">Purchase this book.</a>
+</div>
 
 <button id="add_book">Add this book to your library</button>
 
 <h2>{{ title }}</h2>
+<div> {{ author }}</div>
+<div><img src="{{ image }}"></div>
+<div>Genre: {{ genre }}</div>
+<div>{{ description }}</div>
+<div>ISBN: {{ isbn }}</div>
 
-<p> {{ author }}</p>
+<div id="volume_id" name="{{ volume_id }}"></div>
 
-
-<p>
-    <img src="{{ image }}">
-</p>
-
-<p>
-    Genre: {{ genre }}
-</p>
-
-<p>
-    {{ description }}
-</p>
-
-<p>
-    ISBN: {{ isbn }}
-</p>
-
-<p id="volume_id" name="{{ volume_id }}"></p>
-
-
-<script> // edit this script down to be more dry
-    
-    const addBookButton = document.querySelector('#add_book');
-
+<script>
     function addBook() {
         window.location = `/addbook/${document.querySelector('#volume_id').attributes.name.value}`
         addBookButton.innerHTML = 'Book added';
     }
     
-    addBookButton.addEventListener('click', addBook);
-
+    document.querySelector('#add_book').addEventListener('click', addBook);
 </script>
+
 {% endblock %}

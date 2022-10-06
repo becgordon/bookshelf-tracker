@@ -62,30 +62,24 @@
 
 <div id="next-read-text"></div>
 
-<p>
-    --------------------------------------------------
-</p>
+<div>--------------------------------------------------</div>
 
 <div>
     <h2>Currently Reading</h2>
     {% if not current_reads %}
-    <p>No current read!</p>
+    <div>No current read!</div>
     {% endif %}
     {% for review in current_reads %}
-        <a href="/user/userbook{{ review.book.isbn }}">
-            <img src="{{ review.book.image }}" height="200px">
-        </a>
+        <a href="/user/userbook{{ review.book.isbn }}"><img src="{{ review.book.image }}" height="200px"></a>
     {% endfor %}
-    </div>
+</div>
 
-<p>
-    --------------------------------------------------
-</p>
+<div>--------------------------------------------------</div>
 
 <h2>My Library</h2>
 <br>
 {% if not user.reviews %}
-<p>Looks like your library is empty!</p>
+<div>Looks like your library is empty!</div>
 {% endif %}
 
 <div class="row">
@@ -93,9 +87,6 @@
     <div class="col-6 col-md-4 col-lg-3">
         <a href="/user/userbook{{ review.book.isbn }}">
         <img src="{{ review.book.image}}" height="250px"></a>
-        <p>
-
-        </p>
     </div>
 {% endfor %}
 </div>
@@ -104,7 +95,6 @@
 
 <script> 
     function getNextRead(evt) {
-        console.log("!!!!!!")
         fetch('/getnextread')
         .then((response) => response.text())
         .then((nextRead) => document.querySelector('#next-read-text').innerHTML = `<img src=${nextRead} />`)

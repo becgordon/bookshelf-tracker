@@ -40,42 +40,33 @@
 <h2>{{ viewed_user.username }}'s Library</h2>
 
 {% if not viewed_user.reviews %}
-<p>Looks like this library is empty!</p>
+<div>Looks like this library is empty!</div>
 {% endif %}
 
-<p>
+<div>
     <h2>Currently Reading</h2>
     {% if not current_reads %}
     <p>No current read!</p>
     {% endif %}
     {% for review in current_reads %}
-        <a href="/user/userbook{{ review.book.isbn }}">
-            <img src="{{ review.book.image }}" height="200px">
-        </a>
+        <a href="/user/userbook{{ review.book.isbn }}"><img src="{{ review.book.image }}" height="200px"></a>
     {% endfor %}
-</p>
-
-<p>
-    --------------------------------------------------
-</p>
+      </div>
+<div>--------------------------------------------------</div>
 
 {% for review in viewed_user.reviews %}
         <h3>{{ review.book.title }}</h3>
-        <p>By {{ review.book.author }}</p>
-        <p>
+        <div>By {{ review.book.author }}</div>
+        <div>
             <a href="/bookprofile/{{ review.book.volume_id }}">
             <img src="{{ review.book.image}}"></a>
-        </p>
-
+            </div>
         {% if review.score == None %}
-        <p>{{ viewed_user.username }}'s Rating: Not Yet Rated</p>
+        <div>{{ viewed_user.username }}'s Rating: Not Yet Rated</div>
         {% else %}
-        <p>{{ viewed_user.username }}'s Rating: {{ review.score }}</p>
+        <div>{{ viewed_user.username }}'s Rating: {{ review.score }}</div>
         {% endif %}
-
-        <p>
-            --------------------------------------------------
-        </p>
+        <div>--------------------------------------------------</div>
 {% endfor %}
 
 {% endblock %}

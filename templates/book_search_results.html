@@ -34,18 +34,9 @@
         </form>
       </div>
   </nav>
-<!-- 
-<a href="/userprofile/{{ session['user_name'] }}">Go back to profile.</a>
 
 <form method="GET" action="/booksearchresults">
-    <p>
-        Search <input type="text" name="search-term">
-        <input type="submit">
-    </p>
-</form> -->
-
-<form method="GET" action="/booksearchresults">
-    <p>
+    <div>
         Advanced Search: <input type="text" name="search-term" placeholder="search term">
         <select name="search-type" id="search-type-select">
             <option value="intitle">In Title</option>
@@ -55,7 +46,7 @@
         </select>
         <input type="text" name="advanced-search-term" placeholder="search by">
         <input type="submit">
-    </p>
+      </div>
 </form>
 
 {% if books == [] %}
@@ -63,21 +54,16 @@
 {% endif %}
 
 {% for book in books %}
-    
 <h2>{{ book['volumeInfo']['title'] }}</h2>
-
 {% if 'authors' in book['volumeInfo'] %}
-<p> {{ book['volumeInfo']['authors']|join(' ') }}</p>
+<div> {{ book['volumeInfo']['authors']|join(' ') }}</div>
 {% endif %}
-
 {% if 'imageLinks' in book['volumeInfo'] %}
-<p>
-    <a href="/bookprofile/{{ book['id'] }}">
-    <img src="{{ book['volumeInfo']['imageLinks']['thumbnail'] }}">
-    </a>
-</p>
+<div>
+    <a href="/bookprofile/{{ book['id'] }}"><img src="{{ book['volumeInfo']['imageLinks']['thumbnail'] }}"></a>
+  </div>
 {% endif %}
-<p>--------------------------------------------------</p>
+<div>--------------------------------------------------</div>
 {% endfor %}
 
 {% endblock %}

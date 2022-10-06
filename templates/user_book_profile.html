@@ -31,10 +31,9 @@
 
 <button id="remove_book">Remove book from library</button>
 
-<p>
+<div>
 <form id="category-form">
     <label for="category-select">Add book to shelf:</label>
-
     <select name="category" id="category-select">
         <option value="To Be Read">To Be Read</option>
         <option value="Have Read">Have Read</option>
@@ -42,12 +41,11 @@
     </select>
     <input type="submit">
 </form>
-</p>
+</div>
 
-<p>
+<div>
     <form action="/ratebook{{ book.isbn }}">
         <label for="rating-select">Rate this book:</label>
-
         <select name="rating" id="rating-select">
             <option value="1">1</option>
             <option value="2">2</option>
@@ -57,63 +55,50 @@
         </select>
         <input type="submit">
     </form>
-</p>
+  </div>
 
-<p> 
+<div> 
     {% if review.current_read == False %}
     <a href="/currentread/{{ book.isbn }}">Set as current read.</a>
     {% endif %}
     {% if review.current_read == True %}
     <a href="/currentread/{{ book.isbn }}">Finished reading.</a>
     {% endif %}
-</p>
+</div>
 
-<p id="book-change-text"></p>
+<div id="book-change-text"></div>
 
 <h1>{{ book.title }}</h1>
-
-<p>{{ book.author }}</p>
+<div>{{ book.author }}</div>
 
 {% if review.score == None %}
-<p>My Rating: Not Yet Rated</p>
+<div>My Rating: Not Yet Rated</div>
 {% else %}
-<p>My Rating: {{ review.score }}</p>
+<div>My Rating: {{ review.score }}</div>
 {% endif %}
 
 <img src="{{ book.image }}">
-
-<p>Genre: {{ book.genre }}</p>
+<div>Genre: {{ book.genre }}</div>
 
 {% if review.to_be_read == true %}
-<p>
-    <h5>To Be Read</h5>
-</p>
+<div><h5>To Be Read</h5></div>
 {% endif %}
 
 {% if review.to_be_read == false %}
-<p>
-    <h5>Have Read</h5>
-</p>
+<div><h5>Have Read</h5></div>
 {% endif %}
 
 {% if review.favorites == true %}
-<p>
-    <h5>Favorites</h5>
-</p>
+<div><h5>Favorites</h5></div>
 {% endif %}
 
-<p>{{ book.description }}</p>
-
-<p id="isbn" name="{{ book.isbn }}">ISBN: {{ book.isbn }}</p>
+<div>{{ book.description }}</div>
+<div id="isbn" name="{{ book.isbn }}">ISBN: {{ book.isbn }}</div>
 
 <script> 
-    
-    const removeBookButton = document.querySelector('#remove_book');
-    
-    removeBookButton.addEventListener('click', () => {
+    document.querySelector('#remove_book').addEventListener('click', () => {
         window.location = `/removebook${document.querySelector('#isbn').attributes.name.value}`;
     });
-
 
     function categorizeBook(evt){
         evt.preventDefault();

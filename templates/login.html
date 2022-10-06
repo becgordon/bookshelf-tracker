@@ -15,21 +15,10 @@
 
 <h1>Log in.</h1>
 <form action="/login" method="POST">
-    <p>
-        Username <input type="text" name="username">
-    </p>
-
-    <p>
-        Password <input type="password" name="password">
-    </p>
-
-    <p>
-        <a href="/resetpassword">Forgot password.</a>
-    </p>
-
-    <p>
-        <input type="submit">
-    </p>
+    <div>Username <input type="text" name="username"></div>
+    <div>Password <input type="password" name="password"></div>
+    <div><a href="/resetpassword">Forgot password.</a></div>
+    <div><input type="submit"></div>
 </form>
 
 {% endblock %}

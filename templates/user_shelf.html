@@ -30,26 +30,24 @@
 <h1>Shelf of {{ shelf }}s</h1>
 
 {% if not reviews %}
-<p>Looks like your shelf is empty!</p>
+<div>Looks like your shelf is empty!</div>
 {% endif %}
 
 {% for review in reviews %}
-        <h3>{{ review.book.title }}</h3>
-        <p>By {{ review.book.author }}</p>
-        <p>
-            <a href="/user/userbook{{ review.book.isbn }}">
-            <img src="{{ review.book.image}}"></a>
-        </p>
+<h3>{{ review.book.title }}</h3>
+<div>By {{ review.book.author }}</div>
+<div>
+    <a href="/user/userbook{{ review.book.isbn }}">
+    <img src="{{ review.book.image}}"></a>
+    </div>
 
-        {% if review.score == None %}
-        <p>My Rating: Not Yet Rated</p>
-        {% else %}
-        <p>My Rating: {{ review.score }}</p>
-        {% endif %}
+{% if review.score == None %}
+<div>My Rating: Not Yet Rated</div>
+{% else %}
+<div>My Rating: {{ review.score }}</div>
+{% endif %}
 
-        <p>
-            --------------------------------------------------
-        </p>
+<div>--------------------------------------------------</div>
 {% endfor %}
 
 {% endblock %}
