@@ -153,24 +153,19 @@ def update_profile_picture(username):
         return redirect("/login")
 
 
-@app.route('/updateprofileview/<username>')
-def update_profile_view(username):
+@app.route('/updateprofileview')
+def update_profile_view():
     """Update whether a user's library can be view by others."""
 
     user = crud.get_user_by_username(session['user_name'])
-    profile_view = request.args.get('profile-view')
-    
-    if profile_view == 'Yes':
-        view = True
-        flash('Your library can now be viewed publicly.')
-    else:
+    if user.profile_view == True:
         view = False
-        flash('Your library is hidden from prying eyes.')
-    
+    else:
+        view = True
     user.profile_view = view
     db.session.commit()
 
-    return redirect(f'/userprofile/{user.username}')
+    return render_template('user_settings.html', user=user)
 
 
 @app.route('/updatepassword/<username>')
@@ -500,11 +495,6 @@ def get_next_read():
     for review in user.reviews:
         if review.to_be_read == True:
             next_book_options.append(review)
-
-    print('\n' * 5)
-    print(next_book_options)
-    print('\n' * 5)
-
     next_book = random.choice(next_book_options)
 
     return next_book.book.image

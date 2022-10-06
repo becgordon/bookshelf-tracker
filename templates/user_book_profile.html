@@ -1,12 +1,33 @@
 {% extends 'base.html' %}
 
-{% block title %}{% endblock %}
+{% block title %}{{ book.title }}{% endblock %}
 
 {% block body %}
 
-<p>
-<a href="/userprofile/{{ session['user_name'] }}">Go back to profile.</a>
-</p>
+<nav class="navbar sticky-top navbar-expand-md bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">Shelf-Help</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="menu">
+        <div class="navbar-nav">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">My Profile</a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/userprofile/{{ session['user_name'] }}">Library</a></li>
+            <li><a class="dropdown-item" href="/usercharts/{{ session['user_name'] }}">Charts</a></li>
+            <li><a class="dropdown-item" href="/viewallusers">View All Users</a></li>
+            <li><a class="dropdown-item" href="/usersettings/{{ session['user_name'] }}">Settings</a></li>
+          </ul>
+          <a class="nav-link" href="/logout">Log Out</a>
+          <form class="d-flex" role="search" method="GET" action="/booksearchresults">
+            <input class="form-control me-2" type="search" placeholder="Search for a Book" aria-label="Search" name="search-term">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </nav>
 
 <button id="remove_book">Remove book from library</button>
 

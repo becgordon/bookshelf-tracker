@@ -7,7 +7,7 @@
 
 <nav class="navbar sticky-top navbar-expand-md bg-light">
     <div class="container-fluid">
-      <a class="navbar-brand" href="/">Bookshelf Tracker</a>
+      <a class="navbar-brand" href="/">Shelf-Help</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -34,6 +34,7 @@
     <img src="{{ user.profile_image }}" height="75px"> 
 </p>
 
+<div class="container">
 <h1>Welcome back, {{ user.fname }}!</h1>
 
 <p>
@@ -64,10 +65,6 @@
     </form>
 </p>
 
-<!-- <p>
-    <a href="/usercharts/{{ user.username }}">See my charts.</a>
-</p> -->
-
 <p>
     What should I read next?
     <button id="next-read">Get next read</button>
@@ -78,8 +75,6 @@
 <p>
     --------------------------------------------------
 </p>
-
-<!-- <div id="root"></div> -->
 
 <p>
     <h2>Currently Reading</h2>
@@ -98,37 +93,30 @@
 </p>
 
 <h2>My Library</h2>
+<br>
 
 {% if not user.reviews %}
 <p>Looks like your library is empty!</p>
 {% endif %}
 
+<div class="row">
 {% for review in user.reviews %}
-        <h3>{{ review.book.title }}</h3>
-        <p>By {{ review.book.author }}</p>
+    <div class="col-6 col-md-4 col-lg-3">
+        <a href="/user/userbook{{ review.book.isbn }}">
+        <img src="{{ review.book.image}}" height="250px"></a>
         <p>
-            <a href="/user/userbook{{ review.book.isbn }}">
-            <img src="{{ review.book.image}}"></a>
-        </p>
 
-        {% if review.score == None %}
-        <p>My Rating: Not Yet Rated</p>
-        {% else %}
-        <p>My Rating: {{ review.score }}</p>
-        {% endif %}
-
-        <p>
-            --------------------------------------------------
         </p>
+    </div>
 {% endfor %}
+</div>
 
-{% endblock %}
-
-<!-- <script type="text/jsx" src="/static/js/userlibrary.jsx"></script>  -->
+</div>
 
 <script> 
     
     function getNextRead(evt) {
+        console.log("!!!!!!")
         fetch('/getnextread')
         .then((response) => response.text())
         .then((nextRead) => document.querySelector('#next-read-text').innerHTML = `<img src=${nextRead} />`)
@@ -137,3 +125,5 @@
     document.querySelector('#next-read').addEventListener('click', getNextRead)
 
 </script>
+
+{% endblock %}
