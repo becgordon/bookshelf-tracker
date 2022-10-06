@@ -48,18 +48,6 @@
     <p> Your profile is currently private.</p>
     <p><a href="/updateprofileview">Make it public.</a></p>
     {% endif %}
-
-    
-     <!-- <form action="/updateprofileview/{{ session['user_name'] }}">
-        <label for="view-select"></label>
-
-        <select name="profile-view" id="view-select">
-            <option value="Yes">Yes</option>
-            <option value="No">No</option>
-        </select>
-
-        <input type="submit">
-    </form> -->
 </div>
 
 <div>
@@ -71,6 +59,10 @@
             <p><input type="submit"></p>
         </form>
 
+</div>
+
+<div>
+  <a href="/deleteaccount">Delete account</a>
 </div>
 
 {% endblock %}

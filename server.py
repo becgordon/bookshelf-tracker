@@ -269,6 +269,34 @@ def password_change(reset_id):
     return render_template('login.html')
 
 
+@app.route('/deleteaccount')
+def show_delete_account():
+    """Show form for user to delete their account."""
+
+    return render_template('delete_account.html')
+
+
+@app.route('/deleteaccount', methods=['POST'])
+def submit_delete_account():
+    """Delete a user's account."""
+    
+    user = crud.get_user_by_username(session['user_name'])
+    password = request.form.get('password')
+    confirm_password = request.form.get('confirm-password')
+
+    if password == user.password and confirm_password == user.password:
+        for review in user.reviews:
+            db.session.delete(review)
+        db.session.delete(user)
+        db.session.commit()
+    else:
+        flash("You've either entered the wrong password or they don't match.")
+        return render_template('delete_account.html')
+    flash("Account deleted successfully!")
+
+    return render_template('login.html')
+
+
 # BOOK ROUTES ----------------------------------------------------------------
 
 
