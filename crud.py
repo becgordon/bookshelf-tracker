@@ -1,6 +1,6 @@
 """CRUD operations."""
 
-from model import db, User, Book, Review, connect_to_db
+from model import Password_Reset, db, User, Book, Review, connect_to_db
 import re
 
 # FUNCTIONS FOR USERS TABLE --------------------------------------------------
@@ -34,6 +34,12 @@ def get_user_by_username(username):
     """Get a user by username."""
 
     return User.query.filter(User.username == username).first()
+
+
+def get_user_by_email(email):
+    """Get a user by email."""
+
+    return User.query.filter(User.email == email).first()
 
 
 def get_all_viewable_users(user):
@@ -159,6 +165,25 @@ def get_review_by_book_and_user_id(isbn, user_id):
     """Get a review ID by ISBN and user ID."""
 
     return Review.query.filter((Review.user_id == user_id) & (Review.isbn == isbn)).first()
+
+
+# FUNCTIONS FOR PASSWORDRESETS TABLE -----------------------------------------
+
+
+def create_password_reset(reset_id, email):
+    """Create a password reset."""
+
+    password_reset = Password_Reset(reset_id=reset_id, email=email)
+
+    return password_reset
+
+
+def get_reset_by_reset_id(reset_id):
+    """Get email by reset_id."""
+
+    reset = Password_Reset.query.filter(Password_Reset.reset_id == reset_id).first()
+
+    return reset
 
 
 # ----------------------------------------------------------------------------

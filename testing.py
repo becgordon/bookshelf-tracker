@@ -59,6 +59,16 @@ class FlaskTestsDatabase(TestCase):
     #     self.assertIn(b"Welcome back, Jack!", result.data)
 
 
+    # def test_get_user_by_username(self): # need help here
+    #     user = crud.get_user_by_username('JackT')
+    #     assert('Jack','Torrance','JackT@test.com','JackT','test') == (user.fname, 
+    #                                                                     user.lname, 
+    #                                                                     user.username,
+    #                                                                     user.email, 
+    #                                                                     user.password,
+    #                                                                     user.profile_image)
+
+
 class FlaskTestsLoggedIn(TestCase):
 
     def setUp(self):
@@ -75,7 +85,7 @@ class FlaskTestsLoggedIn(TestCase):
 
 
 class CRUDTests(TestCase):
-
+    
     def test_create_user(self):
         user = crud.create_user('Beverly', 
                                 'Marsh', 

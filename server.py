@@ -6,6 +6,7 @@ import random
 import cloudinary.uploader
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
+from password_generator import PasswordGenerator
 
 from model import connect_to_db, db
 import requests
@@ -21,6 +22,7 @@ CLOUDINARY_KEY = os.environ['CLOUDINARY_KEY']
 CLOUDINARY_SECRET = os.environ['CLOUDINARY_SECRET']
 CLOUD_NAME = 'ddcfjqpxh'
 SENDGRID_API_KEY = os.environ['SENDGRID_API_KEY']
+PWO = PasswordGenerator()
 
 app.jinja_env.undefined = StrictUndefined
 
@@ -222,12 +224,17 @@ def show_reset_password():
 def submit_reset_password():
     """Reset a user's password."""
 
+    reset_id = PWO.generate()
     reset_email = request.form.get('reset-email')
+    reset_password = crud.create_password_reset(reset_id, reset_email)
+    db.session.add(reset_password)
+    db.session.commit()
+
     message = Mail(
         from_email='shelfhelplibrarytracker@gmail.com',
         to_emails=f'{reset_email}',
         subject='Shelf-Help: Requested Password Reset',
-        html_content='<h1>Hello there! You can reset your password <a href="localhost:5000/passwordreset">here<a/>!<h1/>')
+        html_content=f'<h1>Hello! You can reset your password by following this link: localhost:5000/resetpassword/{reset_id}<h1/>')
     try:
         sg = SendGridAPIClient(SENDGRID_API_KEY)
         sg.send(message)
@@ -237,11 +244,29 @@ def submit_reset_password():
     return render_template('password_reset_submit.html')
 
 
-@app.route('/passwordreset')
-def password_reset_link():
+@app.route('/resetpassword/<reset_id>')
+def password_reset_link(reset_id):
     """Password reset link leads here."""
 
-    return render_template('password_reset.html')
+    reset = crud.get_reset_by_reset_id(reset_id)
+
+    return render_template('password_rest_link.html', 
+                            email=reset.email, 
+                            reset_id=reset_id)
+
+
+@app.route('/resetpassword/<reset_id>', methods=['POST'])
+def password_change(reset_id):
+    """Password reset link leads here."""
+
+    reset = crud.get_reset_by_reset_id(reset_id)
+    reset_password = request.form.get('reset-password')
+    user = crud.get_user_by_email(reset.email)
+    user.password = reset_password
+    db.session.commit()
+    flash('Password reset successful!')
+
+    return render_template('login.html')
 
 
 # BOOK ROUTES ----------------------------------------------------------------

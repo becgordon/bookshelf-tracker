@@ -80,6 +80,24 @@ class Review(db.Model):
         return f'<Review review_id={self.review_id} user_id={self.user_id}>'
 
 
+# CLASS PASSWORD_RESET -------------------------------------------------------
+
+
+class Password_Reset(db.Model):
+    """Password reset."""
+
+    __tablename__ = 'passwordresets'
+
+    password_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    reset_id = db.Column(db.String, nullable=False)
+    email = db.Column(db.String, nullable=False)
+
+    def __repr__(self):
+        """Show info about passsword reset."""
+
+        return f'<Password_Reset reset_id={self.reset_id} email={self.email}>'
+
+
 # EXAMPLE DATA ---------------------------------------------------------------
 
 
@@ -91,8 +109,7 @@ def example_data():
     Review.query.delete()
 
     # Example Users
-    JackT = User(user_id=1, 
-                fname='Jack', 
+    JackT = User(fname='Jack', 
                 lname='Torrance', 
                 email='JackT@test.com',
                 username='JackT',
@@ -100,8 +117,7 @@ def example_data():
                 profile_image="/static/images/JackT.jpg",
                 profile_view=True)
 
-    BevM = User(user_id=2, 
-                fname='Beverly', 
+    BevM = User(fname='Beverly', 
                 lname='Marsh', 
                 email='BevM@test.com',
                 username='BevM',
@@ -109,8 +125,7 @@ def example_data():
                 profile_image="/static/images/BevM.jpg",
                 profile_view=True)
 
-    PaulE = User(user_id=3, 
-                fname='Paul', 
+    PaulE = User(fname='Paul', 
                 lname='Edgecomb', 
                 email='PaulE@test.com',
                 username='PaulE',
@@ -145,37 +160,29 @@ def example_data():
 
     # Example Reviews  
 
-    review1 = Review(review_id=1,
-                    score=3,
+    review1 = Review(score=3,
                     to_be_read=False,
                     favorites=True,
                     current_read=False,
                     user_id=1,
-                    isbn="123",
-                    book=book1,
-                    user=JackT)
+                    isbn="123")
 
-    review2 = Review(review_id=2,
-                    score=4,
+    review2 = Review(score=4,
                     to_be_read=True,
                     favorites=False,
                     current_read=False,
                     user_id=1,
-                    isbn="456",
-                    book=book2,
-                    user=JackT)
+                    isbn="456")
 
-    review3 = Review(review_id=3,
-                    score=5,
+    review3 = Review(score=5,
                     to_be_read=True,
                     favorites=False,
                     current_read=True,
                     user_id=1,
-                    isbn="789",
-                    book=book3,
-                    user=JackT)
+                    isbn="789")
 
     db.session.add_all([JackT, BevM, PaulE, book1, book2, book3])
+    db.session.commit()
     db.session.add_all([review1, review2, review3])
     db.session.commit()
 
