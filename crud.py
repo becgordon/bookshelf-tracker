@@ -48,6 +48,28 @@ def get_all_viewable_users(user):
     return User.query.filter((User.profile_view == True) & (User.username != user.username)).all()
 
 
+def is_password_strong(password):
+    """Check if a password meets requirements."""
+    
+    upper_alpha = 0
+    lower_alpha = 0
+    numeric = 0
+    
+    for character in password:
+        if character.isalpha() and character.isupper():
+            upper_alpha += 1
+        if character.isalpha() and character.islower():
+            lower_alpha += 1
+        if character.isnumeric():
+            numeric += 1
+    
+    if upper_alpha > 0 and lower_alpha > 0 and numeric > 0:
+        return True
+    else:
+        return False
+
+
+
 # FUNCTIONS FOR BOOKS TABLE --------------------------------------------------
 
 

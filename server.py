@@ -95,6 +95,9 @@ def create_account():
     if user:
         flash("Sorry! That username is already taken.")
         return render_template('create_account.html')
+    elif crud.is_password_strong(password) == False:
+        flash("Sorry! That password doesn't meet out requirements.")
+        return render_template('create_account.html')
     elif password != confirm_password:
         flash("Your passwords don't match.")
         return render_template('create_account.html')
@@ -180,14 +183,15 @@ def update_password(username):
         current_password = request.args.get('current-password')
         new_password = request.args.get('new-password')
         confirm_new_password = request.args.get('confirm-new-password')
-
-        if current_password == user.password and new_password == confirm_new_password:
-            user.password = new_password
-            db.session.commit()
-            flash('Your password was updated successfully.')
-            return redirect(f'/userprofile/{user.username}')
+    
+        if crud.is_password_strong(new_password) == True:
+            if current_password == user.password and new_password == confirm_new_password:
+                user.password = new_password
+                db.session.commit()
+                flash('Your password was updated successfully.')
+                return redirect(f'/userprofile/{user.username}')
         else:
-            flash("Either your current password is not correct or you new passwords don't match. Please try again.")
+            flash("Either your current password is not correct or your new passwords don't match. Please try again.")
             return render_template('user_settings.html', user=user)
 
 
@@ -261,12 +265,15 @@ def password_change(reset_id):
 
     reset = crud.get_reset_by_reset_id(reset_id)
     reset_password = request.form.get('reset-password')
-    user = crud.get_user_by_email(reset.email)
-    user.password = reset_password
-    db.session.commit()
-    flash('Password reset successful!')
-
-    return render_template('login.html')
+    if crud.is_password_strong(reset_password) == True:
+        user = crud.get_user_by_email(reset.email)
+        user.password = reset_password
+        db.session.commit()
+        flash('Password reset successful!')
+        return render_template('login.html')
+    else:
+        flash("Sorry! That doesn't meet our minimum password requirements.")
+        return redirect(f'/resetpassword/{reset_id}')
 
 
 @app.route('/deleteaccount')
@@ -289,6 +296,7 @@ def submit_delete_account():
             db.session.delete(review)
         db.session.delete(user)
         db.session.commit()
+        session.clear()
     else:
         flash("You've either entered the wrong password or they don't match.")
         return render_template('delete_account.html')

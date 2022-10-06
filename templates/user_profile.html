@@ -30,53 +30,43 @@
     </div>
   </nav>
 
-<p>
-    <img src="{{ user.profile_image }}" height="75px"> 
-</p>
+<p><img src="{{ user.profile_image }}" height="75px"></p>
 
 <div class="container">
 <h1>Welcome back, {{ user.fname }}!</h1>
-
-<p>
+<div>
     <form action="/sortby">
         <label for="sort-select">Sort Books By:</label>
-
         <select name="sort" id="sort-select">
             <option value="alphabetical by title">Alphabetical by Title</option>
             <option value="alphabetical by author">Alphabetical by Author</option>
             <option value="most recently added">Most Recently Updated</option>
             <option value="least recently added">Least Recently Updated</option>
         </select>
-
         <input type="submit">
     </form>
-</p>
-<p>
+</div>
+<div>
     <form action="/shelf">
         <label for="shelf">Go to Shelf:</label>
-
         <select name="shelf" id="shelf-select">
             <option value="To Be Read">To Be Read</option>
             <option value="Have Read">Have Read</option>
             <option value="Favorite">Favorites</option>
         </select>
-
         <input type="submit">
     </form>
-</p>
+</divv>
 
-<p>
-    What should I read next?
-    <button id="next-read">Get next read</button>
-</p>
+<div>What should I read next?<button id="next-read">Get next read</button></div>
 
-<p id="next-read-text"></p>
+<div id="next-read-text"></div>
 
 <p>
     --------------------------------------------------
 </p>
 
-<p>
+<div>
     <h2>Currently Reading</h2>
     {% if not current_reads %}
     <p>No current read!</p>
@@ -86,7 +76,7 @@
             <img src="{{ review.book.image }}" height="200px">
         </a>
     {% endfor %}
-</p>
+    </div>
 
 <p>
     --------------------------------------------------
@@ -94,7 +84,6 @@
 
 <h2>My Library</h2>
 <br>
-
 {% if not user.reviews %}
 <p>Looks like your library is empty!</p>
 {% endif %}
@@ -114,7 +103,6 @@
 </div>
 
 <script> 
-    
     function getNextRead(evt) {
         console.log("!!!!!!")
         fetch('/getnextread')
@@ -123,7 +111,6 @@
         };
 
     document.querySelector('#next-read').addEventListener('click', getNextRead)
-
 </script>
 
 {% endblock %}
