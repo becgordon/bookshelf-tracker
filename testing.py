@@ -35,6 +35,29 @@ class FlaskTestsDatabase(TestCase):
                                                                         user.password,
                                                                         user.profile_image)
 
+    def test_get_all_viewable_users(self):
+        user = crud.get_user_by_username('JackT')
+        viewable = crud.get_all_viewable_users(user)
+        assert('BevM') == viewable[0].username
+
+    def test_get_book_by_isbn(self):
+        book = crud.get_book_by_isbn('123')
+        assert('If It Bleeds') == book.title
+
+    # def test_sort_books_alphabetically_title(self):
+    #     user = crud.get_user_by_username('JackT')
+    #     books = crud.sort_books_alphabetically_title(user)
+    #     assert('Elevation') == books[0].title
+    #     assert('Phantoms') == books[2].title
+
+    def test_does_review_exist(self):
+        bool = crud.does_review_exist('1','123')
+        assert(bool) == True
+
+    def test_get_review_by_book_and_user_id(self):
+        review = crud.get_review_by_book_and_user_id('123','1')
+        assert(1) == review.review_id
+
 
 class FlaskTestsBasic(TestCase):
     """Flask tests."""
@@ -129,20 +152,6 @@ class CRUDTests(TestCase): # all working
                                                     review.to_be_read, 
                                                     review.favorites)
 
-
-class FlaskTestsLoggedIn(TestCase): 
-
-    def setUp(self):
-        app.config['TESTING'] = True
-        app.config['SECRET_KEY'] = 'key'
-        self.client = app.test_client()
-        with self.client as c:
-            with c.session_transaction() as sess:
-                sess['user_name'] = 'JackT'
-
-    # def test_view_user_profile(self): # not working
-    #     result = self.client.get('/userprofile/<username>')
-    #     self.assertIn(b'Welcome back, Jack!', result.data)
 
 # ----------------------------------------------------------------------------
 

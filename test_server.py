@@ -10,32 +10,13 @@ import unittest
 
 class FlaskTests(unittest.TestCase):
 
-    def setUp(self):
-        self.client = app.test_client()
-        app.config['TESTING'] = True
-
-    def test_welcome_page(self):
-        result = self.client.get('/')
-        self.assertIn(b'<h1>This is the Welcome Page.</h1>',
-                    result.data)
-
-    def test_log_in_page(self):
-        result = self.client.get('/login')
-        self.assertIn(b'<form action="/login" method="POST">',
-                        result.data)
-
-    def test_show_create_account(self):
-        result = self.client.get('/createaccount')
-        self.assertIn(b'<form action="/createaccount" method="POST">', 
-                        result.data)
-
-    # def test_create_account(self): # need to fix this
-    #     result = self.client.post('/createaccount', data={'fname':'Jack',
-    #                                                     'lname': 'Torrance',
-    #                                                     'username':'JackT',
-    #                                                     'email':'JackT@test.com',
-    #                                                     'password':'test'}, follow_redirects=True)
-    #     self.assertIn(b'Account successfully created!', result.data)
+    def test_create_account(self): # need to fix this
+        result = self.client.post('/createaccount', data={'fname':'Jack',
+                                                        'lname': 'Torrance',
+                                                        'username':'JackT',
+                                                        'email':'JackT@test.com',
+                                                        'password':'test'}, follow_redirects=True)
+        self.assertIn(b'Account successfully created!', result.data)
 
 
 class FlaskTestsLoggedIn(unittest.TestCase):
