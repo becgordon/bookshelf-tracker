@@ -6,7 +6,7 @@
 {% block body %}
 
 <nav class="navbar sticky-top navbar-expand-md bg-light">
-    <div class="container-fluid">
+    <div class="container-fluid d-flex">
       <a class="navbar-brand" href="/">Shelf-Help</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -30,7 +30,9 @@
     </div>
   </nav>
 
-<p><img src="{{ user.profile_image }}" height="75px"></p>
+<div>
+  <img src="{{ user.profile_image }}" height="75px">
+</div>
 
 <div class="container">
 <h1>Welcome back, {{ user.fname }}!</h1>
@@ -82,7 +84,7 @@
 <div>Looks like your library is empty!</div>
 {% endif %}
 
-<div class="row">
+<div class="row gy-5">
 {% for review in user.reviews %}
     <div class="col-6 col-md-4 col-lg-3">
         <a href="/user/userbook{{ review.book.isbn }}">
@@ -90,6 +92,7 @@
     </div>
 {% endfor %}
 </div>
+
 
 <script> 
     function getNextRead(evt) {
