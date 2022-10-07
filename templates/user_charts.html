@@ -37,17 +37,20 @@
 </nav>
 
 <h1>{{ user.fname }}'s Charts</h1>
+<div class="row">
 
-<div class="chart">
-    <canvas id="reads"></canvas>
-</div>
+  <div class="chart col-4">
+      <canvas id="reads"></canvas>
+  </div>
 
-<div class="chart">
-    <canvas id="ratings"></canvas>
-</div>
+  <div class="chart col-4">
+      <canvas id="ratings"></canvas>
+  </div>
 
-<div class="chart">
-    <canvas id="stats"></canvas>
+  <div class="chart col-4">
+      <canvas id="stats"></canvas>
+  </div>
+
 </div>
 
 <div id="to_be_read" name="{{ to_be_read }}"></div>

@@ -39,6 +39,8 @@
     </form>
 </div>
 
+<div>--------------------------------------------------</div>
+
 <div>
     <h3>Privacy Settings</h3>
     {% if user.profile_view == True %}
@@ -50,6 +52,8 @@
     {% endif %}
 </div>
 
+<div>--------------------------------------------------</div>
+
 <div>
     <h3>Update your password.</h3>
         <form action="/updatepassword/{{ session['user_name'] }}">
@@ -59,11 +63,12 @@
             <p>Password should contain at least one lowercase character, one uppercase character, and a number.</p>
             <p><input type="submit"></p>
         </form>
-
 </div>
 
+<div>--------------------------------------------------</div>
+
 <div>
-  <a href="/deleteaccount">Delete account</a>
+  <h3><a href="/deleteaccount">Delete account</a></h3>
 </div>
 
 {% endblock %}

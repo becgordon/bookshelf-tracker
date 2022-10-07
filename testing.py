@@ -5,6 +5,37 @@ from flask import session
 import crud
 
 
+class FlaskTestsDatabase(TestCase):
+    """Flask tests that use the database."""
+
+    def setUp(self):
+        self.client = app.test_client()
+        app.config['TESTING'] = True
+        connect_to_db(app, db_uri="postgresql:///testdb")
+        db.create_all()
+        example_data()
+
+    def tearDown(self):
+        db.session.remove()
+        db.drop_all()
+        db.engine.dispose()
+
+    def test_login(self):
+        result = self.client.post("/login",
+                                  data={"username": "JackT", "password": "test"},
+                                  follow_redirects=True)
+        self.assertIn(b"Welcome back, Jack!", result.data)
+
+    def test_get_user_by_username(self):
+        user = crud.get_user_by_username('JackT')
+        assert('Jack','Torrance','JackT','JackT@test.com','test','/static/images/JackT.jpg') == (user.fname, 
+                                                                        user.lname, 
+                                                                        user.username,
+                                                                        user.email, 
+                                                                        user.password,
+                                                                        user.profile_image)
+
+
 class FlaskTestsBasic(TestCase):
     """Flask tests."""
 
@@ -27,64 +58,8 @@ class FlaskTestsBasic(TestCase):
         self.assertIn(b'<form action="/createaccount" method="POST">', 
                         result.data)
 
-    def test_log_out(self):
-        with self.client as c:
-            with c.session_transaction() as sess:
-                sess['user_name'] = 'JackT'
 
-            result = self.client.get('/logout', follow_redirects=True)
-            self.assertNotIn(b'user_name', session)
-            self.assertIn(b'<h1>This is the Welcome Page.</h1>', result.data)
-
-
-class FlaskTestsDatabase(TestCase):
-    """Flask tests that use the database."""
-
-    def setUp(self):
-        self.client = app.test_client()
-        app.config['TESTING'] = True
-        connect_to_db(app, db_uri="postgresql:///testdb")
-        db.create_all()
-        example_data()
-
-    def tearDown(self):
-        db.session.remove()
-        db.drop_all()
-        db.engine.dispose()
-
-    # def test_login(self): # not working
-    #     result = self.client.post("/login",
-    #                               data={"username": "JackT", "password": "test"},
-    #                               follow_redirects=True)
-    #     self.assertIn(b"Welcome back, Jack!", result.data)
-
-
-    # def test_get_user_by_username(self): # need help here
-    #     user = crud.get_user_by_username('JackT')
-    #     assert('Jack','Torrance','JackT@test.com','JackT','test') == (user.fname, 
-    #                                                                     user.lname, 
-    #                                                                     user.username,
-    #                                                                     user.email, 
-    #                                                                     user.password,
-    #                                                                     user.profile_image)
-
-
-class FlaskTestsLoggedIn(TestCase):
-
-    def setUp(self):
-        app.config['TESTING'] = True
-        app.config['SECRET_KEY'] = 'key'
-        self.client = app.test_client()
-        with self.client as c:
-            with c.session_transaction() as sess:
-                sess['user_name'] = 'JackT'
-
-    # def test_view_user_profile(self): # not working
-    #     result = self.client.get('/userprofile/<username>')
-    #     self.assertIn(b'Welcome back, Jack!', result.data)
-
-
-class CRUDTests(TestCase):
+class CRUDTests(TestCase): # all working
     
     def test_create_user(self):
         user = crud.create_user('Beverly', 
@@ -121,15 +96,6 @@ class CRUDTests(TestCase):
                             user.password,
                             user.profile_image)
 
-    # def test_get_user_by_username(self): # need help here
-    #     user = crud.get_user_by_username('JackT')
-    #     assert('Jack','Torrance','JackT@test.com','JackT','test') == (user.fname, 
-    #                                                                     user.lname, 
-    #                                                                     user.username,
-    #                                                                     user.email, 
-    #                                                                     user.password,
-    #                                                                     user.profile_image)
-
     def test_create_book(self):
         book = crud.create_book('123', 
                                 'Carrie', 
@@ -162,6 +128,21 @@ class CRUDTests(TestCase):
                                                     review.score, 
                                                     review.to_be_read, 
                                                     review.favorites)
+
+
+class FlaskTestsLoggedIn(TestCase): 
+
+    def setUp(self):
+        app.config['TESTING'] = True
+        app.config['SECRET_KEY'] = 'key'
+        self.client = app.test_client()
+        with self.client as c:
+            with c.session_transaction() as sess:
+                sess['user_name'] = 'JackT'
+
+    # def test_view_user_profile(self): # not working
+    #     result = self.client.get('/userprofile/<username>')
+    #     self.assertIn(b'Welcome back, Jack!', result.data)
 
 # ----------------------------------------------------------------------------
 

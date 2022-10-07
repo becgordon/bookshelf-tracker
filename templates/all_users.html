@@ -30,10 +30,12 @@
 </nav>
 
 <h1>View all users.</h1>
-
-{% for user in users %}
-<img src="{{user.profile_image }}" height="75px">
-<p>{{ user.username }}: <a href="/userlibrary/{{ user.username }}">View Profile</a></p>
-{% endfor %}
-
+<div class="row">
+  {% for user in users %}
+  <div class="col-2">
+    <a href="/userlibrary/{{ user.username }}"><img src="{{user.profile_image }}" height="75px"></a>
+    <div>{{ user.username }}</div>
+  </div>
+  {% endfor %}
+</div>
 {% endblock %}

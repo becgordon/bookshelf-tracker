@@ -86,11 +86,9 @@
 {% for review in user.reviews %}
     <div class="col-6 col-md-4 col-lg-3">
         <a href="/user/userbook{{ review.book.isbn }}">
-        <img src="{{ review.book.image}}" height="250px"></a>
+        <img src="{{ review.book.image}}" height="250px"></a>  
     </div>
 {% endfor %}
-</div>
-
 </div>
 
 <script> 
