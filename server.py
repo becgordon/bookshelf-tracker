@@ -488,27 +488,43 @@ def categorize_book(isbn, category):
     return f'Your book has been successfully added to your "{category}" shelf!'
 
 
-@app.route('/shelf')
-def display_shelf():
+@app.route('/favoritesshelf')
+def display_favorites_shelf():
     """Show user a particular shelf."""
 
     user = crud.get_user_by_username(session['user_name'])
-    shelf = request.args.get("shelf")
     shelf_list = []
-    if shelf == "To Be Read":
-        for review in user.reviews:
-            if review.to_be_read == True:
-                shelf_list.append(review)
-    elif shelf == "Have Read":
-        for review in user.reviews:
-            if review.to_be_read == False:
-                shelf_list.append(review)
-    elif shelf == "Favorite":
-        for review in user.reviews:
-            if review.favorites == True:
-                shelf_list.append(review)
+    for review in user.reviews:
+        if review.favorites == True:
+            shelf_list.append(review)
     
-    return render_template('user_shelf.html', reviews=shelf_list, shelf=shelf)
+    return render_template('user_shelf.html', reviews=shelf_list, shelf='Favorite')
+
+
+@app.route('/tobereadsshelf')
+def display_to_be_read_shelf():
+    """Show user a particular shelf."""
+
+    user = crud.get_user_by_username(session['user_name'])
+    shelf_list = []
+    for review in user.reviews:
+        if review.to_be_read == True:
+            shelf_list.append(review)
+    
+    return render_template('user_shelf.html', reviews=shelf_list, shelf='To Be Read')
+
+
+@app.route('/havereadsshelf')
+def display_have_read_shelf():
+    """Show user a particular shelf."""
+
+    user = crud.get_user_by_username(session['user_name'])
+    shelf_list = []
+    for review in user.reviews:
+        if review.to_be_read == False:
+            shelf_list.append(review)
+    
+    return render_template('user_shelf.html', reviews=shelf_list, shelf='Have Read')
 
 
 @app.route('/usercharts/<username>')
