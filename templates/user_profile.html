@@ -4,18 +4,15 @@
 
 {% block body %}
 
-<main>
-  <div class="row align-items-md-stretch">
+<main class="container">
+  <div class="row align-items-md-stretch mt-3 books">
     <div class="row">
       <div class="col-2">
         <img src="{{ user.profile_image }}" height="100px">
       </div>
-      <div class="col-10">
-        <img src="/static/images/books.jpeg" height="100px" width="800px">
-      </div>
     </div>
   </div>
-  <header class="mb-4 border row">
+  <header class="m-4 row">
     <span class="fs-4 col-2">
       My Library
     </span>
@@ -43,16 +40,16 @@
 
 <div class="row align-items-md-stretch gy-4">
 {% for review in user.reviews %}
-    <div class="col-md-3 col-sm-6">
+    <div class="col-xl-2 col-md-3 col-sm-6">
       {% if review.current_read == True %}
-      <div class="h-100 p-5 bg-light border rounded-3 text-center align-middle">
+      <div class="h-100 p-3 border brown rounded-3 text-center align-middle">
+        <p>Currently Reading</p> 
         <a href="/user/userbook{{ review.book.isbn }}">
-          <img src="{{ review.book.image}}"></a>
-        <p>Currently Reading</p>  
+          <img src="{{ review.book.image}}"></a> 
       </div> 
       {% endif %}
       {% if review.current_read == False %}
-      <div class="h-100 p-5 bg-light border rounded-3 text-center align-middle">
+      <div class="h-100 p-3 border brown rounded-3 text-center">
         <a href="/user/userbook{{ review.book.isbn }}">
           <img src="{{ review.book.image}}"></a>  
       </div>

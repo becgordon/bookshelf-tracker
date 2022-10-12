@@ -329,7 +329,8 @@ def submit_book_search():
     url = 'https://www.googleapis.com/books/v1/volumes'
     payload = {'apikey': BOOKS_API_KEY, 
                 'q': search_term, 
-                f'{search_type}': advanced_search_term}
+                f'{search_type}': advanced_search_term,
+                'maxResults': '20'}
 
     response = (requests.get(url, params=payload)).json()
 
@@ -350,6 +351,9 @@ def view_book_profile(volume_id):
     url = f'https://www.googleapis.com/books/v1/volumes/{volume_id}'
     payload = {'apikey': BOOKS_API_KEY}
     response = (requests.get(url, params=payload)).json()
+    print('\n'*5)
+    print(response)
+    print('\n'*5)
 
     (title, 
     author, 
@@ -358,6 +362,10 @@ def view_book_profile(volume_id):
     isbn, 
     description, 
     volume_id) = crud.sort_json_response(response)
+
+    print('\n'*5)
+    print(image)
+    print('\n'*5)
 
     return render_template('book_profile.html',
                             title=title,
