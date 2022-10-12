@@ -1,46 +1,45 @@
-{% extends 'base.html' %}
+{% extends 'loggedin_base.html' %}
 
-{% block title %}{% endblock %}
+{% block title %}{{ title }}{% endblock %}
 
 {% block body %}
 
-<nav class="navbar sticky-top navbar-expand-md bg-light">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="/">Shelf-Help</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="menu">
-        <div class="navbar-nav">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">My Profile</a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="/userprofile/{{ session['user_name'] }}">Library</a></li>
-            <li><a class="dropdown-item" href="/usercharts/{{ session['user_name'] }}">Charts</a></li>
-            <li><a class="dropdown-item" href="/viewallusers">View All Users</a></li>
-            <li><a class="dropdown-item" href="/usersettings/{{ session['user_name'] }}">Settings</a></li>
-          </ul>
-          <a class="nav-link" href="/logout">Log Out</a>
-          <form class="d-flex" role="search" method="GET" action="/booksearchresults">
-            <input class="form-control me-2" type="search" placeholder="Search for a Book" aria-label="Search" name="search-term">
-            <button class="btn btn-outline-success" type="submit">Search</button>
-          </form>
-        </div>
-      </div>
+<main>
+  <div class="row align-items-md-stretch gy-4">
+    <div class="col-4 m-5">
+      <img src="{{ image }}" width="375px">
     </div>
-  </nav>
-
-<div>
-    <a href="https://bookshop.org/books?keywords={{ title }} {{ author }}">Purchase this book.</a>
-</div>
-
-<button id="add_book">Add this book to your library</button>
-
-<h2>{{ title }}</h2>
-<div> {{ author }}</div>
-<div><img src="{{ image }}"></div>
-<div>Genre: {{ genre }}</div>
-<div>{{ description }}</div>
-<div>ISBN: {{ isbn }}</div>
+    <div class="col-6 mt-5">
+        <span>
+          <h1>{{ title }}</h1>
+        </span>
+        <span>
+          <h4>{{ author }}</h4>
+        </span>
+        <span>
+          <br>
+          {{ description }}
+        </span>
+        <span>
+          <p>
+            <br>
+            Genre: {{ genre }}
+          </p>
+        </span>
+        <span>
+          <div>
+            <a href="https://bookshop.org/books?keywords={{ title }} {{ author }}">Purchase this book.</a>
+          </div>
+        </span>
+        <span>
+          <br>
+          <div>
+            <button id="add_book">Add this book to your library</button>
+          </div>
+        </span>
+    </div>
+  </div>
+</main>
 
 <div id="volume_id" name="{{ volume_id }}"></div>
 

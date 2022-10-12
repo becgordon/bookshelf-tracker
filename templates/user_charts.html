@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'loggedin_base.html' %}
 
 {% block head %}
 <style>
@@ -11,53 +11,19 @@
 
 {% block body %}
 
-<nav class="navbar sticky-top navbar-expand-md bg-light">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="/">Shelf-Help</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="menu">
-      <div class="navbar-nav">
-        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">My Profile</a>
-        <ul class="dropdown-menu">
-          <li><a class="dropdown-item" href="/userprofile/{{ session['user_name'] }}">Library</a></li>
-          <li><a class="dropdown-item" href="/usercharts/{{ session['user_name'] }}">Charts</a></li>
-          <li><a class="dropdown-item" href="/viewallusers">View All Users</a></li>
-          <li><a class="dropdown-item" href="/usersettings/{{ session['user_name'] }}">Settings</a></li>
-        </ul>
-        <a class="nav-link d-flex justify-content-end"" href="/logout">Log Out</a>
-        <form class="d-flex" role="search" method="GET" action="/booksearchresults">
-          <input class="form-control me-2" type="search" placeholder="Search for a Book" aria-label="Search" name="search-term">
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
-      </div>
+<main>
+  <h1>{{ user.fname }}'s Charts</h1>
+    <div class="row align-items-md-stretch">
+      <div class="chart col-4"><canvas id="reads"></canvas></div>
+      <div class="chart col-4"><canvas id="ratings"></canvas></div>
+      <div class="chart col-4"><canvas id="stats"></canvas></div>
     </div>
-  </div>
-</nav>
-
-<h1>{{ user.fname }}'s Charts</h1>
-<div class="row">
-
-  <div class="chart col-4">
-      <canvas id="reads"></canvas>
-  </div>
-
-  <div class="chart col-4">
-      <canvas id="ratings"></canvas>
-  </div>
-
-  <div class="chart col-4">
-      <canvas id="stats"></canvas>
-  </div>
-
-</div>
-
-<div id="to_be_read" name="{{ to_be_read }}"></div>
-<div id="have_read" name="{{ have_read }}"></div>
-<div id="rated" name="{{ rated }}"></div>
-<div id="unrated" name="{{ unrated }}"></div>
-<div id="favorites" name="{{ favorites }}"></div>
+  <div id="to_be_read" name="{{ to_be_read }}"></div>
+  <div id="have_read" name="{{ have_read }}"></div>
+  <div id="rated" name="{{ rated }}"></div>
+  <div id="unrated" name="{{ unrated }}"></div>
+  <div id="favorites" name="{{ favorites }}"></div>
+</main>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 

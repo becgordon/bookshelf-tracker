@@ -343,13 +343,6 @@ def submit_book_search():
                             searchterm=search_term)
 
 
-# @app.route('/advancedbooksearch')
-# def view_advanced_book_search():
-#     """View advanced book search page."""
-
-#     return render_template('advanced_book_search.html')
-
-
 @app.route('/bookprofile/<volume_id>')
 def view_book_profile(volume_id):
     """View a particular book's profile."""
