@@ -4,25 +4,11 @@
 
 {% block body %}
 
-<h1 class="banner text-center">My Library</h1>
-<header class="mb-4 row">
-  <span class="fs-6 col-6"> 
-    <form action="/sortby">
-      <label for="sort-select">Sort Books By:</label>
-      <select name="sort" id="sort-select">
-          <option value="alphabetical by title">Alphabetical by Title</option>
-          <option value="alphabetical by author">Alphabetical by Author</option>
-          <option value="most recently added">Most Recently Updated</option>
-          <option value="least recently added">Least Recently Updated</option>
-      </select>
-      <input type="submit">
-  </form>
-  </span>
-  <span class="fs-6 col-4">
-    <div>What should I read next?<button id="next-read">Get next read</button></div>
-    <div id="next-read-text"></div>
-  </span>
-</header>
+<div class="banner p-5">
+  <div class=" container h-60 p-2 mt-3 brown rounded-3 text-center">
+    <h1 class="text-light">My Library</h1>
+  </div>
+</div>
 
 <main class="container">
   <!-- <div class="row align-items-md-stretch mt-3 books">
@@ -32,6 +18,27 @@
       </div>
     </div>
   </div> -->
+
+  <header class="mb-4 mt-4 row text-center">
+    <span class="fs-6 col-6"> 
+      <form action="/sortby">
+        <label for="sort-select">Sort Books By:</label>
+        <select name="sort" id="sort-select">
+            <option value="alphabetical by title">Alphabetical by Title</option>
+            <option value="alphabetical by author">Alphabetical by Author</option>
+            <option value="most recently added">Most Recently Updated</option>
+            <option value="least recently added">Least Recently Updated</option>
+        </select>
+        <input type="submit">
+    </form>
+    </span>
+    <span class="fs-6 col-6">
+      <div class="mr-3">What should I read next?
+        <button id="next-read">Get next read</button>
+      </div>
+      <div id="next-read-text"></div>
+    </span>
+  </header>
 
   {% if not user.reviews %}
 <div>Looks like your library is empty!</div>

@@ -4,13 +4,21 @@
 
 {% block body %}
 
-<h1>All users</h1>
-<div class="row">
-  {% for user in users %}
-  <div class="col-md-3 col-sm-4">
-    <a href="/userlibrary/{{ user.username }}"><img src="{{user.profile_image }}" height="200px"></a>
-    <div class="text-center">{{ user.username }}</div>
+<div class="banner p-5 mb-4">
+  <div class=" container h-60 p-2 mt-3 brown rounded-3 text-center">
+    <h1 class="text-light">Other Users' Libraries</h1>
   </div>
-  {% endfor %}
 </div>
+
+<main class="container">
+  <div class="row">
+    {% for user in users %}
+    <div class="col-lg-3 col-md-4 col-sm-6">
+      <a href="/userlibrary/{{ user.username }}"><img src="{{user.profile_image }}" height="200px"></a>
+      <div class="text-center">{{ user.username }}</div>
+    </div>
+    {% endfor %}
+  </div>
+</main>
+
 {% endblock %}

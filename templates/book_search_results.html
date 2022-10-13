@@ -4,9 +4,16 @@
 
 {% block body %}
 
+<div class="banner p-5">
+  <div class=" container h-60 p-2 mt-3 brown rounded-3 text-center">
+    <h1 class="text-light">Search Results for "{{ searchterm }}"</h1>
+  </div>
+</div>
+
 <main class="container">
-  <header class="mb-4 border row">
-    <span class="fs-6 col-12">
+
+  <header class="mb-4 mt-4 row text-center">
+    <span class="fs-6 col-12"> 
       <form method="GET" action="/booksearchresults">
         <div>
             Advanced Search: <input type="text" name="search-term" placeholder="search term">
@@ -19,13 +26,12 @@
             <input type="text" name="advanced-search-term" placeholder="search by">
             <input type="submit">
           </div>
-    </form>
-    </span>
   </header>
+
   {% if books == [] %}
   <h2>Hmmm, it looks like there weren't any results for that search term. Please try again.</h2>
   {% endif %}
-  <div class="row align-items-md-stretch gy-4">
+  <div class="row align-items-md-stretch gy-4 mb-4">
     {% for book in books %}
         <div class="col-xl-2 col-md-3 col-sm-6">
           <div class="h-100 p-3 border brown rounded-3 text-center align-middle">

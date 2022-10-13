@@ -4,44 +4,37 @@
 
 {% block body %}
 
-<p>
-    <img src="{{ viewed_user.profile_image }}" height="75px"> 
-</p>
+<div class="banner p-5 mb-4">
+    <div class=" container h-60 p-2 mt-3 brown rounded-3 text-center">
+      <h1 class="text-light">{{ viewed_user.username }}'s Library</h1>
+    </div>
+</div>
 
-<p>
-    <a href="/userprofile/{{ session['user_name'] }}">Go back to profile.</a>
-</p>
+<main class="container">
 
-<h2>{{ viewed_user.username }}'s Library</h2>
-
-{% if not viewed_user.reviews %}
-<div>Looks like this library is empty!</div>
-{% endif %}
-
-<div>
-    <h2>Currently Reading</h2>
-    {% if not current_reads %}
-    <p>No current read!</p>
+    {% if not viewed_user.reviews %}
+    <div>Looks like this library is empty!</div>
     {% endif %}
-    {% for review in current_reads %}
-        <a href="/user/userbook{{ review.book.isbn }}"><img src="{{ review.book.image }}" height="200px"></a>
-    {% endfor %}
-      </div>
-<div>--------------------------------------------------</div>
 
-{% for review in viewed_user.reviews %}
-        <h3>{{ review.book.title }}</h3>
-        <div>By {{ review.book.author }}</div>
-        <div>
-            <a href="/bookprofile/{{ review.book.volume_id }}">
-            <img src="{{ review.book.image}}"></a>
+    <div class="row align-items-md-stretch gy-4 mb-4">
+        {% for review in viewed_user.reviews %}
+            <div class="col-xl-2 col-md-3 col-sm-6">
+              {% if review.current_read == True %}
+              <div class="h-100 p-3 border brown rounded-3 text-center align-middle">
+                <p class="text-light">Currently Reading</p> 
+                <a href="/bookprofile/{{ review.book.volume_id }}">
+                  <img src="{{ review.book.image}}" class="rounded mx-auto d-block"></a> 
+              </div> 
+              {% endif %}
+              {% if review.current_read == False %}
+              <div class="h-100 p-3 border brown rounded-3 text-center">
+                <a href="/bookprofile/{{ review.book.volume_id }}">
+                  <img src="{{ review.book.image}}" class="rounded mx-auto d-block"></a>  
+              </div>
+              {% endif %}
             </div>
-        {% if review.score == None %}
-        <div>{{ viewed_user.username }}'s Rating: Not Yet Rated</div>
-        {% else %}
-        <div>{{ viewed_user.username }}'s Rating: {{ review.score }}</div>
-        {% endif %}
-        <div>--------------------------------------------------</div>
-{% endfor %}
+        {% endfor %}
+        </div>
+</main>
 
 {% endblock %}

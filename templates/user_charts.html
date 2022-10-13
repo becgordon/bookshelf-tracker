@@ -4,6 +4,7 @@
 <style>
     .chart {
     width: 300px;
+    height: 300px;
 }
 </style>
 
@@ -11,18 +12,42 @@
 
 {% block body %}
 
-<main>
-  <h1>My Charts</h1>
-    <div class="row align-items-md-stretch">
-      <div class="chart col-4"><canvas id="reads"></canvas></div>
-      <div class="chart col-4"><canvas id="ratings"></canvas></div>
-      <div class="chart col-4"><canvas id="stats"></canvas></div>
+<div class="banner p-5 mb-4">
+  <div class=" container h-60 p-2 mt-3 brown rounded-3 text-center">
+    <h1 class="text-light">My Charts</h1>
+  </div>
+</div>
+
+<main class="container">
+  <div class="row align-items-md-stretch gy-4 mb-4">
+    <div class="col-xl-4 col-md-6">
+      <div class="h-110 border p-4 brown rounded-3 text-center">
+        <div class="chart rounded mx-auto d-block">
+          <canvas id="reads"></canvas>
+        </div>
+      </div>
     </div>
-  <div id="to_be_read" name="{{ to_be_read }}"></div>
-  <div id="have_read" name="{{ have_read }}"></div>
-  <div id="rated" name="{{ rated }}"></div>
-  <div id="unrated" name="{{ unrated }}"></div>
-  <div id="favorites" name="{{ favorites }}"></div>
+      <div class="col-xl-4 col-md-6">
+        <div class="h-110 border p-4 brown rounded-3 text-center">
+          <div class="chart rounded mx-auto d-block">
+            <canvas id="ratings"></canvas>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-4 col-md-6">
+        <div class="h-110 border p-4 brown rounded-3 text-center">
+          <div class="chart rounded mx-auto d-block">
+            <canvas id="stats"></canvas>
+          </div>
+          <div id="to_be_read" name="{{ to_be_read }}"></div>
+          <div id="have_read" name="{{ have_read }}"></div>
+          <div id="rated" name="{{ rated }}"></div>
+          <div id="unrated" name="{{ unrated }}"></div>
+          <div id="favorites" name="{{ favorites }}"></div>
+        </div>
+      </div>
+    </div>
+  </div>
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -124,6 +149,7 @@
         type: 'bar',
         data: statsData,
         options: {
+          maintainAspectRatio: false,
           scales: {
             y: {
               beginAtZero: true

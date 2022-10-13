@@ -2,22 +2,26 @@
 
 {% block body %}
 
-<main>
-  <h1>{{ shelf }}s</h1>
+<div class="banner p-5 mb-4">
+  <div class=" container h-60 p-2 mt-3 brown rounded-3 text-center">
+    <h1 class="text-light">{{ shelf }}s</h1>
+  </div>
+</div>
 
+<main class="container">
 
 {% if not reviews %}
 <div>Looks like your library is empty!</div>
 {% endif %}
 
-<div class="row align-items-md-stretch gy-4">
+<div class="row align-items-md-stretch gy-4 mb-4">
 {% for review in reviews %}
     <div class="col-xl-2 col-md-3 col-sm-6">
       {% if review.current_read == True %}
       <div class="h-100 p-3 border brown rounded-3 text-center align-middle">
         <a href="/user/userbook{{ review.book.isbn }}">
           <img src="{{ review.book.image}}" class="rounded mx-auto d-block"></a>
-        <p>Currently Reading</p>  
+        <p class="text-light">Currently Reading</p>  
       </div> 
       {% endif %}
       {% if review.current_read == False %}

@@ -16,6 +16,6 @@
 .banner {
     background-image: url('/static/images/homepage.jpg');
     height: 200px;
-    background-position: center;
+    background-position: top;
     background-size: cover;
 }
