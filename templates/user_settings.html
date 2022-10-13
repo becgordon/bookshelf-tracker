@@ -4,47 +4,55 @@
 
 {% block body %}
 
-<h1>Settings</h1>
-
-<div>
-    <h3>Upload a profile picture.</h3>
-    <form action="/updateprofile/{{ session['user_name'] }}" method="POST" enctype="multipart/form-data">
-        <input type="file" name="profile-picture">
-        <input type="submit">
-    </form>
-</div>
-
-<div>--------------------------------------------------</div>
-
-<div>
-    <h3>Privacy Settings</h3>
-    {% if user.profile_view == True %}
-    <p> Your profile is currently public.</p>
-    <p><a href="/updateprofileview">Make it private.</a></p>
-    {% else %}
-    <p> Your profile is currently private.</p>
-    <p><a href="/updateprofileview">Make it public.</a></p>
-    {% endif %}
-</div>
-
-<div>--------------------------------------------------</div>
-
-<div>
-    <h3>Update your password.</h3>
-        <form action="/updatepassword/{{ session['user_name'] }}">
-            <p>Current Password <input type="password" name="current-password"></p>
-            <p>New Password <input type="password" name="new-password"></p>
-            <p>Confirm New Password <input type="password" name="confirm-new-password"></p>
-            <p>Password should contain at least one lowercase character, one uppercase character, and a number.</p>
-            <p><input type="submit"></p>
-        </form>
-</div>
-
-<div>--------------------------------------------------</div>
-
-<div>
-  <h3><a href="/deleteaccount">Delete account</a></h3>
-</div>
+<main>
+    <h1 class="mb-5">Settings</h1>
+    <div class="row">
+        <div class="col-6">
+            <h4>Upload a profile picture.</h4>
+            <form action="/updateprofile/{{ session['user_name'] }}" method="POST" enctype="multipart/form-data">
+                <input type="file" name="profile-picture">
+                <input type="submit">
+            </form>
+        </div>
+        <div class="col-6">
+            <h4>Privacy Settings</h4>
+            {% if user.profile_view == True %}
+            <p> Your profile is currently public.</p>
+            <p><a href="/updateprofileview">Make it private.</a></p>
+            {% else %}
+            <p> Your profile is currently private.</p>
+            <p><a href="/updateprofileview">Make it public.</a></p>
+            {% endif %}
+        </div>
+        </div>
+    </div>
+    <br>
+    <br>
+    <div class="row">
+        <div class="col-9">
+            <h4>Update your password.</h4>
+            <form action="/updatepassword/{{ session['user_name'] }}">
+                <div class="mb-3 col-3">
+                  <label for="current-password" class="form-label">Current Password</label>
+                  <input type="password" class="form-control" name="current-password">
+                </div>
+                <div class="mb-3 col-3">
+                  <label for="new-password" class="form-label">New Password</label>
+                  <input type="password" class="form-control" name="new-password">
+                </div>
+                <div class="mb-3 col-3">
+                    <label for="confirm-new-password" class="form-label">Confirm New Password</label>
+                    <input type="password" class="form-control" name="confirm-new-password">
+                  </div>
+                  <div><input type="submit"></div>
+              </form>
+        </div>
+        <div class="col-3">
+            <h4><a href="/deleteaccount">Delete account</a></h4>
+        </div>
+        </div>
+    </div>
+</main>
 
 {% endblock %}
 

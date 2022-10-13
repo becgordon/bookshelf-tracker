@@ -3,10 +3,8 @@
 {% block body %}
 
 <main>
-<header class="mb-4 border row">
-  <span class="fs-4 col-12">
-    {{ shelf }}'s Shelf
-</header>
+  <h1>{{ shelf }}s</h1>
+
 
 {% if not reviews %}
 <div>Looks like your library is empty!</div>
@@ -14,18 +12,18 @@
 
 <div class="row align-items-md-stretch gy-4">
 {% for review in reviews %}
-    <div class="col-md-3 col-sm-6">
+    <div class="col-xl-2 col-md-3 col-sm-6">
       {% if review.current_read == True %}
-      <div class="h-100 p-5 bg-light border rounded-3 text-center align-middle">
+      <div class="h-100 p-3 border brown rounded-3 text-center align-middle">
         <a href="/user/userbook{{ review.book.isbn }}">
-          <img src="{{ review.book.image}}"></a>
+          <img src="{{ review.book.image}}" class="rounded mx-auto d-block"></a>
         <p>Currently Reading</p>  
       </div> 
       {% endif %}
       {% if review.current_read == False %}
-      <div class="h-100 p-5 bg-light border rounded-3 text-center align-middle">
+      <div class="h-100 p-3 border brown rounded-3 text-center">
         <a href="/user/userbook{{ review.book.isbn }}">
-          <img src="{{ review.book.image}}"></a>  
+          <img src="{{ review.book.image}}" class="rounded mx-auto d-block"></a>  
       </div>
       {% endif %}
     </div>

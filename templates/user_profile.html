@@ -4,35 +4,34 @@
 
 {% block body %}
 
+<h1 class="banner text-center">My Library</h1>
+<header class="mb-4 row">
+  <span class="fs-6 col-6"> 
+    <form action="/sortby">
+      <label for="sort-select">Sort Books By:</label>
+      <select name="sort" id="sort-select">
+          <option value="alphabetical by title">Alphabetical by Title</option>
+          <option value="alphabetical by author">Alphabetical by Author</option>
+          <option value="most recently added">Most Recently Updated</option>
+          <option value="least recently added">Least Recently Updated</option>
+      </select>
+      <input type="submit">
+  </form>
+  </span>
+  <span class="fs-6 col-4">
+    <div>What should I read next?<button id="next-read">Get next read</button></div>
+    <div id="next-read-text"></div>
+  </span>
+</header>
+
 <main class="container">
-  <div class="row align-items-md-stretch mt-3 books">
+  <!-- <div class="row align-items-md-stretch mt-3 books">
     <div class="row">
       <div class="col-2">
         <img src="{{ user.profile_image }}" height="100px">
       </div>
     </div>
-  </div>
-  <header class="m-4 row">
-    <span class="fs-4 col-2">
-      My Library
-    </span>
-    <span class="fs-5 col-6">
-      <form action="/sortby">
-        <label for="sort-select">Sort Books By:</label>
-        <select name="sort" id="sort-select">
-            <option value="alphabetical by title">Alphabetical by Title</option>
-            <option value="alphabetical by author">Alphabetical by Author</option>
-            <option value="most recently added">Most Recently Updated</option>
-            <option value="least recently added">Least Recently Updated</option>
-        </select>
-        <input type="submit">
-    </form>
-    </span>
-    <span class="fs-5 col-4">
-      <div>What should I read next?<button id="next-read">Get next read</button></div>
-      <div id="next-read-text"></div>
-    </span>
-  </header>
+  </div> -->
 
   {% if not user.reviews %}
 <div>Looks like your library is empty!</div>
@@ -43,27 +42,28 @@
     <div class="col-xl-2 col-md-3 col-sm-6">
       {% if review.current_read == True %}
       <div class="h-100 p-3 border brown rounded-3 text-center align-middle">
-        <p>Currently Reading</p> 
+        <p class="text-light">Currently Reading</p> 
         <a href="/user/userbook{{ review.book.isbn }}">
-          <img src="{{ review.book.image}}"></a> 
+          <img src="{{ review.book.image}}" class="rounded mx-auto d-block"></a> 
       </div> 
       {% endif %}
       {% if review.current_read == False %}
       <div class="h-100 p-3 border brown rounded-3 text-center">
         <a href="/user/userbook{{ review.book.isbn }}">
-          <img src="{{ review.book.image}}"></a>  
+          <img src="{{ review.book.image}}" class="rounded mx-auto d-block"></a>  
       </div>
       {% endif %}
     </div>
 {% endfor %}
 </div>
+<br>
 </main>
 
 <script> 
     function getNextRead(evt) {
         fetch('/getnextread')
         .then((response) => response.text())
-        .then((nextRead) => document.querySelector('#next-read-text').innerHTML = `<img src=${nextRead} />`)
+        .then((nextRead) => alert(nextRead))
         };
 
     document.querySelector('#next-read').addEventListener('click', getNextRead)

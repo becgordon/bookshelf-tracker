@@ -35,8 +35,7 @@ def welcome_page():
     """View welcome page."""
 
     if session:
-        username = session.get("user_name")
-        return redirect(f'/userprofile/{username}')
+        return render_template('welcome_page.html')
     else:
         return render_template('welcome_page.html')
 
@@ -363,10 +362,6 @@ def view_book_profile(volume_id):
     description, 
     volume_id) = crud.sort_json_response(response)
 
-    print('\n'*5)
-    print(image)
-    print('\n'*5)
-
     return render_template('book_profile.html',
                             title=title,
                             author=author,
@@ -575,7 +570,7 @@ def get_next_read():
             next_book_options.append(review)
     next_book = random.choice(next_book_options)
 
-    return next_book.book.image
+    return (f'{next_book.book.title} by {next_book.book.author}')
 
 
 @app.route('/currentread/<isbn>')

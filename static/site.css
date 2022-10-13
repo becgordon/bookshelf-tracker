@@ -6,6 +6,16 @@
     background: #5F3840;
 }
 
-.books {
-    background: url("profile-books.jpg") no-repeat center center
+.homepage {
+    background-image: url('/static/images/homepage.jpg');
+    height: 2000px;
+    background-position: center;
+    background-size: cover;
+}
+
+.banner {
+    background-image: url('/static/images/homepage.jpg');
+    height: 200px;
+    background-position: center;
+    background-size: cover;
 }
