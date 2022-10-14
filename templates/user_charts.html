@@ -22,22 +22,27 @@
   <div class="row align-items-md-stretch gy-4 mb-4">
     <div class="col-xl-4 col-md-6">
       <div class="h-110 border p-4 brown rounded-3 text-center">
-        <div class="chart rounded mx-auto d-block">
-          <canvas id="reads"></canvas>
+        <div>
+          <div class="text-center text-light mb-4"><h3>To Be Read VS Have Read</h3></div>
+          <canvas class="chart rounded mx-auto d-block" id="reads"></canvas>
         </div>
       </div>
     </div>
+
       <div class="col-xl-4 col-md-6">
         <div class="h-110 border p-4 brown rounded-3 text-center">
-          <div class="chart rounded mx-auto d-block">
-            <canvas id="ratings"></canvas>
+          <div>
+            <div class="text-center text-light mb-4"><h3>Rated VS Unrated</h3></div>
+            <canvas class="chart rounded mx-auto d-block" id="ratings"></canvas>
           </div>
         </div>
       </div>
+
       <div class="col-xl-4 col-md-6">
         <div class="h-110 border p-4 brown rounded-3 text-center">
-          <div class="chart rounded mx-auto d-block">
-            <canvas id="stats"></canvas>
+          <div>
+            <div class="text-center text-light mb-4"><h3>Library Statistics</h3></div>
+            <canvas class="chart rounded mx-auto d-block" id="stats"></canvas>
           </div>
           <div id="to_be_read" name="{{ to_be_read }}"></div>
           <div id="have_read" name="{{ have_read }}"></div>
@@ -64,8 +69,8 @@
           data: [document.querySelector('#to_be_read').attributes.name.value, 
                 document.querySelector('#have_read').attributes.name.value],
           backgroundColor: [
-            'rgb(255, 99, 132)',
-            'rgb(54, 162, 235)'
+            'rgb(168, 82, 50)',
+            'rgb(168, 135, 50)'
           ],
           hoverOffset: 4
         }]
@@ -74,6 +79,15 @@
     const readsConfig = {
         type: 'doughnut',
         data: readsData,
+        options: {
+          plugins: {
+            legend: {
+              labels: {
+                color: 'white'
+              }
+            }
+          }
+        }
       };
 
     const reads = new Chart(
@@ -93,8 +107,8 @@
           data: [document.querySelector('#rated').attributes.name.value, 
                 document.querySelector('#unrated').attributes.name.value],
           backgroundColor: [
-            'rgb(255, 99, 132)',
-            'rgb(54, 162, 235)'
+            'rgb(60, 130, 130)',
+            'rgb(60, 95, 130)'
           ],
           hoverOffset: 4
         }]
@@ -103,6 +117,15 @@
     const ratingsConfig = {
     type: 'doughnut',
     data: ratingsData,
+    options: {
+      plugins: {
+        legend: {
+          labels: {
+            color: 'white'
+          }
+        }
+      }
+    }
     };
 
     const ratings = new Chart(
@@ -121,25 +144,25 @@
         "Favorites"
         ],
       datasets: [{
-        label: 'Book Stats',
+        label: "Library Statistics",
         data: [document.querySelector('#to_be_read').attributes.name.value, 
                 document.querySelector('#have_read').attributes.name.value,
                 document.querySelector('#rated').attributes.name.value,
                 document.querySelector('#unrated').attributes.name.value,
                 document.querySelector('#favorites').attributes.name.value],
         backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(255, 159, 64, 0.2)',
-            'rgba(255, 205, 86, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(54, 162, 235, 0.2)'
+            'rgba(168, 50, 50)',
+            'rgba(168, 82, 50)',
+            'rgba(168, 135, 50)',
+            'rgba(60, 130, 130)',
+            'rgba(60, 95, 130)'
             ],
             borderColor: [
-            'rgb(255, 99, 132)',
-            'rgb(255, 159, 64)',
-            'rgb(255, 205, 86)',
-            'rgb(75, 192, 192)',
-            'rgb(54, 162, 235)'
+            'white',
+            'white',
+            'white',
+            'white',
+            'white'
             ],
             borderWidth: 1
     }]
@@ -149,7 +172,27 @@
         type: 'bar',
         data: statsData,
         options: {
-          maintainAspectRatio: false,
+          scales: {
+            y: {
+              ticks: {
+                color:'white'
+              }
+            },
+            x: {
+              ticks: {
+                color:'white'
+              }
+            }
+          },
+          plugins: {
+            legend: {
+              display: false,
+              labels: {
+                color: 'white'
+              }
+            }
+          },
+          maintainAspectRatio: true,
           scales: {
             y: {
               beginAtZero: true

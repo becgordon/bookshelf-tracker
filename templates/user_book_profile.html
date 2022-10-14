@@ -32,30 +32,48 @@
         </span>
         <span>
           <br>
-          <button id="remove_book">Remove book from library</button>
-        </span>
-        <span>
-          <div>
+            <h5>Book Options</h5>
+            <details class="h-100px p-3 border brown rounded-3 align-middle text-light">
+              <summary>Read Status</summary>
+              <span>
+                <div> 
+                  {% if review.current_read == False %}
+                  <a class="text-light" href="/currentread/{{ book.isbn }}">Set as current read.</a>
+                  {% endif %}
+                  {% if review.current_read == True %}
+                  <a class="text-light" href="/currentread/{{ book.isbn }}">Finished reading.</a>
+                  {% endif %}
+              </div>
+            </span>
+            </details>
             <br>
-            <form id="category-form">
-                <label for="category-select">Add book to shelf:</label>
-                <select name="category" id="category-select">
-                    <option value="To Be Read">To Be Read</option>
-                    <option value="Have Read">Have Read</option>
-                    <option value="Favorites">Favorites</option>
-                </select>
-                <input type="submit">
-            </form>
+            <details class="h-100px p-3 border brown rounded-3 align-middle text-light">
+              <summary>Add to Shelf</summary>
+              <span>
+                <div>
+                  <form id="category-form">
+                      <label for="category-select"></label>
+                      <select name="category" id="category-select">
+                          <option value="To Be Read">To Be Read</option>
+                          <option value="Have Read">Have Read</option>
+                          <option value="Favorites">Favorites</option>
+                      </select>
+                      <input type="submit">
+                  </form>
+                </div>
+              </span>
+            </details>
             <br>
-            </div>
-        </span>
         <span>
-          <div>
+          <details class="h-100px p-3 border brown rounded-3 align-middle text-light">
+            <summary>
             {% if review.score == None %}
-            <div>My Rating: Not Yet Rated</div>
+            My Rating: Not Yet Rated
             {% else %}
-            <div>My Rating: {{ review.score }}</div>
+            My Rating: {{ review.score }}
             {% endif %}
+          </summary>
+          <div>
             <form action="/ratebook{{ book.isbn }}">
                 <label for="rating-select">Rate this book:</label>
                 <select name="rating" id="rating-select">
@@ -69,26 +87,17 @@
             </form>
           </div>
         </span>
-        <span>
-          <div> 
-            <br>
-            {% if review.current_read == False %}
-            <a href="/currentread/{{ book.isbn }}">Set as current read.</a>
-            {% endif %}
-            {% if review.current_read == True %}
-            <a href="/currentread/{{ book.isbn }}">Finished reading.</a>
-            {% endif %}
-        </div>
-        </span>
-        <br>
-        <span>
-          On Shelves:
-          {% if review.to_be_read == true %}To Be Read{% endif %}
-          {% if review.to_be_read == false %}Have Read{% endif %}
-          {% if review.favorites == true %}Favorites{% endif %}
-        </span>
+      </details>
+      <br>
+      </span>
+      <details class="h-100px p-3 border mb-4 brown rounded-3 align-middle text-light">
+        <summary>Remove from Library</summary>
+        <button id="remove_book">Remove book from library</button>
+      </details>
+    </span>
     </div>
   </div>
+</main>
 
 <script> 
     document.querySelector('#remove_book').addEventListener('click', () => {

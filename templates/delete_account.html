@@ -1,14 +1,28 @@
-{% extends 'base.html' %}
+{% extends 'loggedin_base.html' %}
 
 {% block body %}
 
-<h1>Delete account</h1>
-<p>To delete your account, please enter your password below.</p>
-<form action="/deleteaccount" method="POST">
-    <p>Enter password <input type="password" name="password"></p>
-    <p>Confirm password <input type="password" name="confirm-password"></p>
-    <p><input type="submit"></p>
-</form>
+<main class="homepage">
+    <br>
+    <div class="p-4 pale col-sm-8 col-md-6 col-lg-4 rounded-3 mt-4 container">
+      <div class="container-fluid py-2">
+        <h1>Delete account</h1>
+        <p>To delete your account, please enter your password below.</p>
+        <form action="/deleteaccount" method="POST">
+          <div class="mb-3 col-12">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" name="password">
+          </div>
+          <div class="mb-3 col-12">
+            <label for="confirm-password" class="form-label">Confirm Password</label>
+            <input type="password" class="form-control" name="confirm-password">
+          </div>
+            <div><input type="submit"></div>
+        </form>
+      </div>
+    </div>
+</main>
+
 
 
 {% endblock %}

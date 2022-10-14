@@ -4,54 +4,62 @@
 
 {% block body %}
 
-<main>
-    <h1 class="mb-5">Settings</h1>
-    <div class="row">
-        <div class="col-6">
-            <h4>Upload a profile picture.</h4>
-            <form action="/updateprofile/{{ session['user_name'] }}" method="POST" enctype="multipart/form-data">
-                <input type="file" name="profile-picture">
-                <input type="submit">
-            </form>
-        </div>
-        <div class="col-6">
-            <h4>Privacy Settings</h4>
-            {% if user.profile_view == True %}
-            <p> Your profile is currently public.</p>
-            <p><a href="/updateprofileview">Make it private.</a></p>
-            {% else %}
-            <p> Your profile is currently private.</p>
-            <p><a href="/updateprofileview">Make it public.</a></p>
-            {% endif %}
-        </div>
-        </div>
+<div class="banner p-5">
+    <div class=" container h-60 p-2 mt-3 brown rounded-3 text-center">
+      <h1 class="text-light">Settings</h1>
     </div>
+</div>
+
+<main class="container">
+    <details class="mt-4 h-100 p-3 border brown rounded-3 align-middle text-light">
+        <summary>Upload a profile picture</summary>
+        <br>
+        <div>
+            Your profile picture will be shown on the 'View All Users' page if you choose to have your account be public.
+        </div>
+        <br>
+        <form action="/updateprofile/{{ session['user_name'] }}" method="POST" enctype="multipart/form-data">
+            <input type="file" name="profile-picture">
+            <input type="submit">
+        </form>
+    </details>
     <br>
+    <details class="h-100 p-3 border brown rounded-3 align-middle text-light">
+        <summary>Privacy Settings</summary>
+        <br>
+        {% if user.profile_view == True %}
+        <p> Your profile is currently public. <a class="text-light" href="/updateprofileview">Make it private.</a></p>
+        {% else %}
+        <p> Your profile is currently private. <a class="text-light" href="/updateprofileview">Make it public.</a></p>
+        {% endif %}
+    </details>
     <br>
-    <div class="row">
-        <div class="col-9">
-            <h4>Update your password.</h4>
-            <form action="/updatepassword/{{ session['user_name'] }}">
-                <div class="mb-3 col-3">
-                  <label for="current-password" class="form-label">Current Password</label>
-                  <input type="password" class="form-control" name="current-password">
-                </div>
-                <div class="mb-3 col-3">
-                  <label for="new-password" class="form-label">New Password</label>
-                  <input type="password" class="form-control" name="new-password">
-                </div>
-                <div class="mb-3 col-3">
-                    <label for="confirm-new-password" class="form-label">Confirm New Password</label>
-                    <input type="password" class="form-control" name="confirm-new-password">
-                  </div>
-                  <div><input type="submit"></div>
-              </form>
-        </div>
-        <div class="col-3">
-            <h4><a href="/deleteaccount">Delete account</a></h4>
-        </div>
-        </div>
-    </div>
+    <details class="h-100 p-3 border brown rounded-3 align-middle text-light">
+        <summary>Update your password</summary>
+        <br>
+        <form action="/updatepassword/{{ session['user_name'] }}">
+            <div class="mb-3 col-3">
+              <label for="current-password" class="form-label">Current Password</label>
+              <input type="password" class="form-control" name="current-password">
+            </div>
+            <div class="mb-3 col-3">
+              <label for="new-password" class="form-label">New Password</label>
+              <input type="password" class="form-control" name="new-password">
+            </div>
+            <div class="mb-3 col-3">
+                <label for="confirm-new-password" class="form-label">Confirm New Password</label>
+                <input type="password" class="form-control" name="confirm-new-password">
+              </div>
+              <div class="mb-3">Password should contain at least one lowercase character, one uppercase character, and a number.</div>
+              <div><input type="submit"></div>
+          </form>
+    </details>
+    <br>
+    <details class="mb-4 h-100 p-3 border brown rounded-3 align-middle text-light">
+        <summary>Delete Account</summary>
+        <br>
+        <a class="text-light" href="/deleteaccount">Delete account</a>
+    </details>
 </main>
 
 {% endblock %}

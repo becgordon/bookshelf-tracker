@@ -26,17 +26,25 @@
             Genre: {{ genre }}
           </p>
         </span>
+        <h5>Book Options</h5>
+        <details class="h-100px p-3 border mb-4 brown rounded-3 align-middle text-light">
+          <summary>Purchase</summary>
+          <br>
         <span>
           <div>
-            <a href="https://bookshop.org/books?keywords={{ title }} {{ author }}">Purchase this book.</a>
+            <a class="text-light" href="https://bookshop.org/books?keywords={{ title }} {{ author }}">Purchase this book.</a>
           </div>
         </span>
+      </details>
+      <details class="h-100px p-3 border mb-4 brown rounded-3 align-middle text-light">
+        <summary>Add to Library</summary>
         <span>
           <br>
           <div>
             <button id="add_book">Add this book to your library</button>
           </div>
         </span>
+      </details>
     </div>
   </div>
 </main>

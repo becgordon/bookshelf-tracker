@@ -19,9 +19,9 @@
     <div class="col-xl-2 col-md-3 col-sm-6">
       {% if review.current_read == True %}
       <div class="h-100 p-3 border brown rounded-3 text-center align-middle">
+        <p class="text-light">Currently Reading</p>
         <a href="/user/userbook{{ review.book.isbn }}">
-          <img src="{{ review.book.image}}" class="rounded mx-auto d-block"></a>
-        <p class="text-light">Currently Reading</p>  
+          <img src="{{ review.book.image}}" class="rounded mx-auto d-block"></a  
       </div> 
       {% endif %}
       {% if review.current_read == False %}
