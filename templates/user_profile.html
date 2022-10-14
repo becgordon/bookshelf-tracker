@@ -11,14 +11,6 @@
 </div>
 
 <main class="container">
-  <!-- <div class="row align-items-md-stretch mt-3 books">
-    <div class="row">
-      <div class="col-2">
-        <img src="{{ user.profile_image }}" height="100px">
-      </div>
-    </div>
-  </div> -->
-
   <header class="mb-4 mt-4 row text-center">
     <span class="fs-6 col-6"> 
       <form action="/sortby">
@@ -40,8 +32,9 @@
     </span>
   </header>
 
-  {% if not user.reviews %}
-<div>Looks like your library is empty!</div>
+{% if not user.reviews %}
+<div class="text-center"><h4>Looks like your library is empty!</h4></div>
+  <div class="text-center"><h4>Search for a book in the navigation bar above to begin adding to it.</h4></div>
 {% endif %}
 
 <div class="row align-items-md-stretch gy-4">
